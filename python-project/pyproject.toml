@@ -18,6 +18,7 @@ dev = [
 
 [project.scripts]
 mortess = "mortar.tesseract:main"
+mortvids = "mortar.video:main"
 
 [tool.coverage.run]
 source = [ "mortar" ]
