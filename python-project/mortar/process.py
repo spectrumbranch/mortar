@@ -5,7 +5,7 @@ import mortar.log as log
 
 
 def run(*args, **kwargs) -> CompletedProcess:
-    log.debug(args)
+    log.info(f'run {args}')
 
     try:
         result = subprocess.run(
