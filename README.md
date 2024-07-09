@@ -1,4 +1,13 @@
-This Python package reproduces the Tesseract/OCR path used in MORT.
+## Overview
+
+mortar is a set of tools for evaluating OCR results for games. The purpose of
+the project is to improve upon the OCR path that MORT offers. Some of mortar's
+features toward this end include:
+
+- Reproduce the Tesseract/OCR path used in MORT precisely. This allows for
+  evaluating data as MORT does, in an automated, reproducible way.
+- Host a comprehensive set of test cases for Japanese to English translation of
+  pixel fonts using scenes from 8 and 16-bit era games.
 
 ## Requirements
 
@@ -37,14 +46,48 @@ export TESSERACT_DATA="C:/MORT/MORT/bin/x64/Release/net7.0-windows10.0.22621.0/t
 
 ### Run the tests
 
+#### OCR tests
+
+OCR tests perform OCR on a collection of images from various games. The
+results are compared against correct reference data (not yet implemented).
+Because this is a long running procedure, the OCR tests are not included in the
+project's test suite by default. To run them, tell pytest about them explicitly:
+
+```
+pytest test/test_jp.py
+```
+
+#### Development
+
+To run all development checks, including linting and type checks, use nox.
+
 ```
 nox
 ```
 
 ### Use the command line interface
 
-Paths must be absolute paths on a WSL filesystem (i.e. begin with `/mnt`).
+The `mortess` command generates an OCR string from an image on demand. The
+result is the same as MORT's Tesseract path. Paths must be absolute paths on a
+WSL filesystem (i.e. begin with `/mnt`).
 
 ```
 mortess /mnt/c/path/to/some/mort_capture.png
 ```
+
+### Configuration
+
+mortar loads its configuration in `$HOME/.config/mortar/config.toml`, creating
+the file if it is not present.
+
+#### log_level
+
+The value of this key controls the logging level. The log levels are `"DEBUG"`,
+`"INFO"`, `"WARNING"`, and `"ERROR"`.
+
+#### ssh
+
+When the `use_ssh` key is `true`, mortar executes its processes over ssh
+instead of locally. The ssh connection is controlled by the values of the `host`
+and `port` keys. This feature is useful for running mortar on a non-Windows
+system that then does its OCR work on a Windows system, for example.
