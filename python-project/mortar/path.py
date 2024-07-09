@@ -1,7 +1,7 @@
 from pathlib import PurePath
 
 
-def win_from_wsl(path) -> PurePath:
+def win_from_wsl(path: str) -> PurePath:
     """ Convert an absolute path on a WSL system into the corresponding
         Windows path. """
 

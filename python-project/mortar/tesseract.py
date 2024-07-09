@@ -35,7 +35,7 @@ def ocr(path_) -> str:
     return result
 
 
-def main():
+def main() -> None:
     if len(sys.argv) < 2:
         raise Exception('path to image file is required')
 
