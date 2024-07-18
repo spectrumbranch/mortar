@@ -22,7 +22,7 @@ class SSH:
         self.host = host
         self.port = port
 
-    def scp_to(self, local: str, remote: str) -> CompletedProcess:
+    def scp_to(self, local: str, remote: str) -> CompletedProcess[bytes]:
         args = self._build_args(Command.SCP, self.port)
 
         cmd = ['scp'] + args + [local, f'{self.host}:/{remote}']
@@ -31,7 +31,7 @@ class SSH:
 
         return result
 
-    def scp_from(self, remote: str, local: str) -> CompletedProcess:
+    def scp_from(self, remote: str, local: str) -> CompletedProcess[bytes]:
         args = self._build_args(Command.SCP, self.port)
 
         cmd = ['scp'] + args + [f'{self.host}:/{remote}', local]
@@ -40,7 +40,7 @@ class SSH:
 
         return result
 
-    def run(self, command: list[str]) -> CompletedProcess:
+    def run(self, command: list[str]) -> CompletedProcess[bytes]:
         args = self._build_args(Command.SSH, self.port)
 
         ssh_command = ['ssh'] + args + [self.host] + command

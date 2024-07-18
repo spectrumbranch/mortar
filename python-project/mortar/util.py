@@ -2,6 +2,7 @@ from os.path import isfile
 import platform
 from tempfile import mkstemp
 import time
+from typing import Any
 
 
 _windows_temp = '/mnt/c/Windows/Temp'
@@ -14,7 +15,7 @@ def system() -> str:
         return platform.system()
 
 
-def mktemp(*args, **kwargs) -> str:
+def mktemp(*args: Any, **kwargs: Any) -> str:
     if system() == 'wsl':
         now = time.time()
 

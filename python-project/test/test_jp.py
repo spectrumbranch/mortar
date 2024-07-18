@@ -47,52 +47,52 @@ def png_dir(test_case: OCRTest) -> Path:
 
 
 @pytest.mark.parametrize('index', range(0, _7thelnard.count))
-def test_7thelnard(index):
+def test_7thelnard(index: int) -> None:
     ocr_test_case(_7thelnard, index)
 
 
 @pytest.mark.parametrize('index', range(0, _aretha.count))
-def test_aretha(index):
+def test_aretha(index: int) -> None:
     ocr_test_case(_aretha, index)
 
 
 @pytest.mark.parametrize('index', range(0, _aretha2.count))
-def test_aretha2(index):
+def test_aretha2(index: int) -> None:
     ocr_test_case(_aretha2, index)
 
 
 @pytest.mark.parametrize('index', range(0, _bof.count))
-def test_bof(index):
+def test_bof(index: int) -> None:
     ocr_test_case(_bof, index)
 
 
 @pytest.mark.parametrize('index', range(0, _bof2.count))
-def test_bof2(index):
+def test_bof2(index: int) -> None:
     ocr_test_case(_bof2, index)
 
 
 @pytest.mark.parametrize('index', range(0, _ff4.count))
-def test_ff4(index):
+def test_ff4(index: int) -> None:
     ocr_test_case(_ff4, index)
 
 
 @pytest.mark.parametrize('index', range(0, _ff6_01.count))
-def test_ff6_01(index):
+def test_ff6_01(index: int) -> None:
     ocr_test_case(_ff6_01, index)
 
 
 @pytest.mark.parametrize('index', range(0, _ff6_02.count))
-def test_ff6_02(index):
+def test_ff6_02(index: int) -> None:
     ocr_test_case(_ff6_02, index)
 
 
 @pytest.mark.parametrize('index', range(0, _iog.count))
-def test_iog(index):
+def test_iog(index: int) -> None:
     ocr_test_case(_iog, index)
 
 
 @pytest.mark.parametrize('index', range(0, _rudra.count))
-def test_rudra(index):
+def test_rudra(index: int) -> None:
     ocr_test_case(_rudra, index)
 
 

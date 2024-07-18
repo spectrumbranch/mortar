@@ -1,10 +1,13 @@
 import subprocess
 from subprocess import CalledProcessError, CompletedProcess
+from typing import Any
 
 import mortar.log as log
 
+__all__ = ['CompletedProcess']
 
-def run(*args, **kwargs) -> CompletedProcess:
+
+def run(*args: Any, **kwargs: Any) -> CompletedProcess[bytes]:
     log.info(f'run {args}')
 
     try:

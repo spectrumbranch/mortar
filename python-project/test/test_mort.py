@@ -8,7 +8,7 @@ data = f'{os.getcwd()}/test/data/mort'
 
 
 @pytest.mark.parametrize('index', range(0, 9))
-def test_mort_tess(index):
+def test_mort_tess(index: int) -> None:
     """ Run test data previously gathered from MORT through tesseract,
         confirming that OCR results are the same. """
 
