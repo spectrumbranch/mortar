@@ -16,6 +16,7 @@
         # image processing
         numpy
         pillow
+        types-pillow
         # base
         pymk.packages.${system}.default
         tomlkit

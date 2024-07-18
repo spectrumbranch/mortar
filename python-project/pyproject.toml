@@ -15,7 +15,8 @@ dev = [
     "flake8",
     "mypy",
     "nox",
-    "pytest"
+    "pytest",
+    "types-pillow"
 ]
 
 [project.scripts]
