@@ -17,6 +17,7 @@
         numpy
         pillow
         types-pillow
+        pyopengl
         # base
         pymk.packages.${system}.default
         tomlkit
@@ -45,7 +46,8 @@
 
       devShells.${system} = {
         default = pkgs.mkShell {
-          inputsFrom = [ dev.devShells.${system}.python ];
+          inputsFrom =
+            [ dev.devShells.${system}.python dev.devShells.${system}.opengl ];
 
           packages = propagatedBuildInputs ++ nativeBuildInputs;
         };
