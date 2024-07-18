@@ -1,7 +1,10 @@
 {
-  inputs.dev.url = "github:fmahnke/mkpkgs-dev";
+  inputs = {
+    dev.url = "github:fmahnke/mkpkgs-dev";
+    pymk.url = "github:fmahnke/pymk";
+  };
 
-  outputs = { self, nixpkgs, dev, ... }:
+  outputs = { self, nixpkgs, dev, pymk, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -14,6 +17,7 @@
         numpy
         pillow
         # base
+        pymk.packages.${system}.default
         tomlkit
       ];
 
