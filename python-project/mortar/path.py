@@ -1,4 +1,13 @@
-from pathlib import PurePath
+from os import PathLike
+from pathlib import Path, PurePath
+from typing import TypeAlias
+
+PathInput: TypeAlias = Path | PathLike[str] | str
+
+__all__ = [
+    'Path',
+    'PathInput'
+]
 
 
 def win_from_wsl(path: str) -> PurePath:
