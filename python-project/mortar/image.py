@@ -3,7 +3,7 @@ from typing import Optional
 from PIL import ImageChops
 from PIL.Image import Image
 
-from mortar.pipeline import Stage
+from .pipeline import Stage
 
 __all__ = ['Crop', 'Gray', 'Invert']
 

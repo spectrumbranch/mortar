@@ -5,7 +5,7 @@ import OpenGL.GL as gl
 import PIL
 from PIL.Image import Image
 
-import mortar.log as log
+from .. import log
 
 
 class Texture:

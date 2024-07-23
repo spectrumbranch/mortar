@@ -4,7 +4,7 @@ from PIL.Image import Image
 from PIL import ImageDraw, ImageFont
 import PIL
 
-from mortar.config import config
+from .config import config
 from .path import Path, PathInput
 
 
