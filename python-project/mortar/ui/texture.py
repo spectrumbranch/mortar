@@ -1,5 +1,6 @@
 from typing import Optional
 
+from mk.validate import ensure_type
 import OpenGL.GL as gl
 import PIL
 from PIL.Image import Image
@@ -18,10 +19,10 @@ class Texture:
             self.size = image.size
             self.gl_texture = self._create_gl_texture(self.im.mode)
 
-    def pixels(self):
-        return self.im.tobytes()
+    def pixels(self) -> bytes:
+        return ensure_type(self.im, Image).tobytes()
 
-    def _create_gl_texture(self, mode) -> int:
+    def _create_gl_texture(self, mode: str) -> int:
         if self.im is None:
             assert False
 
@@ -38,7 +39,7 @@ class Texture:
                   f' {len(pixels)} num px {len(list(pixels))}')
         # print(pixels)
 
-        gl_texture = gl.glGenTextures(1)
+        gl_texture: int = gl.glGenTextures(1)
 
         # gl.glPixelStorei(gl.GL_UNPACK_ROW_LENGTH, width * 3)
         gl.glPixelStorei(gl.GL_UNPACK_ALIGNMENT, 1)
