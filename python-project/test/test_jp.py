@@ -42,10 +42,10 @@ _rudra = OCRTest(rectangle=(400, 634, 1360, 1030),
                  base_name='rudra-01', count=59)
 
 
-def png_dir(test_case: OCRTest) -> Path:
+def dir_mkr(test_case: OCRTest, type: str) -> Path:
     name = test_case.base_name[0:test_case.base_name.find('-')]
 
-    return Path(data, 'jp', name, 'png')
+    return Path(data, 'jp', name, type)
 
 
 @pytest.mark.parametrize('index', range(0, _7thelnard.count))
@@ -105,10 +105,12 @@ def test_rudra(index):
 
 def ocr_test_case(test_case: OCRTest, index: int) -> None:
     name = f'{test_case.base_name}-{index + 1:02}'
-    input_path = f'{png_dir(test_case)}/{name}.png'
+    input_png_path = f'''{dir_mkr(test_case, 'png')}/{name}.png'''
+    input_txt_path = f'''{dir_mkr(test_case, 'txt')}/{name}.txt'''
     output_path = mktemp(suffix='.png')
 
-    image = PIL.Image.open(input_path)
+    image = PIL.Image.open(input_png_path)
+    expected_text = Path(input_txt_path).read_text()
 
     crop = image.crop(test_case.rectangle)
     crop.save(output_path)
@@ -119,6 +121,4 @@ def ocr_test_case(test_case: OCRTest, index: int) -> None:
 
     print(f'{name} {index + 1}/{test_case.count} result: {result}')
 
-    # TODO compare against actual string reference data
-
-    assert False, "add reference string and compare here"
+    assert result == expected_text
