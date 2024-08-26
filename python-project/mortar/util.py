@@ -30,3 +30,10 @@ def mktemp(*args, **kwargs) -> str:
         (_, output_path) = mkstemp(*args, **kwargs)
 
     return output_path
+
+
+def get_file_text(file) -> str:
+    file = open(file, "r")
+    content = file.read()
+    file.close()
+    return content
