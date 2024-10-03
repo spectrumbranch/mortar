@@ -1,4 +1,5 @@
 from os.path import isfile
+from pathlib import Path
 import platform
 from tempfile import mkstemp
 import time
@@ -33,7 +34,5 @@ def mktemp(*args, **kwargs) -> str:
 
 
 def get_file_text(file) -> str:
-    file = open(file, "r")
-    content = file.read()
-    file.close()
+    content = Path(file).read_text()
     return content
