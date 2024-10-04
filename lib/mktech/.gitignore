@@ -1,0 +1,11 @@
+__pycache__
+/_*
+/.venv
+
+# editable install state
+/python/build
+
+/python/mk.egg-info/
+/result
+.coverage
+.ropeproject
