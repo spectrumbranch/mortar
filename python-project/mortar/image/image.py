@@ -3,21 +3,10 @@ from typing import Optional
 from PIL import ImageChops
 from PIL.Image import Image as PILImage
 
-__all__ = ['Crop', 'Filter', 'Gray', 'Invert']
+from .filter import Filter
+from .threshold import Threshold
 
-
-class Filter:
-    name = 'Filter'
-    enabled = True
-
-    def __init__(self) -> None:
-        self.enabled = True
-
-    def info(self) -> str:
-        return self.name
-
-    def run(self, input: Image) -> Optional[Image]:
-        return None
+__all__ = ['Crop', 'Gray', 'Invert', 'Threshold']
 
 
 class Crop(Filter):

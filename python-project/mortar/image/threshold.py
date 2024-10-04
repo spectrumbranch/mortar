@@ -6,7 +6,7 @@ import numpy as np
 import PIL
 from PIL.Image import Image as PILImage
 
-from .image import Filter
+from .filter import Filter
 
 
 class Threshold(Filter):

@@ -3,21 +3,23 @@ import operator
 from typing import Optional
 
 from mktech.validate import ensure_type
+from PIL import Image
 from PIL.Image import Image as PILImage
 from PIL import ImageDraw, ImageFont
 import PIL
 
 from .config import config
-from .image import Crop, Filter, Gray, Invert
+from .image import Crop, Filter, Gray, Invert, Threshold
 from .path import Path, PathInput
 
 __all__ = [
+    'Image',
     'Pipeline',
     # image re-exports
     'Crop',
-    'Filter',
     'Gray',
-    'Invert'
+    'Invert',
+    'Threshold'
 ]
 
 

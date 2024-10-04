@@ -2,7 +2,7 @@ from tempfile import NamedTemporaryFile
 
 from PIL.Image import Image as PILImage
 
-from .image import Filter
+from .filter import Filter
 from ..tesseract import ocr
 
 
@@ -14,5 +14,3 @@ class OCR(Filter):
             result = ocr(fi.name)
 
         return result
-
-
