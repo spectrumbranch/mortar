@@ -14,10 +14,12 @@
 
       propagatedBuildInputs = with python3.pkgs; [
         # image processing
+        matplotlib
         numpy
         pillow
         types-pillow
         pyopengl
+        opencv4
         # base
         pymk.packages.${system}.default
         tomlkit
