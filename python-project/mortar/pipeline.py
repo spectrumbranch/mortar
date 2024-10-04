@@ -35,6 +35,12 @@ class Pipeline:
     def add(self, stage: Filter) -> None:
         self.stages.append(stage)
 
+    def insert(self, index: int, stage: Filter) -> None:
+        self.stages.insert(index, stage)
+
+    def pop(self, index: int) -> Filter:
+        return self.stages.pop(index)
+
     def run(self, input: PILImage | str) -> 'Output':
         output = Output(self)
 
