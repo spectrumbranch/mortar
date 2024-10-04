@@ -13,6 +13,7 @@
       buildInputs = with python3.pkgs; [ setuptools ];
 
       propagatedBuildInputs = with python3.pkgs; [
+        ipython
         # image processing
         matplotlib
         numpy
