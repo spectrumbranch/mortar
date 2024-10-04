@@ -3,7 +3,7 @@ import operator
 from typing import Optional
 
 from mktech.validate import ensure_type
-from PIL.Image import Image
+from PIL.Image import Image as PILImage
 from PIL import ImageDraw, ImageFont
 import PIL
 
@@ -21,7 +21,7 @@ __all__ = [
 ]
 
 
-def image_info(image: Image) -> str:
+def image_info(image: PILImage) -> str:
     return f'{image.mode} {image.size}'
 
 
@@ -32,10 +32,10 @@ class Pipeline:
     def add(self, stage: Filter) -> None:
         self.stages.append(stage)
 
-    def run(self, input: Image | str) -> 'Output':
+    def run(self, input: PILImage | str) -> 'Output':
         output = Output(self)
 
-        if isinstance(input, Image):
+        if isinstance(input, PILImage):
             image = input
         elif isinstance(input, str):
             image = PIL.Image.open(input)
@@ -44,7 +44,7 @@ class Pipeline:
 
         for idx, it in enumerate(self.stages):
             if it.enabled:
-                image = ensure_type(it.run(image.copy()), Image)
+                image = ensure_type(it.run(image.copy()), PILImage)
 
                 text = f'{idx + 1}: {it.info()}\n{image_info(image)}'
 
@@ -57,7 +57,7 @@ class Output:
     class Stage:
         def __init__(
             self,
-            image: Optional[Image],
+            image: Optional[PILImage],
             text: Optional[str] = None
         ) -> None:
             self.image = image
@@ -70,10 +70,10 @@ class Output:
     def __init__(self, pipeline: Pipeline) -> None:
         self.pipeline = pipeline
         self.stages: list[Output.Stage] = []
-        self._frames: list[Image] = []
+        self._frames: list[PILImage] = []
 
-    def add(self, stage: Image | str, text: Optional[str] = None) -> None:
-        if isinstance(stage, Image):
+    def add(self, stage: PILImage | str, text: Optional[str] = None) -> None:
+        if isinstance(stage, PILImage):
             self.stages.append(Output.Stage(stage, text))
         elif isinstance(stage, str):
             image = PIL.Image.new('RGB', (800, 100))
@@ -92,7 +92,7 @@ class Output:
         for idx, it in enumerate(self.stages):
             file_path = Path(path, f'{idx}.png')
 
-            image = ensure_type(it.image, Image)
+            image = ensure_type(it.image, PILImage)
 
             image.save(file_path)
 
@@ -101,7 +101,7 @@ class Output:
     def show(self) -> None:
         self._composite().show()
 
-    def _composite(self) -> Image:
+    def _composite(self) -> PILImage:
         self._frame_images()
 
         width = max([it.size[0] for it in self._frames])
@@ -136,7 +136,7 @@ class Output:
             y = 0
 
             text_height = font_size * 2 + text_margin
-            frame_image = ensure_type(it.image, Image)
+            frame_image = ensure_type(it.image, PILImage)
 
             frame_width = frame_image.size[0]
             height = frame_image.size[1] + self._border_width + text_height

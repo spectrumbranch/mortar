@@ -1,7 +1,7 @@
 from typing import Optional
 
 from PIL import ImageChops
-from PIL.Image import Image
+from PIL.Image import Image as PILImage
 
 __all__ = ['Crop', 'Filter', 'Gray', 'Invert']
 
@@ -29,19 +29,19 @@ class Crop(Filter):
     def info(self) -> str:
         return f'{self.name} box={self._coords}'
 
-    def run(self, input: Image) -> Optional[Image]:
+    def run(self, input: PILImage) -> Optional[PILImage]:
         return input.crop(self._coords)
 
 
 class Gray(Filter):
     name = 'Gray'
 
-    def run(self, input: Image) -> Optional[Image]:
+    def run(self, input: PILImage) -> Optional[PILImage]:
         return input.convert("L")
 
 
 class Invert(Filter):
     name = 'Invert'
 
-    def run(self, input: Image) -> Optional[Image]:
+    def run(self, input: PILImage) -> Optional[PILImage]:
         return ImageChops.invert(input)

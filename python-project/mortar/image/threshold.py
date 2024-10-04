@@ -4,7 +4,7 @@ import cv2 as cv
 from matplotlib import pyplot as plt
 import numpy as np
 import PIL
-from PIL.Image import Image
+from PIL.Image import Image as PILImage
 
 from .image import Filter
 
@@ -12,7 +12,7 @@ from .image import Filter
 class Threshold(Filter):
     name = 'Threshold'
 
-    def run(self, input: Image) -> Optional[Image]:
+    def run(self, input: PILImage) -> Optional[PILImage]:
         img_0 = cv.imread('../gradient.png', cv.IMREAD_GRAYSCALE)
         #assert img is not None, "file could not be read, check with os.path.exists()"
         #img = input.tobytes()
