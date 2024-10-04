@@ -5,7 +5,7 @@ requires-python = ">=3.10"
 
 dependencies = [
     "ipython",
-    "mk",
+    "mktech@git+https://github.com/spectrumbranch/mortar@pipeline#subdirectory=lib/mktech/python",
     "pillow",
     "PyOpenGL",
     "tomlkit"

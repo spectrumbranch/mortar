@@ -2,7 +2,7 @@ from functools import reduce
 import operator
 from typing import Optional
 
-from mk.validate import ensure_type
+from mktech.validate import ensure_type
 from PIL.Image import Image
 from PIL import ImageDraw, ImageFont
 import PIL

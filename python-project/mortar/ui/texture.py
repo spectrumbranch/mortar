@@ -1,6 +1,6 @@
 from typing import Optional
 
-from mk.validate import ensure_type
+from mktech.validate import ensure_type
 import OpenGL.GL as gl
 import PIL
 from PIL.Image import Image

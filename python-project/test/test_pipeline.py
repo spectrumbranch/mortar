@@ -1,7 +1,7 @@
 import os
 from tempfile import mkdtemp
 
-from mk.validate import ensure_type
+from mktech.validate import ensure_type
 from PIL import Image, ImageChops
 from mortar.pipeline import Pipeline
 from mortar.image import Crop, Gray, Invert
