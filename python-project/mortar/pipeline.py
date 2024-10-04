@@ -9,7 +9,7 @@ from PIL import ImageDraw, ImageFont
 import PIL
 
 from .config import config
-from .image import Crop, Filter, Gray, Invert, Threshold
+from .image import Crop, Filter, Gray, Invert, OCR, Threshold
 from .path import Path, PathInput
 
 __all__ = [
@@ -19,6 +19,7 @@ __all__ = [
     'Crop',
     'Gray',
     'Invert',
+    'OCR',
     'Threshold'
 ]
 
