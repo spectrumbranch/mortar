@@ -13,7 +13,6 @@ class Threshold(Filter):
     name = 'Threshold'
 
     def run(self, input: PILImage) -> Optional[PILImage]:
-        img_0 = cv.imread('../gradient.png', cv.IMREAD_GRAYSCALE)
         #assert img is not None, "file could not be read, check with os.path.exists()"
         #img = input.tobytes()
         img = np.array([input.getdata()], dtype='uint8')
