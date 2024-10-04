@@ -21,6 +21,10 @@ class Crop(Filter):
     def run(self, input: PILImage) -> Optional[PILImage]:
         return input.crop(self._coords)
 
+    def __repr__(self) -> str:
+        return (f'<{self.__class__.__module__} {self.__class__.__name__}'
+                f' coords={self._coords} at 0x{id(self):X}>')
+
 
 class Gray(Filter):
     name = 'Gray'
