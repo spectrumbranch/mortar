@@ -42,7 +42,7 @@ _rudra = OCRTest(rectangle=(400, 634, 1360, 1030),
 
 def dir_mkr(test_case: OCRTest, type: str) -> Path:
     name = test_case.base_name[0:test_case.base_name.find('-')]
-    
+
     return Path(data, 'jp', name, type)
 
 
