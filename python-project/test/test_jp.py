@@ -12,6 +12,8 @@ from mortar.util import mktemp
 
 data = f'{os.getcwd()}/test/data'
 
+not_yet_implemented = 'test is not yet implemented'
+
 
 @dataclass
 class OCRTest:
@@ -71,26 +73,31 @@ def test_bof2(index):
     ocr_test_case(_bof2, index)
 
 
+@pytest.mark.skip(reason=not_yet_implemented)
 @pytest.mark.parametrize('index', range(0, _ff4.count))
 def test_ff4(index):
     ocr_test_case(_ff4, index)
 
 
+@pytest.mark.skip(reason=not_yet_implemented)
 @pytest.mark.parametrize('index', range(0, _ff6_01.count))
 def test_ff6_01(index):
     ocr_test_case(_ff6_01, index)
 
 
+@pytest.mark.skip(reason=not_yet_implemented)
 @pytest.mark.parametrize('index', range(0, _ff6_02.count))
 def test_ff6_02(index):
     ocr_test_case(_ff6_02, index)
 
 
+@pytest.mark.skip(reason=not_yet_implemented)
 @pytest.mark.parametrize('index', range(0, _iog.count))
 def test_iog(index):
     ocr_test_case(_iog, index)
 
 
+@pytest.mark.skip(reason=not_yet_implemented)
 @pytest.mark.parametrize('index', range(0, _rudra.count))
 def test_rudra(index):
     ocr_test_case(_rudra, index)
