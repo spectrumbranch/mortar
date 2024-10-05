@@ -42,3 +42,4 @@ testpaths = [ "test" ]
 
 [tool.setuptools.package-data]
 "mortar.examples.data" = ["*"]
+"mortar.resources.fonts" = ["*"]
