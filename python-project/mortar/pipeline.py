@@ -30,6 +30,8 @@ def image_info(image: PILImage) -> str:
 
 class Pipeline:
     def __init__(self) -> None:
+        self._name = 'Pipeline'
+
         self.stages: list[Filter] = []
 
     def add(self, stage: Filter) -> None:
@@ -60,6 +62,14 @@ class Pipeline:
                 output.add(image, text)
 
         return output
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @name.setter
+    def name(self, val: str) -> None:
+        self._name = val
 
 
 class Output:
@@ -122,6 +132,16 @@ class Output:
         canvas = PIL.Image.new('RGB', (width, height), color=self._bg_color)
 
         y = 0
+
+        draw = ImageDraw.Draw(canvas)
+        font_size = 48
+        font = ImageFont.load_default(font_size)
+
+        text_color = 'rgb(200, 200, 200)'
+
+        draw.text((0, y), self.pipeline.name, fill=text_color, font=font)
+
+        y += 48 + self._margin
 
         for it in self._frames:
             frame_height = it.size[1]
