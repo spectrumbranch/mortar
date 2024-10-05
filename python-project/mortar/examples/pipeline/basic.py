@@ -17,6 +17,7 @@ pipeline = Pipeline()
 pipeline.add(Crop(crop))
 pipeline.add(Gray())
 pipeline.add(Invert())
+pipeline.add(OCR())
 
 output = pipeline.run(image)
 
