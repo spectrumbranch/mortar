@@ -1,3 +1,4 @@
+import copy
 from functools import reduce
 import operator
 from typing import Optional
@@ -70,6 +71,9 @@ class Pipeline:
     @name.setter
     def name(self, val: str) -> None:
         self._name = val
+
+    def copy(self) -> 'Pipeline':
+        return copy.deepcopy(self)
 
 
 class Output:
