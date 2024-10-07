@@ -37,6 +37,10 @@ packages = [ "mortar", "test" ]
 exclude = "^mortar/examples"
 strict = true
 
+[[tool.mypy.overrides]]
+module = 'OpenGL.*'
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 testpaths = [ "test" ]
 
