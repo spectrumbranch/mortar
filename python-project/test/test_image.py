@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 import pytest
 
-from mortar.image import Crop, Gray, Invert, Threshold
+from mortar.image import Threshold
 from mortar.path import Path
 from mortar.tesseract import ocr
 
@@ -18,16 +18,9 @@ def test_threshold() -> None:
     size = (100, 255)
     pixel_count = size[0] * size[1]
 
-    # image = Image.new('L', size, color=255)
-
     data = np.array([[i] * size[0] for i in range(0, 255)], dtype='uint8')
 
-    #image = Image.frombytes('L', size, data)
     image = Image.fromarray(data, mode='L')
-    #breakpoint()
-    #image.show()
-
-    # image = image.convert("L")
 
     threshold = Threshold()
 
@@ -57,9 +50,6 @@ def test_threshold() -> None:
 
 @pytest.mark.parametrize('index', range(0, 9))
 def test_ocr(index: int) -> None:
-    """ Run test data previously gathered from MORT through tesseract,
-        confirming that OCR results are the same. """
-
     with open(f'{data}/mort/capture_{index:02}.str') as fi:
         mort_str = fi.read()
 

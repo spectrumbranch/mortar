@@ -39,7 +39,8 @@ class OCR(Filter):
             try:
                 ocr_text = ocr(fi.name)
 
-                draw.text((10, 10), ocr_text, fill=fill, font=_reiko_font, font_size=48)
+                draw.text((10, 10), ocr_text, fill=fill, font=_reiko_font,
+                          font_size=48)
             except Exception:
                 draw.text((10, 10), 'OCR failed', fill=fill, font_size=48)
 
