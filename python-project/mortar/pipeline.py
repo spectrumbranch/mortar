@@ -9,7 +9,7 @@ from PIL.Image import Image as PILImage
 from PIL import ImageDraw, ImageFont
 import PIL
 
-from .config import config
+# from .config import config
 from .image import Crop, Filter, Gray, Invert, OCR, Threshold
 from .path import Path, PathInput
 
@@ -99,6 +99,9 @@ class Output:
         if isinstance(stage, PILImage):
             self.stages.append(Output.Stage(stage, text))
         elif isinstance(stage, str):
+            raise Exception('todo')
+
+            '''
             image = PIL.Image.new('RGB', (800, 100))
 
             draw = ImageDraw.Draw(image)
@@ -110,6 +113,7 @@ class Output:
             draw.text((x, y), stage, fill=text_color, font=font)
 
             self.stages.append(Output.Stage(None, text))
+            '''
 
     def save(self, path: PathInput) -> None:
         for idx, it in enumerate(self.stages):
