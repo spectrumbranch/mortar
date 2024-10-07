@@ -1,8 +1,10 @@
 import os
 from tempfile import mkdtemp
 
+from mktech.validate import ensure_type
 import numpy as np
 from PIL import Image
+from PIL.Image import Image as PILImage
 import pytest
 
 from mortar.image import Threshold
@@ -24,7 +26,7 @@ def test_threshold() -> None:
 
     threshold = Threshold()
 
-    output = threshold.run(image)
+    output = ensure_type(threshold.run(image), PILImage)
 
     out_data = list(output.getdata())
 
@@ -37,8 +39,8 @@ def test_threshold() -> None:
     expected_bottom = np.array([255] * bottom_pixel_count, dtype='uint8')
 
     assert len(out_data) == pixel_count
-    assert (top == expected_top).all()
-    assert (bottom == expected_bottom).all()
+    assert np.all(top == expected_top)
+    assert np.all(bottom == expected_bottom)
 
     if _debug:
         temp = mkdtemp(prefix='test_pipeline')

@@ -13,7 +13,7 @@ _resources = resources.files('mortar.resources.fonts')
 for it in _resources.iterdir():
     if it.name == 'reiko.ttf':
         with resources.as_file(it) as path:
-            _reiko_font = ImageFont.truetype(path, size=28)
+            _reiko_font = ImageFont.truetype(str(path), size=28)
 
 
 class OCR(Filter):
@@ -25,6 +25,8 @@ class OCR(Filter):
         draw = ImageDraw.Draw(result)
 
         band_count = len(result.getbands())
+
+        fill: int | tuple[int, int, int]
 
         if band_count == 1:
             fill = 128

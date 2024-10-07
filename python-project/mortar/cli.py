@@ -2,13 +2,15 @@ import sys
 
 import IPython
 from traitlets.config import Config
-# Make mortar facilities available in the IPython shell we'll embed on startup.
 
 _file = sys.argv[1] if len(sys.argv) != 1 else None
 
 
 def main() -> int:
     c = Config()
+
+    # On startup, make mortar facilities available in the IPython shell.
+
     c.InteractiveShellApp.exec_lines = [
         'from mortar.pipeline import *',
         'print("mortar command line interface")'
@@ -22,6 +24,6 @@ def main() -> int:
 
     c.TerminalIPythonApp.force_interact = True
 
-    IPython.start_ipython(config=c)
+    IPython.start_ipython(config=c)  # type: ignore[no-untyped-call]
 
     return 0
