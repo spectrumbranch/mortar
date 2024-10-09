@@ -1,19 +1,18 @@
-from importlib import resources
 from tempfile import NamedTemporaryFile
 
-from PIL import Image, ImageDraw, ImageFont
+from mktech.io import eprint
+from PIL import Image, ImageDraw
 from PIL.Image import Image as PILImage
+from PIL.ImageFont import FreeTypeFont
+
+from mortar import font
 
 from .filter import Filter
 from ..tesseract import ocr
 
-
-_resources = resources.files('mortar.resources.fonts')
-
-for it in _resources.iterdir():
-    if it.name == 'reiko.ttf':
-        with resources.as_file(it) as path:
-            _reiko_font = ImageFont.truetype(str(path), size=28)
+_font_name = 'reikofont'
+_font_filename = 'reiko.ttf'
+_font = font.load(_font_filename, 28)
 
 
 class OCR(Filter):
@@ -39,11 +38,16 @@ class OCR(Filter):
             input.save(fi.name)
 
             try:
-                ocr_text = ocr(fi.name)
+                if (not isinstance(_font, FreeTypeFont) or
+                        _font.getname()[0] != _font_name):
+                    ocr_text = 'OCR font is not available'
+                else:
+                    ocr_text = ocr(fi.name)
 
-                draw.text((10, 10), ocr_text, fill=fill, font=_reiko_font,
+                draw.text((10, 10), ocr_text, fill=fill, font=_font,
                           font_size=48)
-            except Exception:
+            except Exception as ex:
+                eprint(ex)
                 draw.text((10, 10), 'OCR failed', fill=fill, font_size=48)
 
         return result
