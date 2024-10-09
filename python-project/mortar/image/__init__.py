@@ -8,4 +8,4 @@ from .viewer import Viewer
 
 __all__ = ['Crop', 'Filter', 'Gray', 'Invert', 'OCR', 'Threshold']
 
-ImageShow.register(Viewer())
+ImageShow.register(Viewer(), 0)
