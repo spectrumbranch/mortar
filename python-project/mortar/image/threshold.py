@@ -1,3 +1,7 @@
+"""
+This module provides the Threshold filter.
+"""
+
 from typing import Optional
 
 import cv2 as cv
@@ -10,6 +14,11 @@ from .filter import Filter
 
 
 class Threshold(Filter):
+    """
+    Perform thresholding on an image.
+
+    TODO this class doesn't yet support the necessary thresholding options.
+    """
     name = 'Threshold'
 
     def run(self, input: PILImage) -> Optional[PILImage]:

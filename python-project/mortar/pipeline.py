@@ -1,3 +1,7 @@
+"""
+This module provides the image processing pipeline facility.
+"""
+
 import copy
 from functools import reduce
 import operator
@@ -21,6 +25,7 @@ __all__ = [
     'Gray',
     'Invert',
     'OCR',
+    'Output',
     'Threshold'
 ]
 
@@ -30,21 +35,40 @@ def image_info(image: PILImage) -> str:
 
 
 class Pipeline:
+    """
+    A Pipeline is a series of stages through which an image is
+    processed to create some final result. Each stage of the pipeline is
+    implemented by a Filter. The output of each Filter is used as the input of
+    the next Filter in the pipeline. The result of running the pipeline is an
+    Output object containing the results of each Filter, and thus the overall
+    result of the pipeline.
+    """
+
     def __init__(self) -> None:
         self._name = 'Pipeline'
 
         self.stages: list[Filter] = []
 
     def add(self, stage: Filter) -> None:
+        """ Append a stage to the end of the pipeline. """
+
         self.stages.append(stage)
 
     def insert(self, index: int, stage: Filter) -> None:
+        """ Insert a stage before index. """
+
         self.stages.insert(index, stage)
 
     def pop(self, index: int) -> Filter:
+        """ Remove the stage at index and return it. """
+
         return self.stages.pop(index)
 
     def run(self, input: PILImage | str) -> 'Output':
+        """
+        Run the pipeline using input as the input image. Return the result.
+        """
+
         output = Output(self)
 
         if isinstance(input, PILImage):
@@ -66,6 +90,8 @@ class Pipeline:
 
     @property
     def name(self) -> str:
+        """ The name of the pipeline. """
+
         return self._name
 
     @name.setter
@@ -73,11 +99,21 @@ class Pipeline:
         self._name = val
 
     def copy(self) -> 'Pipeline':
+        """ Create and return a deep copy of the pipeline. """
         return copy.deepcopy(self)
 
 
 class Output:
+    """
+    Contains the results of each stage of a Pipeline, and the overall result of
+    the Pipeline.
+    """
+
     class Stage:
+        """
+        The result of a Pipeline stage.
+        """
+
         def __init__(
             self,
             image: Optional[PILImage],
@@ -96,6 +132,10 @@ class Output:
         self._frames: list[PILImage] = []
 
     def add(self, stage: PILImage | str, text: Optional[str] = None) -> None:
+        """
+        Add stage to the Output stages.
+        """
+
         if isinstance(stage, PILImage):
             self.stages.append(Output.Stage(stage, text))
         elif isinstance(stage, str):
@@ -116,6 +156,11 @@ class Output:
             '''
 
     def save(self, path: PathInput) -> None:
+        """
+        Create a composite image showing the results of all stages. Save the
+        image to path.
+        """
+
         for idx, it in enumerate(self.stages):
             file_path = Path(path, f'{idx}.png')
 
@@ -126,6 +171,11 @@ class Output:
         self._composite().save(Path(path, 'all.png'))
 
     def show(self) -> None:
+        """
+        Create a composite image showing the results of all stages. Show the
+        image in the default viewer.
+        """
+
         self._composite().show()
 
     def _composite(self) -> PILImage:

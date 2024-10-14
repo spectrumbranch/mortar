@@ -1,3 +1,7 @@
+"""
+This module provides several common image filters.
+"""
+
 from typing import Optional
 
 from PIL import ImageChops
@@ -10,6 +14,7 @@ __all__ = ['Crop', 'Gray', 'Invert', 'Threshold']
 
 
 class Crop(Filter):
+    """ Crop an image to a specified box. """
     name = 'Crop'
 
     def __init__(self, coords: tuple[int, int, int, int]) -> None:
@@ -27,6 +32,8 @@ class Crop(Filter):
 
 
 class Gray(Filter):
+    """ Convert an image to 8-bit grayscale mode. """
+
     name = 'Gray'
 
     def run(self, input: PILImage) -> Optional[PILImage]:
@@ -34,6 +41,8 @@ class Gray(Filter):
 
 
 class Invert(Filter):
+    """ Invert an image channel. """
+
     name = 'Invert'
 
     def run(self, input: PILImage) -> Optional[PILImage]:

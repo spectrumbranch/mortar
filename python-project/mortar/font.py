@@ -1,3 +1,7 @@
+"""
+This module provides font management.
+"""
+
 from importlib import resources
 from typing import Optional
 
@@ -12,6 +16,11 @@ Font = PILImageFont | FreeTypeFont
 
 
 def load(path: str, size: int) -> Font:
+    """
+    Load a font from the specified file in mortar.resources.fonts. If the file
+    is not found, load the system default font. Return the font.
+    """
+
     font: Optional[Font] = None
 
     for it in _resources.iterdir():

@@ -1,4 +1,7 @@
-""" Extract screenshots from a collection of video files. """
+"""
+This module is an application that extracts screenshots from a collection of
+video files.
+"""
 
 from os import makedirs, walk
 from pathlib import Path
@@ -34,6 +37,11 @@ def _files() -> list[Path]:
 
 
 def extract_frames() -> None:
+    """
+    For each of the mkv files in the dataset, extract png images from the file
+    at a rate of 1 image per second.
+    """
+
     files = _files()
 
     mkv_files = list(filter(lambda x: x.suffix == '.mkv', files))

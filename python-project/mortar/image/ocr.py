@@ -1,3 +1,7 @@
+"""
+This module provides the OCR filter.
+"""
+
 import os
 
 from mktech.io import eprint
@@ -17,9 +21,21 @@ _font = font.load(_font_filename, 28)
 
 
 class OCR(Filter):
+    """ Perform OCR on an image. """
+
     name = 'OCR'
 
     def run(self, input: PILImage) -> PILImage:
+        """
+        Perform OCR on an image and return an image with the result.
+
+        The OCR result is drawn onto the resulting image, using a font that
+        supports the required Japanese glyphs.
+
+        If the OCR operation fails, an error message is drawn onto the
+        resulting image.
+        """
+
         result = Image.new(input.mode, input.size)
 
         draw = ImageDraw.Draw(result)

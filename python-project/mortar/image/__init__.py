@@ -1,3 +1,10 @@
+"""
+This module provides image processing filters.
+
+An image processing filter accepts an input image, performs an operation on it,
+and returns the processed image.
+"""
+
 from PIL import ImageShow
 
 from .filter import Filter
