@@ -19,6 +19,7 @@ dev = [
     "flake8",
     "mypy",
     "nox",
+    "pdoc3",
     "pytest",
     "types-pillow"
 ]
