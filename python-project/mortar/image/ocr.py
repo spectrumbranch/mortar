@@ -1,4 +1,4 @@
-from tempfile import NamedTemporaryFile
+import os
 
 from mktech.io import eprint
 from PIL import Image, ImageDraw
@@ -6,6 +6,7 @@ from PIL.Image import Image as PILImage
 from PIL.ImageFont import FreeTypeFont
 
 from mortar import font
+from mortar.util import mktemp
 
 from .filter import Filter
 from ..tesseract import ocr
@@ -34,20 +35,23 @@ class OCR(Filter):
         else:
             raise Exception("todo")
 
-        with NamedTemporaryFile(suffix='.png') as fi:
-            input.save(fi.name)
+        output_path = mktemp(suffix='.png')
 
-            try:
-                if (not isinstance(_font, FreeTypeFont) or
-                        _font.getname()[0] != _font_name):
-                    ocr_text = 'OCR font is not available'
-                else:
-                    ocr_text = ocr(fi.name)
+        input.save(output_path)
 
-                draw.text((10, 10), ocr_text, fill=fill, font=_font,
-                          font_size=48)
-            except Exception as ex:
-                eprint(ex)
-                draw.text((10, 10), 'OCR failed', fill=fill, font_size=48)
+        try:
+            if (not isinstance(_font, FreeTypeFont) or
+                    _font.getname()[0] != _font_name):
+                ocr_text = 'OCR font is not available'
+            else:
+                ocr_text = ocr(output_path)
+
+            draw.text((10, 10), ocr_text, fill=fill, font=_font,
+                      font_size=48)
+        except Exception as ex:
+            eprint(ex)
+            draw.text((10, 10), 'OCR failed', fill=fill, font_size=48)
+
+        os.remove(output_path)
 
         return result
