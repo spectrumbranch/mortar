@@ -68,7 +68,7 @@ def extract_frames() -> None:
 
     mkv_files = list(filter(lambda x: x.suffix == '.mkv', files))
 
-    for file in mkv_files[0:1]:
+    for file in mkv_files:
         parent = file.parent
         out_dir = Path(parent, 'png')
         out_template = Path(out_dir, f'{file.stem}-%02d.png')
