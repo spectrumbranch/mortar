@@ -3,6 +3,7 @@ This module is an application that extracts screenshots from a collection of
 video files.
 """
 
+import argparse
 from os import makedirs, walk
 from pathlib import Path
 
@@ -17,11 +18,20 @@ def _flatten(entry: tuple[str, list[str], list[str]]) -> list[Path]:
     return [Path(dir, file) for file in files]
 
 
-def _files() -> list[Path]:
-    if config.data is None:
-        data = '.'
-    else:
+def _files(input: str) -> list[Path]:
+    """
+    Collects a list of the filepaths for all files in `input`,
+    else `config.data`, else defaults to `'.'`.
+
+    Assumes filepaths are WSL for passing into ffmpeg.
+    """
+
+    if input is not None:
+        data = input
+    elif config.data is not None:
         data = config.data
+    else:
+        data = '.'
 
     top = Path(data, 'jp')
 
@@ -40,9 +50,21 @@ def extract_frames() -> None:
     """
     For each of the mkv files in the dataset, extract png images from the file
     at a rate of 1 image per second.
+
+    Reads optional terminal argument `-i/--input INPUT`.
+
+    Assumes that videos must be in an `INPUT/jp` subfolder.
     """
 
-    files = _files()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-i', '--input',
+        help='input folder to look for video files in. Videos must be in'
+             '`INPUT/jp` subfolder')
+    args = parser.parse_args()
+    input = args.input
+
+    files = _files(input)
 
     mkv_files = list(filter(lambda x: x.suffix == '.mkv', files))
 
@@ -53,7 +75,8 @@ def extract_frames() -> None:
 
         makedirs(out_dir, exist_ok=True)
 
-        command = ['ffmpeg', '-i', file, '-r', '1', out_template]
+        command = ['ffmpeg', '-i', file, '-r', '1',
+                   out_template, '-loglevel', 'error']
 
         print(f'{file.name}...')
 
