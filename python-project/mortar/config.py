@@ -1,4 +1,5 @@
-""" Application configuration.
+"""
+Application configuration.
 
 This module manages the configuration for the application. If a configuration
 file exists in ~/.config/mortar/config.toml, configuration is loaded from it.
@@ -24,18 +25,21 @@ _config_path = f'{_config_dir}/config.toml'
 
 
 class BaseConfig:
-    """ Build configuration file. """
+    """ Parse configuration from and write configuration to files. """
 
-    def init_from_file(self, path: str) -> None:
+    def _init_from_file(self, path: str) -> None:
         with open(path, 'r') as fi:
             self.config = toml.parse(fi.read())
 
     @classmethod
     def from_file(cls, path: str) -> 'BaseConfig':
-        """ Parse the configuration from an existing file. """
+        """
+        Parse an existing file and use the contents to initialize
+        configuration.
+        """
 
         ctx = cls()
-        ctx.init_from_file(path)
+        ctx._init_from_file(path)
 
         return ctx
 
@@ -54,11 +58,17 @@ class BaseConfig:
 
 @dataclass
 class SSH:
+    """ SSH client configuration. """
+
     use_ssh: bool = False
+    " If true, use SSH where relevant. "
     host: Optional[str] = None
+    " Hostname for remote SSH connections. "
     port: Optional[int] = 22
+    " Port for remote SSH connections. "
 
     def toml(self) -> Table:
+        """ Return a TOML table of the configuration. """
         ssh = toml.table()
 
         ssh.add('use_ssh', self.use_ssh)
@@ -73,11 +83,16 @@ class SSH:
 
 @dataclass
 class Config(BaseConfig):
+    """ Configuration for mortar. """
+
     data: Optional[str] = None
+    " Directory used for application data. "
 
     log_level: str = 'WARNING'
+    " Application logging level. "
 
     ssh: SSH = field(default_factory=SSH)
+    " Remote SSH configuration. "
 
     def __post_init__(self) -> None:
         """ Initialize the configuration file with arguments. """
@@ -86,8 +101,6 @@ class Config(BaseConfig):
 
     @classmethod
     def from_file(cls, path: str) -> 'Config':
-        """ Parse the configuration from an existing file. """
-
         with open(path, 'r') as fi:
             config = toml.parse(fi.read())
 
@@ -125,8 +138,6 @@ class Config(BaseConfig):
         return ctx
 
     def write(self, path: str) -> None:
-        """ Write the configuration to a file. """
-
         self.config = toml.document()
 
         root = cast(Table, self.config)
@@ -140,6 +151,10 @@ class Config(BaseConfig):
 
         super().write(path)
 
+
+# On module import, load configuration from an existing configuration file, if
+# one exists. Otherwise, initialize configuration defaults and create the
+# configuration file.
 
 if exists(_config_path):
     config = Config.from_file(_config_path)

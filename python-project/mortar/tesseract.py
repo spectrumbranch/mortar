@@ -1,3 +1,11 @@
+"""
+This module provides an interface for performing OCR operations using
+Tesseract.
+
+The Tesseract instance may be invoked either locally, or on a remote host over
+an SSH connection.
+"""
+
 import os
 from pathlib import PurePath
 import shlex
@@ -24,7 +32,8 @@ _tess_cmd = [
 
 
 def tesseract_ssh(path_: str) -> str:
-    """ Generate OCR text from an image using Tesseract, and return the string.
+    """
+    Generate OCR text from an image using Tesseract, and return the string.
 
     Tesseract is executed on the remote host defined in configuration.
     """
@@ -55,6 +64,14 @@ def tesseract_ssh(path_: str) -> str:
 
 
 def tesseract_wsl(path_: str) -> str:
+    """
+    Generate OCR text from an image using Tesseract, and return the string.
+
+    This function assumes that the module is running in a WSL environment.
+    When building the command line, it makes the path manipulations required to
+    run Windows executables from WSL.
+    """
+
     path = win_from_wsl(path_)
     out_stem = 'out'
     out_name = f'{out_stem}.txt'
@@ -70,7 +87,12 @@ def tesseract_wsl(path_: str) -> str:
 
 
 def ocr(path: str) -> str:
-    """ Generate OCR text from an image in the same way MORT does. """
+    """
+    Generate OCR text from an image in the same way MORT does.
+
+    If use_ssh = True in configuration, the operation is performed over an SSH
+    connection. Otherwise, it is done in the local WSL environment.
+    """
 
     if config.ssh.use_ssh:
         result = tesseract_ssh(path)
