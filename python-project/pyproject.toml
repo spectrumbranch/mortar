@@ -6,12 +6,12 @@ authors = [
     {name = "Fritz Mahnke", email = "fritz@mahnke.tech"},
 ]
 dependencies = [
-    "ipython",
-    "matplotlib",
+    "ipython>=8.29.0",
+    "matplotlib>=3.9.2",
     "mktech@git+https://github.com/spectrumbranch/mortar@pipeline#subdirectory=lib/mktech/python",
-    "opencv-python",
+    "opencv-python>=4.10.0.84",
     "pillow>=11.0.0",
-    "PyOpenGL",
+    "PyOpenGL>=3.1.7",
     "tomlkit>=0.13.2",
 ]
 
@@ -53,7 +53,7 @@ dev = [
     "flake8>=7.1.1",
     "mypy>=1.13.0",
     "nox>=2024.10.9",
-    "pdoc3",
+    "pdoc3>=0.11.1",
     "pytest>=8.3.3",
     "types-pillow",
 ]
