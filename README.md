@@ -91,3 +91,7 @@ When the `use_ssh` key is `true`, mortar executes its processes over ssh
 instead of locally. The ssh connection is controlled by the values of the `host`
 and `port` keys. This feature is useful for running mortar on a non-Windows
 system that then does its OCR work on a Windows system, for example.
+
+### API documentation
+
+pdoc --http localhost:3001 mortar
