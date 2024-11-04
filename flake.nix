@@ -28,6 +28,7 @@
 
       nativeBuildInputs = with pkgs;
         [
+          pdm
           # video processing
           ffmpeg
         ];
