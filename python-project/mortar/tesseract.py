@@ -1,5 +1,6 @@
 """
-This module provides an interface for performing OCR operations using Tesseract.
+This module provides an interface for
+performing OCR operations using Tesseract.
 
 The Tesseract instance may be invoked either locally, or on a remote host over
 an SSH connection.
