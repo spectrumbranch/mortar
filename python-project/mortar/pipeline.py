@@ -188,7 +188,7 @@ class Output:
         width = max([it.size[0] for it in self._frames])
         heights = [it.size[1] for it in self._frames]
         height = (reduce(operator.add, heights, 0) +
-                  self._margin *
+                  (self._margin * 2) *
                   len(self._frames) - 1)
 
         canvas = PIL.Image.new('RGB', (width, height), color=self._bg_color)
