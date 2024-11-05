@@ -4,7 +4,8 @@ This module provides font management.
 
 from importlib import resources
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import ImageDraw, ImageFont
+import PIL.Image
 from PIL.ImageFont import FreeTypeFont
 
 Font = FreeTypeFont
@@ -30,7 +31,7 @@ def text_size(
     text: str,
     font: Font
 ) -> tuple[float, float]:
-    draw = ImageDraw.Draw(Image.new('RGB', (0, 0)))
+    draw = ImageDraw.Draw(PIL.Image.new('RGB', (0, 0)))
 
     lines = text.split('\n')
 

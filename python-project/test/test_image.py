@@ -2,9 +2,8 @@ import os
 
 from mktech.validate import ensure_type
 import numpy as np
-from PIL import Image
-from PIL.Image import Image as PILImage
 
+from mortar.image import Image
 from mortar.pipeline import OCR, Threshold
 
 data = f'{os.getcwd()}/test/data'
@@ -21,7 +20,7 @@ class TestFilter:
 
         threshold = Threshold()
 
-        output = ensure_type(threshold.run(image), PILImage)
+        output = ensure_type(threshold.run(image), Image)
 
         out_data = list(output.getdata())
 

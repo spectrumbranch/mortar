@@ -2,8 +2,8 @@ import os
 from tempfile import mkdtemp
 
 from mktech.validate import ensure_type
-from PIL import Image, ImageChops
-from mortar.pipeline import Crop, Gray, Invert, Pipeline
+
+from mortar.pipeline import Crop, Gray, Image, Invert, Pipeline
 
 data = f'{os.getcwd()}/test/data'
 
@@ -20,7 +20,7 @@ def test_image() -> None:
 
     image = image.convert("L")
 
-    image = ImageChops.invert(image)
+    image = Image.invert(image)
 
 
 def test_pipeline() -> None:
@@ -37,9 +37,9 @@ def test_pipeline() -> None:
     output = pipeline.run(image)
 
     stages = output.stages
-    i1 = ensure_type(stages[1].image, Image.Image)
-    i2 = ensure_type(stages[2].image, Image.Image)
-    i3 = ensure_type(stages[3].image, Image.Image)
+    i1 = ensure_type(stages[1].image, Image)
+    i2 = ensure_type(stages[2].image, Image)
+    i3 = ensure_type(stages[3].image, Image)
 
     if _debug:
         temp = mkdtemp(prefix='test_pipeline')

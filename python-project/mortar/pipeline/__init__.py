@@ -8,9 +8,7 @@ import operator
 from typing import Any, Optional
 
 from mktech.validate import ensure_type
-from PIL.Image import Image as PILImage
 from PIL import ImageDraw
-import PIL
 
 # from .config import config
 from mortar import font
@@ -37,7 +35,7 @@ _font = {
 }
 
 
-def image_info(image: PILImage) -> str:
+def image_info(image: Image) -> str:
     return f'{image.mode} {image.size}'
 
 
@@ -71,7 +69,7 @@ class Pipeline:
 
         return self.stages.pop(index)
 
-    def run(self, input: PILImage) -> 'Output':
+    def run(self, input: Image) -> 'Output':
         """
         Run the pipeline using input as the input image. Return the result.
         """
@@ -122,7 +120,7 @@ class Output:
 
         def __init__(
             self,
-            image: Optional[PILImage],
+            image: Optional[Image],
             text: Optional[str] = None
         ) -> None:
             self.image = image
@@ -135,14 +133,14 @@ class Output:
     def __init__(self, pipeline: Pipeline) -> None:
         self.pipeline = pipeline
         self.stages: list[Output.Stage] = []
-        self._frames: list[PILImage] = []
+        self._frames: list[Image] = []
 
-    def add(self, stage: PILImage | str, text: Optional[str] = None) -> None:
+    def add(self, stage: Image | str, text: Optional[str] = None) -> None:
         """
         Add stage to the Output stages.
         """
 
-        if isinstance(stage, PILImage):
+        if isinstance(stage, Image):
             self.stages.append(Output.Stage(stage, text))
         elif isinstance(stage, str):
             """
@@ -167,7 +165,7 @@ class Output:
         for idx, it in enumerate(self.stages):
             file_path = Path(path, f'{idx}.png')
 
-            image = ensure_type(it.image, PILImage)
+            image = ensure_type(it.image, Image)
 
             image.save(file_path)
 
@@ -181,7 +179,7 @@ class Output:
 
         self._composite().show()
 
-    def _composite(self) -> PILImage:
+    def _composite(self) -> Image:
         self._frame_images()
 
         width = max([it.size[0] for it in self._frames])
@@ -190,11 +188,11 @@ class Output:
                   (self._margin * 2) *
                   len(self._frames) - 1)
 
-        canvas = PIL.Image.new('RGB', (width, height), color=self._bg_color)
+        canvas = Image.new('RGB', (width, height), color=self._bg_color)
 
         y = 0
 
-        draw = ImageDraw.Draw(canvas)
+        draw = ImageDraw.Draw(canvas.pil_image)
 
         text_color = 'rgb(200, 200, 200)'
 
@@ -223,18 +221,18 @@ class Output:
             y = 0
 
             text_height = _font['fira_sans_48'].size * 2 + text_margin
-            frame_image = ensure_type(it.image, PILImage)
+            frame_image = ensure_type(it.image, Image)
 
             frame_width = frame_image.size[0]
             height = frame_image.size[1] + self._border_width + text_height
 
-            image = PIL.Image.new(
+            image = Image.new(
                 'RGB',
                 (frame_width, height),
                 color=self._bg_color
             )
 
-            draw = ImageDraw.Draw(image)
+            draw = ImageDraw.Draw(image.pil_image)
 
             text = ensure_type(it.text, str)
 
@@ -243,7 +241,7 @@ class Output:
 
             width = max(frame_width + self._border_width, length)
             image = image.resize((width, height))
-            draw = ImageDraw.Draw(image)
+            draw = ImageDraw.Draw(image.pil_image)
 
             draw.text((self._margin, 0), text, fill=text_color,
                       font=_font['fira_sans_48'])

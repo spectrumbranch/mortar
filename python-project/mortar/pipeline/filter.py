@@ -10,10 +10,8 @@ from typing import Any, Optional
 
 import cv2 as cv
 import numpy as np
-import PIL
-from PIL import ImageChops
-from PIL.Image import Image as PILImage
 
+from mortar.image import Image
 from mortar.tesseract import ocr
 from mortar.util import mktemp
 
@@ -33,7 +31,7 @@ class Filter:
         """ Return the name of the filter. """
         return self.name
 
-    def run(self, input: PILImage) -> Any:
+    def run(self, input: Image) -> Any:
         """ Run the filter and return the resulting image. """
         return None
 
@@ -48,7 +46,7 @@ class Crop(Filter):
     def info(self) -> str:
         return f'{self.name} box={self._coords}'
 
-    def run(self, input: PILImage) -> Optional[PILImage]:
+    def run(self, input: Image) -> Optional[Image]:
         return input.crop(self._coords)
 
     def __repr__(self) -> str:
@@ -61,7 +59,7 @@ class Gray(Filter):
 
     name = 'Gray'
 
-    def run(self, input: PILImage) -> Optional[PILImage]:
+    def run(self, input: Image) -> Optional[Image]:
         return input.convert("L")
 
 
@@ -70,8 +68,8 @@ class Invert(Filter):
 
     name = 'Invert'
 
-    def run(self, input: PILImage) -> Optional[PILImage]:
-        return ImageChops.invert(input)
+    def run(self, input: Image) -> Optional[Image]:
+        return Image.invert(input)
 
 
 class OCR(Filter):
@@ -79,7 +77,7 @@ class OCR(Filter):
 
     name = 'OCR'
 
-    def run(self, input: PILImage) -> str:
+    def run(self, input: Image) -> str:
         """
         Perform OCR on an image and return the result.
         """
@@ -110,7 +108,7 @@ class Threshold(Filter):
         self.maxval = maxval
         self.invert = invert
 
-    def run(self, input: PILImage) -> Optional[PILImage]:
+    def run(self, input: Image) -> Optional[Image]:
         img = np.array([input.getdata()], dtype='uint8')
 
         if input.mode not in ['1', 'L']:
@@ -119,4 +117,4 @@ class Threshold(Filter):
         thresh_type = cv.THRESH_BINARY_INV if self.invert else cv.THRESH_BINARY
         _, thresh = cv.threshold(img, self.threshval, self.maxval, thresh_type)
 
-        return PIL.Image.frombytes('L', input.size, bytes(thresh))
+        return Image.frombytes('L', input.size, bytes(thresh))

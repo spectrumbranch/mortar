@@ -4,9 +4,9 @@ from dataclasses import dataclass
 import os
 from pathlib import Path
 
-import PIL.Image
 import pytest
 
+from mortar.image import Image
 from mortar.tesseract import ocr
 from mortar.util import mktemp
 
@@ -101,7 +101,7 @@ def ocr_test_case(test_case: OCRTest, index: int) -> None:
     input_path = f'{png_dir(test_case)}/{name}.png'
     output_path = mktemp(suffix='.png')
 
-    image = PIL.Image.open(input_path)
+    image = Image.open(input_path)
 
     crop = image.crop(test_case.rectangle)
     crop.save(output_path)

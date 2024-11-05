@@ -2,9 +2,9 @@ from typing import Any, Optional
 
 from PIL import ImageDraw
 import PIL.Image
-from PIL.Image import Image as PILImage
 
 from mortar.font import Font, text_size
+from mortar.image import Image
 
 
 def create_text(
@@ -14,7 +14,7 @@ def create_text(
     margin: tuple[int, int] = (0, 0),
     *image_args: Any,
     **image_kwargs: Any
-) -> PILImage:
+) -> Image:
     text_size_ = text_size(text, font)
 
     image_size = (
@@ -28,4 +28,4 @@ def create_text(
 
     draw.text(margin, text, fill=fill_color, font=font)
 
-    return image
+    return Image.from_pil_image(image)

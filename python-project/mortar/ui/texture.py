@@ -2,16 +2,15 @@ from typing import Optional
 
 from mktech.validate import ensure_type
 import OpenGL.GL as gl
-import PIL
-from PIL.Image import Image as PILImage
 
+from mortar.image import Image
 from .. import log
 
 
 class Texture:
-    def __init__(self, image: Optional[PILImage] = None) -> None:
+    def __init__(self, image: Optional[Image] = None) -> None:
         if image is None:
-            self.im: Optional[PILImage] = None
+            self.im: Optional[Image] = None
             self.size = (0, 0)
             self.gl_texture = None
         else:
@@ -20,7 +19,7 @@ class Texture:
             self.gl_texture = self._create_gl_texture(self.im.mode)
 
     def pixels(self) -> bytes:
-        return ensure_type(self.im, PILImage).tobytes()
+        return ensure_type(self.im, Image).tobytes()
 
     def _create_gl_texture(self, mode: str) -> int:
         if self.im is None:
@@ -62,6 +61,6 @@ class Texture:
 
     @classmethod
     def from_file(cls, path: str) -> 'Texture':
-        im = PIL.Image.open(path)
+        im = Image.open(path)
 
         return cls(im)
