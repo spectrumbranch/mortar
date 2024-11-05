@@ -2,7 +2,7 @@
 This module provides the base class for an image filter.
 """
 
-from typing import Optional
+from typing import Any
 
 from PIL.Image import Image as PILImage
 
@@ -22,6 +22,6 @@ class Filter:
         """ Return the name of the filter. """
         return self.name
 
-    def run(self, input: PILImage) -> Optional[PILImage]:
+    def run(self, input: PILImage) -> Any:
         """ Run the filter and return the resulting image. """
         return None

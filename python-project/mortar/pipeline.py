@@ -5,7 +5,7 @@ This module provides the image processing pipeline facility.
 import copy
 from functools import reduce
 import operator
-from typing import Optional
+from typing import Any, Optional
 
 from mktech.validate import ensure_type
 from PIL import Image
@@ -16,7 +16,7 @@ import PIL
 # from .config import config
 from mortar import font
 from .font import text_size
-from .image import Crop, Filter, Gray, Invert, OCR, Threshold
+from .image import Crop, Filter, Gray, Invert, OCR, Threshold, create_text
 from .path import Path, PathInput
 
 __all__ = [
@@ -32,6 +32,7 @@ __all__ = [
 ]
 
 _font = {
+    'reiko_48': font.load('reiko.ttf', 48),
     'fira_sans_48': font.load('FiraSans-Regular.otf', 48)
 }
 
@@ -70,27 +71,26 @@ class Pipeline:
 
         return self.stages.pop(index)
 
-    def run(self, input: PILImage | str) -> 'Output':
+    def run(self, input: PILImage) -> 'Output':
         """
         Run the pipeline using input as the input image. Return the result.
         """
 
         output = Output(self)
 
-        if isinstance(input, PILImage):
-            image = input
-        elif isinstance(input, str):
-            image = PIL.Image.open(input)
+        output.add(input, f'0: Start\n{image_info(input)}')
 
-        output.add(image, f'0: Start\n{image_info(image)}')
+        filter_input: Any = input
 
         for idx, it in enumerate(self.stages):
             if it.enabled:
-                image = ensure_type(it.run(image.copy()), PILImage)
+                filter_output = it.run(filter_input.copy())
 
-                text = f'{idx + 1}: {it.info()}\n{image_info(image)}'
+                text = f'{idx + 1}: {it.info()}\n{image_info(filter_input)}'
 
-                output.add(image, text)
+                output.add(filter_output, text)
+
+                filter_input = filter_output
 
         return output
 
@@ -145,21 +145,18 @@ class Output:
         if isinstance(stage, PILImage):
             self.stages.append(Output.Stage(stage, text))
         elif isinstance(stage, str):
-            raise Exception('todo')
+            """
+            The OCR result is drawn onto the resulting image, using a font that
+            supports the required Japanese glyphs.
 
-            '''
-            image = PIL.Image.new('RGB', (800, 100))
+            If the OCR operation fails, an error message is drawn onto the
+            resulting image.
+            """
 
-            draw = ImageDraw.Draw(image)
-            font = ImageFont.truetype(f'{config.font}/reiko.ttf', size=28)
+            image = create_text(stage, _font['reiko_48'], 'rgb(235, 235, 235)',
+                                (10, 10))
 
-            (x, y) = (0, 0)
-            text_color = 'rgb(235, 235, 235)'
-
-            draw.text((x, y), stage, fill=text_color, font=font)
-
-            self.stages.append(Output.Stage(None, text))
-            '''
+            self.stages.append(Output.Stage(image, text))
 
     def save(self, path: PathInput) -> None:
         """
@@ -240,6 +237,7 @@ class Output:
             draw = ImageDraw.Draw(image)
 
             text = ensure_type(it.text, str)
+
             length = (round(text_size(text, _font['fira_sans_48'])[0]) +
                       self._margin)
 
