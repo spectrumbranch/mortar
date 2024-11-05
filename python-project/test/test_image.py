@@ -50,6 +50,13 @@ def test_threshold() -> None:
         output.save(Path(temp, 'image.png'))
 
 
+def test_threshold_rgb_rejection() -> None:
+    imageRGB = Image.new('RGB', (300, 200), (228, 150, 150))
+    threshold = Threshold()
+    outputRGB = threshold.run(imageRGB)
+    assert outputRGB is None
+
+
 @pytest.mark.parametrize('index', range(0, 9))
 def test_ocr(index: int) -> None:
     with open(f'{data}/mort/capture_{index:02}.str') as fi:
