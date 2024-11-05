@@ -29,9 +29,11 @@ __all__ = [
     'Threshold'
 ]
 
+_header_font_size = 48
+
 _font = {
-    'reiko_48': font.load('reiko.ttf', 48),
-    'fira_sans_48': font.load('FiraSans-Regular.otf', 48)
+    'reiko_48': font.load('reiko.ttf', _header_font_size),
+    'fira_sans_48': font.load('FiraSans-Regular.otf', _header_font_size)
 }
 
 
@@ -127,6 +129,7 @@ class Output:
             self.text = text
 
     _bg_color = 'rgb(25, 25, 25)'
+    _text_color = 'rgb(200, 200, 200)'
     _margin = 10
     _border_width = 5
 
@@ -174,7 +177,7 @@ class Output:
     def _composite(self) -> Image:
         self._frame_images()
 
-        width = max([it.size[0] for it in self._frames])
+        width = max([it.size[0] for it in self._frames]) + self._margin * 2
         heights = [it.size[1] for it in self._frames]
         height = (reduce(operator.add, heights, 0) +
                   (self._margin * 2) *
@@ -186,23 +189,20 @@ class Output:
 
         draw = ImageDraw.Draw(canvas.pil_image)
 
-        text_color = 'rgb(200, 200, 200)'
-
-        draw.text((0, y), self.pipeline.name, fill=text_color,
+        draw.text((self._margin, y), self.pipeline.name, fill=self._text_color,
                   font=_font['fira_sans_48'])
 
-        y += 48 + self._margin
+        y += _header_font_size + self._margin
 
         for it in self._frames:
             frame_height = it.size[1]
-            canvas.paste(it, (0, y))
+            canvas.paste(it, (self._margin, y))
 
             y += frame_height + self._margin
 
         return canvas
 
     def _frame_images(self) -> None:
-        text_color = 'rgb(200, 200, 200)'
         divider_color = 'rgb(255, 0, 255)'
 
         text_margin = self._margin * 3
@@ -212,7 +212,6 @@ class Output:
         for it in self.stages:
             if isinstance(it.data, Image):
                 frame_image = it.data
-
             elif isinstance(it.data, str):
                 """
                 The OCR result is drawn onto the resulting image, using a font
@@ -229,16 +228,15 @@ class Output:
 
             frame_width = frame_image.size[0]
 
-            text_height = _font['fira_sans_48'].size * 2 + text_margin
-
-            height = frame_image.size[1] + self._border_width + text_height
-
             text = ensure_type(it.text, str)
 
-            length = (round(text_size(text, _font['fira_sans_48'])[0]) +
-                      self._margin)
+            text_size_ = text_size(text, _font['fira_sans_48'])
+            text_height = round(text_size_[1]) + text_margin
+
+            length = round(text_size_[0]) + self._margin
 
             width = max(frame_width + self._border_width, length)
+            height = frame_image.size[1] + self._border_width + text_height
 
             image = Image.new(
                 'RGB',
@@ -248,7 +246,7 @@ class Output:
 
             draw = ImageDraw.Draw(image.pil_image)
 
-            draw.text((self._margin, 0), text, fill=text_color,
+            draw.text((0, 0), text, fill=self._text_color,
                       font=_font['fira_sans_48'])
 
             y = text_height
