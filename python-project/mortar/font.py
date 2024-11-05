@@ -3,35 +3,24 @@ This module provides font management.
 """
 
 from importlib import resources
-from typing import Optional
 
 from PIL import ImageFont
-from PIL.ImageFont import ImageFont as PILImageFont, FreeTypeFont
+from PIL.ImageFont import FreeTypeFont
 
-from mortar import log
-
-_resources = resources.files('mortar.resources.fonts')
-
-Font = PILImageFont | FreeTypeFont
+Font = FreeTypeFont
 
 
 def load(path: str, size: int) -> Font:
     """
-    Load a font from the specified file in mortar.resources.fonts. If the file
-    is not found, load the system default font. Return the font.
+    Load a font from the specified file in mortar.resources.fonts. It is an
+    error if the file does not exist.
     """
 
-    font: Optional[Font] = None
+    font_resources = resources.files('mortar.resources.fonts')
 
-    for it in _resources.iterdir():
-        if it.name == path:
-            with resources.as_file(it) as resource_path:
-                font = ImageFont.truetype(str(resource_path),
-                                          size=size)
+    font = ImageFont.truetype(str(font_resources.joinpath(path)), size=size)
 
     if font is None:
-        font = ImageFont.load_default(size)
-
-        log.error(f"Could not load font {path}. Using system default.")
+        raise FileNotFoundError(f"Could not load font {path}.")
 
     return font
