@@ -36,4 +36,4 @@ def text_size(
 
     lengths = [draw.textlength(it, font=font) for it in lines]
 
-    return (float(max(lengths)), font.size)
+    return (float(max(lengths)), font.size * len(lines))
