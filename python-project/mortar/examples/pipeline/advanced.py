@@ -2,13 +2,11 @@ from importlib import resources
 
 from mortar.pipeline import *
 
-tr = resources.files('mortar.examples.data')
-iter = tr.iterdir()
+input_path = str(
+    resources.files('mortar.examples.data').joinpath('hiragana_chart.png')
+)
 
-for it in tr.iterdir():
-    if it.name == 'hiragana_chart.png':
-        with resources.as_file(it) as path:
-            image = Image.open(path)
+image = Image.open(input_path)
 
 size = (1000, 1000)
 bottom_left = (124, 1263, 633, 1717)
