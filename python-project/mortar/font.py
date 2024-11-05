@@ -4,7 +4,7 @@ This module provides font management.
 
 from importlib import resources
 
-from PIL import ImageFont
+from PIL import Image, ImageDraw, ImageFont
 from PIL.ImageFont import FreeTypeFont
 
 Font = FreeTypeFont
@@ -24,3 +24,16 @@ def load(path: str, size: int) -> Font:
         raise FileNotFoundError(f"Could not load font {path}.")
 
     return font
+
+
+def text_size(
+    text: str,
+    font: Font
+) -> tuple[float, float]:
+    draw = ImageDraw.Draw(Image.new('RGB', (0, 0)))
+
+    lines = text.split('\n')
+
+    lengths = [draw.textlength(it, font=font) for it in lines]
+
+    return (float(max(lengths)), font.size)

@@ -10,10 +10,12 @@ from typing import Optional
 from mktech.validate import ensure_type
 from PIL import Image
 from PIL.Image import Image as PILImage
-from PIL import ImageDraw, ImageFont
+from PIL import ImageDraw
 import PIL
 
 # from .config import config
+from mortar import font
+from .font import text_size
 from .image import Crop, Filter, Gray, Invert, OCR, Threshold
 from .path import Path, PathInput
 
@@ -28,6 +30,8 @@ __all__ = [
     'Output',
     'Threshold'
 ]
+
+_fira_sans = font.load('FiraSans-Regular.otf', 48)
 
 
 def image_info(image: PILImage) -> str:
@@ -192,12 +196,10 @@ class Output:
         y = 0
 
         draw = ImageDraw.Draw(canvas)
-        font_size = 48
-        font = ImageFont.load_default(font_size)
 
         text_color = 'rgb(200, 200, 200)'
 
-        draw.text((0, y), self.pipeline.name, fill=text_color, font=font)
+        draw.text((0, y), self.pipeline.name, fill=text_color, font=_fira_sans)
 
         y += 48 + self._margin
 
@@ -210,8 +212,6 @@ class Output:
         return canvas
 
     def _frame_images(self) -> None:
-        font_size = 48
-        font = ImageFont.load_default(font_size)
         text_color = 'rgb(200, 200, 200)'
         divider_color = 'rgb(255, 0, 255)'
 
@@ -222,7 +222,7 @@ class Output:
         for it in self.stages:
             y = 0
 
-            text_height = font_size * 2 + text_margin
+            text_height = _fira_sans.size * 2 + text_margin
             frame_image = ensure_type(it.image, PILImage)
 
             frame_width = frame_image.size[0]
@@ -237,13 +237,14 @@ class Output:
             draw = ImageDraw.Draw(image)
 
             text = ensure_type(it.text, str)
-            length = round(_text_length(text, draw, font)) + self._margin
+            length = round(text_size(text, _fira_sans)[0]) + self._margin
 
             width = max(frame_width + self._border_width, length)
             image = image.resize((width, height))
             draw = ImageDraw.Draw(image)
 
-            draw.text((self._margin, 0), text, fill=text_color, font=font)
+            draw.text((self._margin, 0), text, fill=text_color,
+                      font=_fira_sans)
 
             y += text_height
 
@@ -256,14 +257,3 @@ class Output:
             )
 
             self._frames.append(image)
-
-
-def _text_length(
-    text: str,
-    image_draw: ImageDraw.ImageDraw,
-    font: ImageFont.ImageFont
-) -> float:
-    lines = text.split('\n')
-    lengths = [image_draw.textlength(it, font=font) for it in lines]
-
-    return max(lengths)
