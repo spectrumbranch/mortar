@@ -56,6 +56,7 @@ dev = [
     "pdoc3>=0.11.1",
     "pytest>=8.3.3",
     "types-pillow",
+    "ipdb>=0.13.13",
 ]
 [build-system]
 requires = ["pdm-backend"]
