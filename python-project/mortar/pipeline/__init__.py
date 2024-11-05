@@ -120,10 +120,10 @@ class Output:
 
         def __init__(
             self,
-            image: Optional[Image],
+            data: Any,
             text: Optional[str] = None
         ) -> None:
-            self.image = image
+            self.data = data
             self.text = text
 
     _bg_color = 'rgb(25, 25, 25)'
@@ -140,21 +140,7 @@ class Output:
         Add stage to the Output stages.
         """
 
-        if isinstance(stage, Image):
-            self.stages.append(Output.Stage(stage, text))
-        elif isinstance(stage, str):
-            """
-            The OCR result is drawn onto the resulting image, using a font that
-            supports the required Japanese glyphs.
-
-            If the OCR operation fails, an error message is drawn onto the
-            resulting image.
-            """
-
-            image = create_text(stage, _font['reiko_48'], 'rgb(235, 235, 235)',
-                                (10, 10))
-
-            self.stages.append(Output.Stage(image, text))
+        self.stages.append(Output.Stage(stage, text))
 
     def save(self, path: PathInput) -> None:
         """
@@ -163,11 +149,17 @@ class Output:
         """
 
         for idx, it in enumerate(self.stages):
-            file_path = Path(path, f'{idx}.png')
+            if isinstance(it.data, Image):
+                file_path = Path(path, f'{idx}.png')
 
-            image = ensure_type(it.image, Image)
+                it.data.save(file_path)
+            elif isinstance(it.data, str):
+                file_path = Path(path, f'{idx}.txt')
 
-            image.save(file_path)
+                with open(file_path, 'w') as file:
+                    file.write(it.data)
+            else:
+                raise TypeError()
 
         self._composite().save(Path(path, 'all.png'))
 
@@ -218,21 +210,28 @@ class Output:
         self._frames = []
 
         for it in self.stages:
-            y = 0
+            if isinstance(it.data, Image):
+                frame_image = it.data
 
-            text_height = _font['fira_sans_48'].size * 2 + text_margin
-            frame_image = ensure_type(it.image, Image)
+            elif isinstance(it.data, str):
+                """
+                The OCR result is drawn onto the resulting image, using a font
+                that supports the required Japanese glyphs.
+
+                If the OCR operation fails, an error message is drawn onto the
+                resulting image.
+                """
+
+                frame_image = create_text(it.data, _font['reiko_48'],
+                                          'rgb(235, 235, 235)', (10, 10))
+            else:
+                raise TypeError()
 
             frame_width = frame_image.size[0]
+
+            text_height = _font['fira_sans_48'].size * 2 + text_margin
+
             height = frame_image.size[1] + self._border_width + text_height
-
-            image = Image.new(
-                'RGB',
-                (frame_width, height),
-                color=self._bg_color
-            )
-
-            draw = ImageDraw.Draw(image.pil_image)
 
             text = ensure_type(it.text, str)
 
@@ -240,13 +239,19 @@ class Output:
                       self._margin)
 
             width = max(frame_width + self._border_width, length)
-            image = image.resize((width, height))
+
+            image = Image.new(
+                'RGB',
+                (width, height),
+                color=self._bg_color
+            )
+
             draw = ImageDraw.Draw(image.pil_image)
 
             draw.text((self._margin, 0), text, fill=text_color,
                       font=_font['fira_sans_48'])
 
-            y += text_height
+            y = text_height
 
             image.paste(frame_image, (0, y))
 

@@ -1,9 +1,10 @@
 import os
+from shutil import rmtree
 from tempfile import mkdtemp
 
 from mktech.validate import ensure_type
 
-from mortar.pipeline import Crop, Gray, Image, Invert, Pipeline
+from mortar.pipeline import Crop, Gray, Image, Invert, OCR, Pipeline, Threshold
 
 data = f'{os.getcwd()}/test/data'
 
@@ -37,9 +38,9 @@ def test_pipeline() -> None:
     output = pipeline.run(image)
 
     stages = output.stages
-    i1 = ensure_type(stages[1].image, Image)
-    i2 = ensure_type(stages[2].image, Image)
-    i3 = ensure_type(stages[3].image, Image)
+    i1 = ensure_type(stages[1].data, Image)
+    i2 = ensure_type(stages[2].data, Image)
+    i3 = ensure_type(stages[3].data, Image)
 
     if _debug:
         temp = mkdtemp(prefix='test_pipeline')
@@ -54,3 +55,30 @@ def test_pipeline() -> None:
     assert i2.getpixel((499, 499)) == 255
     assert i3.getpixel((0, 0)) == 0
     assert i3.getpixel((499, 499)) == 0
+
+
+def test_pipeline_ocr() -> None:
+    image = Image.open(f'{data}/hiragana_ocr.png')
+
+    pipeline = Pipeline()
+    pipeline.add(Gray())
+    pipeline.add(Threshold())
+    pipeline.add(OCR())
+
+    output = pipeline.run(image)
+
+    stages = output.stages
+    s3 = ensure_type(stages[3].data, str)
+
+    assert s3 == '''ご ぞ ど ば ぼ ば ぼ ま
+げ ゼ ぜ ゼ ぜ で べ ペ
+ぐず づい ぶ い ぶ
+ぎじ ぢ びび で び
+が ざさ ざ だ ば だ ぱ ば
+'''
+
+    temp = mkdtemp(prefix='test_pipeline_')
+
+    output.save(temp)
+
+    rmtree(temp)
