@@ -95,3 +95,8 @@ class Image:
         instance.pil_image = pil_image
 
         return instance
+
+    def __repr__(self) -> str:
+        return (f'<{self.__class__.__module__} {self.__class__.__name__}'
+                f' mode={self.pil_image.mode} size={self.pil_image.size}'
+                f' at 0x{id(self):X}>')

@@ -5,9 +5,8 @@ This package provides the image processing pipeline facility.
 import copy
 from functools import reduce
 import operator
-from typing import Any, Optional
+from typing import Any
 
-from mktech.validate import ensure_type
 from PIL import ImageDraw
 
 # from .config import config
@@ -78,7 +77,7 @@ class Pipeline:
 
         output = Output(self)
 
-        output.add(input, f'0: Start\n{image_info(input)}')
+        output.add(input, ['Start', image_info(input)])
 
         filter_input: Any = input
 
@@ -86,9 +85,8 @@ class Pipeline:
             if it.enabled:
                 filter_output = it.run(filter_input)
 
-                text = f'{idx + 1}: {it.info()}\n{image_info(filter_input)}'
-
-                output.add(filter_output, text)
+                output.add(filter_output,
+                           [it.info(), image_info(filter_input)])
 
                 filter_input = filter_output
 
@@ -108,6 +106,10 @@ class Pipeline:
         """ Create and return a deep copy of the pipeline. """
         return copy.deepcopy(self)
 
+    def __repr__(self) -> str:
+        return (f'<{self.__class__.__module__} {self.__class__.__name__}'
+                f' _name={self._name} stages={self.stages} at 0x{id(self):X}>')
+
 
 class Output:
     """
@@ -123,10 +125,14 @@ class Output:
         def __init__(
             self,
             data: Any,
-            text: Optional[str] = None
+            info: list[str] = []
         ) -> None:
             self.data = data
-            self.text = text
+            self.info = info
+
+        def __repr__(self) -> str:
+            return (f'<{self.__class__.__module__} {self.__class__.__name__}'
+                    f' text={self.info} data={self.data} at 0x{id(self):X}>')
 
     _bg_color = 'rgb(25, 25, 25)'
     _text_color = 'rgb(200, 200, 200)'
@@ -138,7 +144,7 @@ class Output:
         self.stages: list[Output.Stage] = []
         self._frames: list[Image] = []
 
-    def add(self, stage: Image | str, text: Optional[str] = None) -> None:
+    def add(self, stage: Image | str, text: list[str] = []) -> None:
         """
         Add stage to the Output stages.
         """
@@ -209,7 +215,7 @@ class Output:
 
         self._frames = []
 
-        for it in self.stages:
+        for index, it in enumerate(self.stages):
             if isinstance(it.data, Image):
                 frame_image = it.data
             elif isinstance(it.data, str):
@@ -228,9 +234,10 @@ class Output:
 
             frame_width = frame_image.size[0]
 
-            text = ensure_type(it.text, str)
+            info = '\n'.join(it.info)
+            info = f'{index}: {info}'
 
-            text_size_ = text_size(text, _font['fira_sans_48'])
+            text_size_ = text_size(info, _font['fira_sans_48'])
             text_height = round(text_size_[1]) + text_margin
 
             length = round(text_size_[0]) + self._margin
@@ -246,7 +253,7 @@ class Output:
 
             draw = ImageDraw.Draw(image.pil_image)
 
-            draw.text((0, 0), text, fill=self._text_color,
+            draw.text((0, 0), info, fill=self._text_color,
                       font=_font['fira_sans_48'])
 
             y = text_height
@@ -260,3 +267,17 @@ class Output:
             )
 
             self._frames.append(image)
+
+    def __repr__(self) -> str:
+        return (f'<{self.__class__.__module__} {self.__class__.__name__}'
+                f' stages={self.stages} at 0x{id(self):X}>')
+
+    def __str__(self) -> str:
+        lines = ['Stages:']
+
+        for index, it in enumerate(self.stages):
+            lines.append(f'{index}:')
+            lines.append(f'  info={it.info}')
+            lines.append(f'  data={it.data}')
+
+        return '\n'.join(lines)
