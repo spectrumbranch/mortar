@@ -3,8 +3,7 @@ from tempfile import mkdtemp
 
 from mktech.validate import ensure_type
 from PIL import Image, ImageChops
-from mortar.pipeline import Pipeline
-from mortar.image import Crop, Gray, Invert
+from mortar.pipeline import Crop, Gray, Invert, Pipeline
 
 data = f'{os.getcwd()}/test/data'
 

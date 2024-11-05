@@ -1,5 +1,5 @@
 """
-This module provides the image processing pipeline facility.
+This package provides the image processing pipeline facility.
 """
 
 import copy
@@ -8,16 +8,16 @@ import operator
 from typing import Any, Optional
 
 from mktech.validate import ensure_type
-from PIL import Image
 from PIL.Image import Image as PILImage
 from PIL import ImageDraw
 import PIL
 
 # from .config import config
 from mortar import font
-from .font import text_size
-from .image import Crop, Filter, Gray, Invert, OCR, Threshold, create_text
-from .path import Path, PathInput
+from mortar.font import text_size
+from mortar.image import Image, create_text
+from mortar.path import Path, PathInput
+from .filter import Crop, Filter, Gray, Invert, OCR, Threshold
 
 __all__ = [
     'Image',
