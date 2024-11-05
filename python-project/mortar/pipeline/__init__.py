@@ -82,7 +82,7 @@ class Pipeline:
 
         for idx, it in enumerate(self.stages):
             if it.enabled:
-                filter_output = it.run(filter_input.copy())
+                filter_output = it.run(filter_input)
 
                 text = f'{idx + 1}: {it.info()}\n{image_info(filter_input)}'
 
