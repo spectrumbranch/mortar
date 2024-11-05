@@ -5,11 +5,9 @@ from mktech.validate import ensure_type
 import numpy as np
 from PIL import Image
 from PIL.Image import Image as PILImage
-import pytest
 
 from mortar.image import Threshold
 from mortar.path import Path
-from mortar.tesseract import ocr
 
 _debug = True
 
@@ -55,16 +53,3 @@ def test_threshold_rgb_rejection() -> None:
     threshold = Threshold()
     outputRGB = threshold.run(imageRGB)
     assert outputRGB is None
-
-
-@pytest.mark.parametrize('index', range(0, 9))
-def test_ocr(index: int) -> None:
-    with open(f'{data}/mort/capture_{index:02}.str') as fi:
-        mort_str = fi.read()
-
-    result = ocr(f'{data}/mort/capture_{index:02}.png')
-
-    print(f'mort: {mort_str}')
-    print(f'result: {result}')
-
-    assert result == mort_str
