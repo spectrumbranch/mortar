@@ -2,6 +2,12 @@
 This package provides tools for working with images.
 """
 
-from .image import Image
+from PIL import ImageShow
 
-__all__ = ['Image']
+from .image import Image
+from .text import create_text
+from .viewer import Viewer
+
+__all__ = ['Image', 'create_text']
+
+ImageShow.register(Viewer(), 0)
