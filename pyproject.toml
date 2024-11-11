@@ -24,6 +24,7 @@ source = [ "mortar" ]
 [tool.mypy]
 explicit_package_bases = true
 packages = [ "mortar", "test" ]
+strict = true
 
 [tool.pytest.ini_options]
 testpaths = [ "test" ]

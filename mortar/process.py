@@ -4,11 +4,14 @@ This module provides facilities for executing operating system processes.
 
 import subprocess
 from subprocess import CalledProcessError, CompletedProcess
+from typing import Any
 
 import mortar.log as log
 
+__all__ = ['CompletedProcess', 'run']
 
-def run(*args, **kwargs) -> CompletedProcess:
+
+def run(*args: Any, **kwargs: Any) -> CompletedProcess[bytes]:
     """
     Run the command described by args in a child process. args is a sequence
     representing the command name and its space-separated arguments.

@@ -7,6 +7,7 @@ from os.path import isfile
 import platform
 from tempfile import mkstemp
 import time
+from typing import Any
 
 
 _windows_temp = '/mnt/c/Windows/Temp'
@@ -25,7 +26,7 @@ def system() -> str:
         return platform.system()
 
 
-def mktemp(*args, **kwargs) -> str:
+def mktemp(*args: Any, **kwargs: Any) -> str:
     """
     Make a temporary file, taking the host system into account.
 

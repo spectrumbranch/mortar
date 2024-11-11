@@ -31,7 +31,7 @@ class SSH:
         self.port = port
         " Remote host port "
 
-    def scp_to(self, local: str, remote: str) -> CompletedProcess:
+    def scp_to(self, local: str, remote: str) -> CompletedProcess[bytes]:
         """ Copy a file from the local host to the remote host. """
 
         args = self._build_args(Command.SCP, self.port)
@@ -42,7 +42,7 @@ class SSH:
 
         return result
 
-    def scp_from(self, remote: str, local: str) -> CompletedProcess:
+    def scp_from(self, remote: str, local: str) -> CompletedProcess[bytes]:
         """ Copy a file from the remote host to the local host. """
 
         args = self._build_args(Command.SCP, self.port)
@@ -53,7 +53,7 @@ class SSH:
 
         return result
 
-    def run(self, command: list[str]) -> CompletedProcess:
+    def run(self, command: list[str]) -> CompletedProcess[bytes]:
         """
         Execute a command on the remote host over an SSH connection.
 

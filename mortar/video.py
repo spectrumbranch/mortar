@@ -11,7 +11,7 @@ from mortar.config import config
 from mortar.process import run
 
 
-def _flatten(entry) -> list[Path]:
+def _flatten(entry: tuple[str, list[str], list[str]]) -> list[Path]:
     dir = entry[0]
     files = entry[2]
 
