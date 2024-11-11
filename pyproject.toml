@@ -45,4 +45,5 @@ dev = [
     "pytest>=8.3.3",
     "python-lsp-server[all]>=1.12.0",
     "pylsp-mypy>=0.6.9",
+    "ipdb>=0.13.13",
 ]
