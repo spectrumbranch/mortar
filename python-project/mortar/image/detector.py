@@ -22,24 +22,33 @@ class Detector:
         It is used mostly for debugging. Will modify self.img with drawn rects.
         """
         self.img = cv2.imread(img_path)
+
+        # Grayscale and threshold image for easier detecting
         gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
         _, thresh = cv2.threshold(gray, 50, 255, 0)
-        contours, _ = cv2.findContours(thresh, 1, 2)
+        # List all contours
+        contours, _ = cv2.findContours(
+            thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
         rects = []
 
         for cnt in contours:
+            # Compute approximate contour vertex points
             approx = cv2.approxPolyDP(
                 cnt, 0.01 * cv2.arcLength(cnt, True), True)
+            # Rectangles have 4 vertices
             if len(approx) == 4:
                 x, y, w, h = cv2.boundingRect(cnt)
                 include_rect = True
                 if (fn is not None):
+                    # Check against fn predicate to filter out unwanted rects
+                    # This is the chance for include_rect to be false
                     include_rect = fn(x, y, w, h)
                 if include_rect:
                     print(f"({x},{y}), w: {w}, h: {h}")
                     rects.append((x, y, w, h))
 
+                    # If draw is true, draw over the image to show the rect
                     if draw is True:
                         self.img = cv2.drawContours(
                             self.img, [cnt], -1, (0, 255, 0), 3)
