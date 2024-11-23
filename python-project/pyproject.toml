@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "mortar"
 authors = [
     {name = "Fritz Mahnke", email = "fritz@mahnke.tech"},
+    {name = "Christopher Bebry", email = "invalidsyntax@gmail.com"},
 ]
 dependencies = [
     "pillow>=11.0.0",
