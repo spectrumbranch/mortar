@@ -14,18 +14,44 @@ features toward this end include:
 The package is intended to run on a WSL system. It creates a Windows Tesseract
 process to perform OCR function.
 
-## Usage
+## Installation
 
-### Clone and install
+### Clone the repository
 
 ```
 git clone https://github.com/spectrumbranch/mortar.git
-cd mortar/python-project
+cd mortar
+```
+
+### Installing with pip
+
+It is recommended to use [pdm](#installing-with-pdm-recommended-over-pip)
+instead.
+
+To install the package using pip:
+
+```
 python -m venv .venv
 . .venv/bin/activate
 
 pip install .[dev]
 ```
+
+### Installing with pdm (recommended over pip)
+
+- Install pdm using your package manager.
+- Run `pdm install`. The command creates a virtualenv with the mortar package
+  and its dependencies installed inside it.
+
+With the package installed, the `pdm run` command runs a command from within
+the package environment. `pdm run nox` runs development checks, for example.
+
+### Activating the virtualenv
+
+It may be convenient to activate the virtualenv by running
+`. .venv/bin/activate`. With the virtualenv activated, all commands supported by
+the package are placed on the path and can be run directly (e.g. by running
+`nox` instead of `pdm run nox`).
 
 ### Set the required environment variables
 
@@ -43,6 +69,15 @@ Path to the `tessdata` directory installed with MORT:
 ```
 export TESSERACT_DATA="C:/MORT/MORT/bin/x64/Release/net7.0-windows10.0.22621.0/tessdata"
 ```
+
+### Automatically activating the virtualenv and setting environment variables
+
+[direnv](https://direnv.net/) can be used to automatically set required
+environment variables upon entering the project directory. See the direnv
+documentation and [Python](https://github.com/direnv/direnv/wiki/Python)
+section of the direnv wiki for details.
+
+## Usage
 
 ### Run the tests
 
@@ -91,3 +126,7 @@ When the `use_ssh` key is `true`, mortar executes its processes over ssh
 instead of locally. The ssh connection is controlled by the values of the `host`
 and `port` keys. This feature is useful for running mortar on a non-Windows
 system that then does its OCR work on a Windows system, for example.
+
+### API documentation
+
+pdoc --http localhost:3001 mortar
