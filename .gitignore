@@ -164,3 +164,7 @@ cython_debug/
 .idea/
 
 # End of ignore entries added by pdm
+
+# direnv
+
+.envrc
