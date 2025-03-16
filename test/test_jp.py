@@ -79,13 +79,11 @@ def test_ff4(index: int) -> None:
     ocr_test_case(_ff4, index)
 
 
-@pytest.mark.skip(reason=not_yet_implemented)
 @pytest.mark.parametrize('index', range(0, _ff6_01.count))
 def test_ff6_01(index: int) -> None:
     ocr_test_case(_ff6_01, index)
 
 
-@pytest.mark.skip(reason=not_yet_implemented)
 @pytest.mark.parametrize('index', range(0, _ff6_02.count))
 def test_ff6_02(index: int) -> None:
     ocr_test_case(_ff6_02, index)
