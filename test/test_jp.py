@@ -32,6 +32,7 @@ _bof = OCRTest(rectangle=(412, 711, 1483, 966),
                base_name='bof-01', count=45)
 _bof2 = OCRTest(rectangle=(400, 705, 1500, 975),
                 base_name='bof2-01', count=19)
+
 _ff4 = OCRTest(rectangle=(408, 144, 1491, 409), base_name='ff4-01', count=18)
 _ff6_01 = OCRTest(rectangle=(433, 76, 1459, 370),
                   base_name='ff6-01', count=26)
@@ -73,7 +74,6 @@ def test_bof2(index: int) -> None:
     ocr_test_case(_bof2, index)
 
 
-@pytest.mark.skip(reason=not_yet_implemented)
 @pytest.mark.parametrize('index', range(0, _ff4.count))
 def test_ff4(index: int) -> None:
     ocr_test_case(_ff4, index)
