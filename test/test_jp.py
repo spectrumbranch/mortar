@@ -89,7 +89,6 @@ def test_ff6_02(index: int) -> None:
     ocr_test_case(_ff6_02, index)
 
 
-@pytest.mark.skip(reason=not_yet_implemented)
 @pytest.mark.parametrize('index', range(0, _iog.count))
 def test_iog(index: int) -> None:
     ocr_test_case(_iog, index)
