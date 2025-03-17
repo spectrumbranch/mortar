@@ -94,7 +94,6 @@ def test_iog(index: int) -> None:
     ocr_test_case(_iog, index)
 
 
-@pytest.mark.skip(reason=not_yet_implemented)
 @pytest.mark.parametrize('index', range(0, _rudra.count))
 def test_rudra(index: int) -> None:
     ocr_test_case(_rudra, index)
