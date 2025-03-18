@@ -1,6 +1,6 @@
 [project]
 name = "mortar"
-version = "0.1.0"
+dynamic = ["version"]
 description = "mortar"
 authors = [
     {name = "Fritz Mahnke", email = "fritz@mahnke.tech"},
@@ -42,6 +42,10 @@ testpaths = [ "test" ]
 
 [tool.pdm]
 distribution = true
+
+[tool.pdm.version]
+source = "scm"
+fallback_version = "0.0.0"
 
 [tool.pdm.dev-dependencies]
 dev = [
