@@ -1,6 +1,7 @@
 import click
+from mktech.path import Path
 
-from . import shell
+from . import shell, tesseract
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -27,7 +28,16 @@ def shell_command(file: str | None) -> None:
         raise click.ClickException('Command failed.')
 
 
+@cli.command('tesseract')
+@click.argument(
+    'image', required=True, type=click.Path(dir_okay=False, path_type=Path)
+)
+def tesseract_command(image: Path) -> None:
+    """
+    Generate OCR text from an image using Tesseract, and print the OCR result.
+    """
 
+    tesseract.print_ocr(str(image))
 
 
 

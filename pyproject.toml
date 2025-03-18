@@ -22,7 +22,6 @@ license = {text = "AGPL-3.0-or-later"}
 
 [project.scripts]
 mortar = "mortar.cli:main"
-mortess = "mortar.tesseract:main"
 mortvids = "mortar.video:main"
 
 [tool.coverage.run]

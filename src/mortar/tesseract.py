@@ -8,7 +8,6 @@ an SSH connection.
 
 import os
 import shlex
-import sys
 from pathlib import PurePath
 from tempfile import mkstemp
 
@@ -89,7 +88,7 @@ def tesseract_wsl(path_: str) -> str:
 
 def ocr(path: str) -> str:
     """
-    Generate OCR text from an image in the same way MORT does.
+    Generate OCR text from an image using Tesseract, and return the string.
 
     If use_ssh = True in configuration, the operation is performed over an SSH
     connection. Otherwise, it is done in the local WSL environment.
@@ -103,12 +102,9 @@ def ocr(path: str) -> str:
     return result
 
 
-def main() -> None:
-    if len(sys.argv) < 2:
-        raise Exception('path to image file is required')
+def print_ocr(path: str) -> None:
+    """
+    Generate OCR text from an image using Tesseract, and print the OCR result.
+    """
 
-    print(ocr(sys.argv[1]))
-
-
-if __name__ == '__main__':
-    main()
+    print(ocr(path))
