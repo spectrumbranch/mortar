@@ -1,7 +1,7 @@
 import click
 from mktech.path import Path
 
-from . import shell, tesseract
+from . import shell, tesseract, video
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -40,7 +40,24 @@ def tesseract_command(image: Path) -> None:
     tesseract.print_ocr(str(image))
 
 
+@cli.command('video')
+@click.option(
+    '-i',
+    '--input',
+    required=False,
+    type=click.Path(file_okay=False, path_type=Path),
+    help=(
+        'input directory to look for video files in. Videos must be in' +
+        ' \'jp\' subdirectory of input directory'
+    )
+)
+def video_command(input: Path | None) -> None:
+    """
+    Extract frames from input videos.
+    """
 
+    if video.extract_frames(input) != 0:
+        raise click.ClickException('Command failed.')
 
 
 def main() -> None:
