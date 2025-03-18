@@ -24,9 +24,9 @@ class Command(Enum):
 
 class SSH:
     """ Execute SSH operations between the local host and a remote host. """
-
-    def __init__(self, host: Optional[str] = None,
-                 port: Optional[int] = None) -> None:
+    def __init__(
+        self, host: Optional[str] = None, port: Optional[int] = None
+    ) -> None:
         self.host = host
         " Remote host name "
         self.port = port

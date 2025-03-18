@@ -24,7 +24,6 @@ _config_path = f'{_config_dir}/config.toml'
 
 class BaseConfig:
     """ Parse configuration from and write configuration to files. """
-
     def _init_from_file(self, path: str) -> None:
         with open(path, 'r') as fi:
             self.config = toml.parse(fi.read())
@@ -64,7 +63,6 @@ class SSH:
     " Hostname for remote SSH connections. "
     port: Optional[int] = 22
     " Port for remote SSH connections. "
-
     def toml(self) -> Table:
         """ Return a TOML table of the configuration. """
         ssh = toml.table()
@@ -91,7 +89,6 @@ class Config(BaseConfig):
 
     ssh: SSH = field(default_factory=SSH)
     " Remote SSH configuration. "
-
     def __post_init__(self) -> None:
         """ Initialize the configuration file with arguments. """
 
@@ -124,10 +121,7 @@ class Config(BaseConfig):
             ctx = cls(
                 data=data,
                 log_level=log_level,
-                ssh=SSH(
-                    host=ssh.get('host'),
-                    port=ssh.get('port')
-                )
+                ssh=SSH(host=ssh.get('host'), port=ssh.get('port'))
             )
 
             if isinstance(ssh['use_ssh'], bool):

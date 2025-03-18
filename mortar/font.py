@@ -27,10 +27,7 @@ def load(path: str, size: int) -> Font:
     return font
 
 
-def text_size(
-    text: str,
-    font: Font
-) -> tuple[float, float]:
+def text_size(text: str, font: Font) -> tuple[float, float]:
     """
     Calculate the dimensions required to display a string using a given font.
     Returns a tuple representing (width, height) of the string, in pixels.

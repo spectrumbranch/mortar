@@ -28,7 +28,8 @@ def run(*args: Any, **kwargs: Any) -> CompletedProcess[bytes]:
 
     try:
         result = subprocess.run(
-            *args, capture_output=True, check=True, **kwargs)
+            *args, capture_output=True, check=True, **kwargs
+        )
     except CalledProcessError as e:
         log.error(f'stdout={e.stdout}')
         log.error(f'stderr={e.stderr}')
