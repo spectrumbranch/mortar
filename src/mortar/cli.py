@@ -1,40 +1,37 @@
-"""
-This module provides an interactive shell interface to the mortar package.
-"""
+import click
 
-import sys
+from . import shell
 
-import IPython
-from traitlets.config import Config
-
-# The first command line argument, if provided, is the script to run.
-
-_file = sys.argv[1] if len(sys.argv) != 1 else None
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 
-def main() -> int:
-    """ This is the script's entry point. """
+@click.group(
+    context_settings=CONTEXT_SETTINGS,
+    no_args_is_help=True,
+)
+def cli() -> None:
+    pass
 
-    c = Config()
 
-    # On startup, make mortar facilities available in the IPython shell.
+@cli.command('shell')
+@click.argument('file', required=False)
+def shell_command(file: str | None) -> None:
+    """
+    Start a mortar shell
 
-    c.InteractiveShellApp.exec_lines = [
-        'from mortar.pipeline import *',
-        'print("mortar command line interface")'
-    ]
+    The optional FILE argument is a path to a Python file. If FILE is
+    provided, the shell will run it after initialization.
+    """
 
-    c.InteractiveShell.confirm_exit = False
-    c.TerminalIPythonApp.display_banner = False
+    if shell.run(file) != 0:
+        raise click.ClickException('Command failed.')
 
-    # If a script argument was provided, run it. Remain in the shell after the
-    # script has completed.
 
-    if _file is not None:
-        c.InteractiveShellApp.file_to_run = _file
 
-    c.TerminalIPythonApp.force_interact = True
 
-    IPython.start_ipython(config=c)  # type: ignore[no-untyped-call]
 
-    return 0
+
+
+
+def main() -> None:
+    cli()
