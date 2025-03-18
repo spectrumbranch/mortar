@@ -1,9 +1,7 @@
 """
-This module is an application that extracts screenshots from a collection of
-video files.
+This module extracts screenshots from a collection of video files.
 """
 
-import argparse
 from os import makedirs, walk
 from pathlib import Path
 
@@ -18,20 +16,15 @@ def _flatten(entry: tuple[str, list[str], list[str]]) -> list[Path]:
     return [Path(dir, file) for file in files]
 
 
-def _files(input: str) -> list[Path]:
+def _files(input_path: Path | None) -> list[Path]:
     """
-    Collects a list of the filepaths for all files in `input`,
-    else `config.data`, else defaults to `'.'`.
+    Collects a list of the filepaths for all files in `input`, else
+    `config.data`.
 
     Assumes filepaths are WSL for passing into ffmpeg.
     """
 
-    if input is not None:
-        data = input
-    elif config.data is not None:
-        data = config.data
-    else:
-        data = '.'
+    data = Path(config.data) if input_path is None else input_path
 
     top = Path(data, 'jp')
 
@@ -46,7 +39,7 @@ def _files(input: str) -> list[Path]:
     return flat_files
 
 
-def extract_frames() -> None:
+def extract_frames(input_path: Path | None = None) -> int:
     """
     For each of the mkv files in the dataset, extract png images from the file
     at a rate of 1 image per second.
@@ -56,19 +49,11 @@ def extract_frames() -> None:
     Assumes that videos must be in an `INPUT/jp` subfolder.
     """
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '-i',
-        '--input',
-        help='input folder to look for video files in. Videos must be in'
-        '`INPUT/jp` subfolder'
-    )
-    args = parser.parse_args()
-    input = args.input
-
-    files = _files(input)
+    files = _files(input_path)
 
     mkv_files = list(filter(lambda x: x.suffix == '.mkv', files))
+
+    failed = False
 
     for index, file in enumerate(mkv_files):
         parent = file.parent
@@ -90,8 +75,9 @@ def extract_frames() -> None:
 
         print(f'{file.name}... ({index + 1}/{len(mkv_files)})')
 
-        run(command)
+        process_exit_code = run(command).returncode
 
+        if process_exit_code != 0:
+            failed = True
 
-def main() -> None:
-    extract_frames()
+    return 1 if failed else 0
