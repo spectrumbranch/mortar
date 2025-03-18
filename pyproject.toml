@@ -29,12 +29,9 @@ source = [ "src" ]
 
 [tool.mypy]
 explicit_package_bases = true
-packages = [ "mortar", "test" ]
+packages = [ "mortar", "tests" ]
 exclude = "^src/mortar/examples"
 strict = true
-
-[tool.pytest.ini_options]
-testpaths = [ "test" ]
 
 [tool.setuptools.package-data]
 "mortar.examples.data" = ["*"]

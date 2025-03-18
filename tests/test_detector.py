@@ -6,7 +6,7 @@ import os
 
 from mortar.image import Detector
 
-data = f'{os.getcwd()}/test/data/detector'
+data = f'{os.getcwd()}/tests/data/detector'
 
 
 def iog_jp_charity_detector_fn(x: int, y: int, w: int, h: int) -> bool:
@@ -21,7 +21,7 @@ def test_detector_iog_top_big() -> None:
     """
     detector = Detector()
     rects = detector.detect_rects(
-        f'{os.getcwd()}/test/data/detector/iog_top_big.png',
+        f'{os.getcwd()}/tests/data/detector/iog_top_big.png',
         iog_jp_charity_detector_fn
     )
 
@@ -39,7 +39,7 @@ def test_detector_iog_top_small() -> None:
     """
     detector = Detector()
     rects = detector.detect_rects(
-        f'{os.getcwd()}/test/data/detector/iog_top_small.png',
+        f'{os.getcwd()}/tests/data/detector/iog_top_small.png',
         iog_jp_charity_detector_fn
     )
 
@@ -57,7 +57,7 @@ def test_detector_iog_bottom() -> None:
     """
     detector = Detector()
     rects = detector.detect_rects(
-        f'{os.getcwd()}/test/data/detector/iog_bottom.png',
+        f'{os.getcwd()}/tests/data/detector/iog_bottom.png',
         iog_jp_charity_detector_fn
     )
 
@@ -75,7 +75,7 @@ def test_detector_iog_area_label() -> None:
     """
     detector = Detector()
     rects = detector.detect_rects(
-        f'{os.getcwd()}/test/data/detector/iog_area_label.png',
+        f'{os.getcwd()}/tests/data/detector/iog_area_label.png',
         iog_jp_charity_detector_fn
     )
 
@@ -96,7 +96,7 @@ def test_detector_iog_pause_menu() -> None:
     """
     detector = Detector()
     rects = detector.detect_rects(
-        f'{os.getcwd()}/test/data/detector/iog_pause_menu.png',
+        f'{os.getcwd()}/tests/data/detector/iog_pause_menu.png',
         iog_jp_charity_detector_fn
     )
 
