@@ -25,6 +25,8 @@ mortess = "mortar.tesseract:main"
 mortvids = "mortar.video:main"
 
 [tool.coverage.run]
+branch = true
+parallel = true
 source = [ "src" ]
 
 [tool.mypy]
