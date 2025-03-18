@@ -5,7 +5,7 @@ nox.options.sessions = ['lint', 'typing', 'tests', 'coverage_report']
 
 @nox.session(tags=['all'])
 def lint(session):
-    session.run('flake8', 'mortar', 'test', external=True)
+    session.run('flake8', 'src', 'test', external=True)
 
 
 @nox.session(tags=['all'])

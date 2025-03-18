@@ -25,12 +25,12 @@ mortess = "mortar.tesseract:main"
 mortvids = "mortar.video:main"
 
 [tool.coverage.run]
-source = [ "mortar" ]
+source = [ "src" ]
 
 [tool.mypy]
 explicit_package_bases = true
 packages = [ "mortar", "test" ]
-exclude = "^mortar/examples"
+exclude = "^src/mortar/examples"
 strict = true
 
 [tool.pytest.ini_options]
