@@ -5,12 +5,12 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import pytest
+
+from mortar.image import Image
 from mortar.tesseract import ocr
 from mortar.util import mktemp
 
-from mortar.image import Image
-
-data = f'{os.getcwd()}/test/data'
+data = f'{os.getcwd()}/tests/data'
 
 not_yet_implemented = 'test is not yet implemented'
 

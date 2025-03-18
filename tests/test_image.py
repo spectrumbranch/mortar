@@ -6,7 +6,7 @@ from mktech.validate import ensure_type
 from mortar.image import Image
 from mortar.pipeline import OCR, Threshold
 
-data = f'{os.getcwd()}/test/data'
+data = f'{os.getcwd()}/tests/data'
 
 
 class TestFilter:

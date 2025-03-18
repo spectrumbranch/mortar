@@ -66,7 +66,7 @@ def main() -> None:
         return h > 200
 
     rects = detector.detect_rects(
-        f'{os.getcwd()}/test/data/detector/iog_top_big.png',
+        f'{os.getcwd()}/tests/data/detector/iog_top_big.png',
         my_condition,
         True
     )

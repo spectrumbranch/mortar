@@ -3,7 +3,7 @@ import os
 import pytest
 from mortar.tesseract import ocr
 
-data = f'{os.getcwd()}/test/data/mort'
+data = f'{os.getcwd()}/tests/data/mort'
 
 
 @pytest.mark.parametrize('index', range(0, 9))
