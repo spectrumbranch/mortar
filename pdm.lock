@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:02bb0368899aac7985e7be98d9397bab926eed2ef4781ecd5e6843b056e4edfb"
+content_hash = "sha256:eaa24abec6db147d504ec9da8e827ea1bfd13cc7d63ac4fae41028b12bbf0f43"
 
 [[metadata.targets]]
 requires_python = ">=3.12"
@@ -887,6 +887,21 @@ dependencies = [
 files = [
     {file = "pytest-8.3.3-py3-none-any.whl", hash = "sha256:a6853c7375b2663155079443d2e45de913a911a11d669df02a50814944db57b2"},
     {file = "pytest-8.3.3.tar.gz", hash = "sha256:70b98107bd648308a7952b06e6ca9a50bc660be218d53c257cc1fc94fda10181"},
+]
+
+[[package]]
+name = "python-lsp-isort"
+version = "0.2.1"
+requires_python = ">=3.7"
+summary = "isort plugin for the Python LSP Server"
+groups = ["dev"]
+dependencies = [
+    "isort>=5.0",
+    "python-lsp-server",
+]
+files = [
+    {file = "python_lsp_isort-0.2.1-py3-none-any.whl", hash = "sha256:3d42c65cda03cc7e6ec8d4d986c0a6653179dda7c0b5c0e28b5acdfd8eb30432"},
+    {file = "python_lsp_isort-0.2.1.tar.gz", hash = "sha256:2f37af3c63132916a40377c323897d743546470a75e78b096fc88fcae997525b"},
 ]
 
 [[package]]
