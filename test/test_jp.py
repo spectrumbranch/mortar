@@ -22,25 +22,25 @@ class OCRTest:
     count: int
 
 
-_7thelnard = OCRTest(rectangle=(414, 678, 1489, 967),
-                     base_name='7thelnard-01', count=17)
-_aretha = OCRTest(rectangle=(328, 754, 1554, 957),
-                  base_name='aretha-01', count=18)
-_aretha2 = OCRTest(rectangle=(333, 106, 1569, 315),
-                   base_name='aretha2-01', count=16)
-_bof = OCRTest(rectangle=(412, 711, 1483, 966),
-               base_name='bof-01', count=45)
-_bof2 = OCRTest(rectangle=(400, 705, 1500, 975),
-                base_name='bof2-01', count=19)
+_7thelnard = OCRTest(
+    rectangle=(414, 678, 1489, 967), base_name='7thelnard-01', count=17
+)
+_aretha = OCRTest(
+    rectangle=(328, 754, 1554, 957), base_name='aretha-01', count=18
+)
+_aretha2 = OCRTest(
+    rectangle=(333, 106, 1569, 315), base_name='aretha2-01', count=16
+)
+_bof = OCRTest(rectangle=(412, 711, 1483, 966), base_name='bof-01', count=45)
+_bof2 = OCRTest(rectangle=(400, 705, 1500, 975), base_name='bof2-01', count=19)
 
 _ff4 = OCRTest(rectangle=(408, 144, 1491, 409), base_name='ff4-01', count=18)
-_ff6_01 = OCRTest(rectangle=(433, 76, 1459, 370),
-                  base_name='ff6-01', count=26)
-_ff6_02 = OCRTest(rectangle=(373, 87, 1531, 354),
-                  base_name='ff6-02', count=21)
+_ff6_01 = OCRTest(rectangle=(433, 76, 1459, 370), base_name='ff6-01', count=26)
+_ff6_02 = OCRTest(rectangle=(373, 87, 1531, 354), base_name='ff6-02', count=21)
 _iog = OCRTest(rectangle=(1173, 408, 1830, 606), base_name='iog-01', count=7)
-_rudra = OCRTest(rectangle=(400, 634, 1360, 1030),
-                 base_name='rudra-01', count=59)
+_rudra = OCRTest(
+    rectangle=(400, 634, 1360, 1030), base_name='rudra-01', count=59
+)
 
 
 def dir_mkr(test_case: OCRTest, type: str) -> Path:

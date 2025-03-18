@@ -5,17 +5,24 @@ from typing import Sequence
 
 from mktech.validate import ensure_type
 
-from mortar.pipeline import (OCR, Crop, Gray, Image, Invert, Output, Pipeline,
-                             Threshold)
+from mortar.pipeline import (
+    OCR,
+    Crop,
+    Gray,
+    Image,
+    Invert,
+    Output,
+    Pipeline,
+    Threshold,
+)
 
-data = f'{os.getcwd()}/test/data'
+data = f'{os.getcwd()}/tests/data'
 
 _debug = False
 
 
 def _check_output_stages(
-    output: Output,
-    expected_stage_info: Sequence[Sequence[str]]
+    output: Output, expected_stage_info: Sequence[Sequence[str]]
 ) -> None:
     stages = output.stages
 

@@ -22,7 +22,8 @@ def test_detector_iog_top_big() -> None:
     detector = Detector()
     rects = detector.detect_rects(
         f'{os.getcwd()}/test/data/detector/iog_top_big.png',
-        iog_jp_charity_detector_fn)
+        iog_jp_charity_detector_fn
+    )
 
     assert len(rects) == 1
     x, y, w, h = rects[0]
@@ -39,7 +40,8 @@ def test_detector_iog_top_small() -> None:
     detector = Detector()
     rects = detector.detect_rects(
         f'{os.getcwd()}/test/data/detector/iog_top_small.png',
-        iog_jp_charity_detector_fn)
+        iog_jp_charity_detector_fn
+    )
 
     assert len(rects) == 1
     x, y, w, h = rects[0]
@@ -56,7 +58,8 @@ def test_detector_iog_bottom() -> None:
     detector = Detector()
     rects = detector.detect_rects(
         f'{os.getcwd()}/test/data/detector/iog_bottom.png',
-        iog_jp_charity_detector_fn)
+        iog_jp_charity_detector_fn
+    )
 
     assert len(rects) == 1
     x, y, w, h = rects[0]
@@ -73,7 +76,8 @@ def test_detector_iog_area_label() -> None:
     detector = Detector()
     rects = detector.detect_rects(
         f'{os.getcwd()}/test/data/detector/iog_area_label.png',
-        iog_jp_charity_detector_fn)
+        iog_jp_charity_detector_fn
+    )
 
     assert len(rects) == 1
     x, y, w, h = rects[0]
@@ -93,7 +97,8 @@ def test_detector_iog_pause_menu() -> None:
     detector = Detector()
     rects = detector.detect_rects(
         f'{os.getcwd()}/test/data/detector/iog_pause_menu.png',
-        iog_jp_charity_detector_fn)
+        iog_jp_charity_detector_fn
+    )
 
     assert len(rects) == 2
     x, y, w, h = rects[0]
