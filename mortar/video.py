@@ -58,9 +58,11 @@ def extract_frames() -> None:
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-i', '--input',
+        '-i',
+        '--input',
         help='input folder to look for video files in. Videos must be in'
-             '`INPUT/jp` subfolder')
+        '`INPUT/jp` subfolder'
+    )
     args = parser.parse_args()
     input = args.input
 
@@ -75,8 +77,16 @@ def extract_frames() -> None:
 
         makedirs(out_dir, exist_ok=True)
 
-        command = ['ffmpeg', '-i', file, '-r', '1',
-                   out_template, '-loglevel', 'error']
+        command = [
+            'ffmpeg',
+            '-i',
+            file,
+            '-r',
+            '1',
+            out_template,
+            '-loglevel',
+            'error'
+        ]
 
         print(f'{file.name}... ({index + 1}/{len(mkv_files)})')
 

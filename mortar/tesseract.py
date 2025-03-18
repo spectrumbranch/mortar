@@ -18,8 +18,7 @@ from mortar.path import win_from_wsl
 from mortar.ssh import SSH
 
 _tess_env = {
-    'command': os.environ['TESSERACT'],
-    'data': os.environ['TESSERACT_DATA']
+    'command': os.environ['TESSERACT'], 'data': os.environ['TESSERACT_DATA']
 }
 
 _tess_cmd = [
@@ -28,7 +27,7 @@ _tess_cmd = [
     '--tessdata-dir', f"{(_tess_env['data'])}",
     '--psm', '3',
     '--oem', '1'
-]
+]  # yapf: disable
 
 
 def tesseract_ssh(path_: str) -> str:
@@ -38,8 +37,10 @@ def tesseract_ssh(path_: str) -> str:
     Tesseract is executed on the remote host defined in configuration.
     """
 
-    tess_cmd = (f"{_tess_env['command']}"
-                f" -l jpn --tessdata-dir {shlex.quote(_tess_env['data'])}")
+    tess_cmd = (
+        f"{_tess_env['command']}"
+        f" -l jpn --tessdata-dir {shlex.quote(_tess_env['data'])}"
+    )
 
     ssh = SSH(host=config.ssh.host, port=config.ssh.port)
     path = PurePath(path_)

@@ -5,11 +5,12 @@ import cv2
 
 
 class Detector:
-
-    def detect_rects(self,
-                     img_path: str,
-                     fn: Callable[[int, int, int, int], bool],
-                     draw: bool = False) -> list[tuple[int, int, int, int]]:
+    def detect_rects(
+        self,
+        img_path: str,
+        fn: Callable[[int, int, int, int], bool],
+        draw: bool = False
+    ) -> list[tuple[int, int, int, int]]:
         """
         Detects all rectangles in the provided image.
 
@@ -36,7 +37,8 @@ class Detector:
         for cnt in contours:
             # Compute approximate contour vertex points
             approx = cv2.approxPolyDP(
-                cnt, 0.01 * cv2.arcLength(cnt, True), True)
+                cnt, 0.01 * cv2.arcLength(cnt, True), True
+            )
             # Rectangles have 4 vertices
             if len(approx) == 4:
                 x, y, w, h = cv2.boundingRect(cnt)
@@ -52,7 +54,8 @@ class Detector:
                     # If draw is true, draw over the image to show the rect
                     if draw is True:
                         self.img = cv2.drawContours(
-                            self.img, [cnt], -1, (0, 255, 0), 3)
+                            self.img, [cnt], -1, (0, 255, 0), 3
+                        )
         return rects
 
 
@@ -64,7 +67,9 @@ def main() -> None:
 
     rects = detector.detect_rects(
         f'{os.getcwd()}/test/data/detector/iog_top_big.png',
-        my_condition, True)
+        my_condition,
+        True
+    )
 
     print(rects)
     cv2.imshow("Shapes", detector.img)

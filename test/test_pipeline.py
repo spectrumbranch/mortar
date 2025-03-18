@@ -2,18 +2,10 @@ import os
 from shutil import rmtree
 from tempfile import mkdtemp
 from typing import Sequence
-
 from mktech.validate import ensure_type
 
 from mortar.pipeline import (
-    OCR,
-    Crop,
-    Gray,
-    Image,
-    Invert,
-    Output,
-    Pipeline,
-    Threshold,
+    OCR, Crop, Gray, Image, Invert, Output, Pipeline, Threshold
 )
 
 data = f'{os.getcwd()}/tests/data'
