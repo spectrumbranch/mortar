@@ -20,8 +20,16 @@ def tests(session):
 
 @nox.session(tags=['all'])
 def data_tests(session):
-    session.run('coverage', 'run', '--append', '--branch', '-m', 'pytest',
-                'test/test_jp.py', external=True)
+    session.run(
+        'coverage',
+        'run',
+        '--append',
+        '--branch',
+        '-m',
+        'pytest',
+        'test/test_jp.py',
+        external=True
+    )
 
 
 @nox.session(tags=['all'])
