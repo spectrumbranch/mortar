@@ -34,7 +34,7 @@ include_trailing_comma = true
 split_on_trailing_comma = true
 
 [tool.mypy]
-explicit_package_bases = true
+cache_fine_grained = true
 packages = [ "mortar", "tests" ]
 exclude = "^src/mortar/examples"
 strict = true
