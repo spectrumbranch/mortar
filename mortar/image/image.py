@@ -45,6 +45,12 @@ class Image:
 
         return self
 
+    def crop_immutable(self, *args: Any, **kwargs: Any) -> 'Image':
+        """
+        See [PIL.Image.Image.crop](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.crop)
+        """  # noqa: E501
+        return self.pil_image.crop(*args, **kwargs)
+
     def getdata(self, *args: Any, **kwargs: Any) -> Any:
         """
         See [PIL.Image.Image.getdata](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getdata)
