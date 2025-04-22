@@ -33,9 +33,7 @@ class Image:
         """
         See [PIL.Image.Image.copy](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.copy)
         """  # noqa: E501
-        self.pil_image = self.pil_image.copy()
-
-        return self
+        return self.from_pil_image(self.pil_image.copy())
 
     def crop(self, *args: Any, **kwargs: Any) -> 'Image':
         """
