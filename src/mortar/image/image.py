@@ -14,6 +14,7 @@ class Image:
     This class represents an image object. It's a convenience wrapper around
     the pillow library's Image class.
     """
+
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
@@ -32,9 +33,7 @@ class Image:
         """
         See [PIL.Image.Image.copy](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.copy)
         """  # noqa: E501
-        self.pil_image = self.pil_image.copy()
-
-        return self
+        return self.from_pil_image(self.pil_image.copy())
 
     def crop(self, *args: Any, **kwargs: Any) -> 'Image':
         """
@@ -164,8 +163,6 @@ class Image:
         return instance
 
     def __repr__(self) -> str:
-        return (
-            f'<{self.__class__.__module__} {self.__class__.__name__}'
-            f' mode={self.pil_image.mode} size={self.pil_image.size}'
-            f' at 0x{id(self):X}>'
-        )
+        return (f'<{self.__class__.__module__} {self.__class__.__name__}'
+                f' mode={self.pil_image.mode} size={self.pil_image.size}'
+                f' at 0x{id(self):X}>')
