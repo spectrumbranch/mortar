@@ -1,8 +1,75 @@
 from importlib import resources
-
-from mortar.pipeline import *
-from mortar.image import Detector
 from tempfile import mkdtemp
+from typing import override
+
+from mortar.image import Detector
+from mortar.pipeline import *
+
+
+def iog_jp_charity_detector_fn(x: int, _y: int, w: int, h: int) -> bool:
+    if (x == 880):
+        return h > 100 and w < 700
+    return h > 200 and w < 1083
+
+
+def get_macro_crop_rect(rect) -> tuple[int, int, int, int]:
+    x, y, w, h = rect
+    # convert (x, y, w, h) to (x1, y1, x2, y2)
+    x1 = x
+    y1 = y
+    x2 = x + w
+    y2 = y + h
+    rect_crop = (x1, y1, x2, y2)
+    return rect_crop
+
+
+class MultiCrop(Filter):
+    name = 'MultiCrop'
+    _input_type = Image
+
+    def __init__(self, top_padding: int, line_height: int) -> None:
+        super().__init__()
+
+        self._top_padding = top_padding
+        self._line_height = line_height
+
+    @override
+    def run(self, input: Image) -> list[Image]:
+        super().run(input)
+
+        crop_width = input.size[0]
+
+        y_top = self._top_padding
+        y_bot = y_top + self._line_height
+        y_max = input.size[1]
+
+        # We shouldn't leave temporary files on the user's filesystem in
+        # pipeline examples. If it's not important for the caller to be able to
+        # get the crop info for each image after the filter is finished, we can
+        # just remove the code below that saves the temporary files.
+
+        # If callers might need that info for some reason, we can change the
+        # return type of this method to a data structure that includes that
+        # info along with the images.
+
+        temp = mkdtemp(prefix='test_multicrop')
+        print(f'save multicrop prep output to {temp}')
+        line_images = []
+
+        while y_bot < y_max:
+            line_crop_rect = (0, y_top, crop_width, y_bot)
+            line_image = input.crop_immutable(line_crop_rect)
+
+            filename = f'{temp}/image_{y_top:04}_{y_bot:04}.png'
+            print(f':::>{line_crop_rect} {filename}')
+            line_image.save(filename)
+
+            line_images.append(line_image)
+            y_top = y_bot
+            y_bot = y_top + self._line_height
+
+        return line_images
+
 
 input_path = str(
     resources.files('mortar.examples.data').joinpath('iog_top_big.png')
@@ -15,81 +82,49 @@ detector = Detector()
 top_padding = 20
 line_height = 68
 
+# Detect the rectangle surrounding all the text in the image.
 
-def iog_jp_charity_detector_fn(x: int, y: int, w: int, h: int) -> bool:
-    if (x == 880):
-        return h > 100 and w < 700
-    return h > 200 and w < 1083
+rects = detector.detect_rects(input_path, iog_jp_charity_detector_fn)
 
+assert len(rects) == 1
 
-def get_macro_crop_rect(rect) -> tuple:
-    x, y, w, h = rect
-    # convert (x, y, w, h) to (x1, y1, x2, y2)
-    x1 = x
-    y1 = y
-    x2 = x + w
-    y2 = y + h
-    rect_crop = (x1, y1, x2, y2)
-    return rect_crop
-
-
-def create_starter_pipeline(rect_crop) -> Image:
-    starter_pipeline = Pipeline()
-    starter_pipeline.add(Crop(rect_crop))
-    starter_pipeline.add(Gray())
-    starter_pipeline.add(Invert())
-    return starter_pipeline
-
-
-rects = detector.detect_rects(
-    input_path,
-    iog_jp_charity_detector_fn)
+# Run the original image through a pipeline:
+#
+# 1. Crop down to the rect surrounding all the text.
+# 2. Threshold
+# 3. Make multiple crops for each line of text.
 
 rect_crop = get_macro_crop_rect(rects[0])
 
-''' step 1: crop the main image and threshold it all at once'''
+pipeline = Pipeline()
+pipeline.add(Crop(rect_crop))
+pipeline.add(Gray())
+pipeline.add(Invert())
+pipeline.add(MultiCrop(top_padding, line_height))
 
+output = pipeline.run(image)
 
-def get_thresholded_image(image, rect_crop) -> Image:
-    starter_pipeline = create_starter_pipeline(rect_crop)
+# Print info on the threshold result.
 
-    output = starter_pipeline.run(image)
+thresholded_image = output.stages[2].data
 
-    thresholded_image = output.stages[-1].data
-    print(f':::{thresholded_image.size}')
-    return thresholded_image
+print(f':::{thresholded_image.size}')
 
+# Print info on the multi-crop result.
 
-thresholded_image = get_thresholded_image(image, rect_crop)
+final_stage = output.stages[-1]
 
-''' step 2: crop as many times as needed to get each individual line'''
+print(f':::={final_stage.data}')
 
+# Show each image from the multi-crop result.
 
-def get_line_images(thresholded_image, top_padding, line_height) -> list[Image]:
-    crop_width = thresholded_image.size[0]
+# The Output class has a show method which is used, but its implementation
+# only knows what to do when the type of the output stage is str or Image. If
+# we were to add support for list[Image], we could call output.show() to see
+# the results, but since we don't have that yet, we can inspect the results
+# in the loop below.
 
-    y_top = top_padding
-    y_bot = y_top + line_height
-    y_max = thresholded_image.size[1]
+# output.show()
 
-    temp = mkdtemp(prefix='test_multicrop')
-    print(f'save multicrop prep output to {temp}')
-    line_images = []
-
-    while y_bot < y_max:
-        line_crop_rect = (0, y_top, crop_width, y_bot)
-        line_image = thresholded_image.crop_immutable(line_crop_rect)
-
-        filename = f'{temp}/image_{y_top:04}_{y_bot:04}.png'
-        print(f':::>{line_crop_rect} {filename}')
-        line_image.save(filename)
-
-        line_images.append(line_image)
-        y_top = y_bot
-        y_bot = y_top + line_height
-
-    return line_images
-
-
-line_images = get_line_images(thresholded_image, top_padding, line_height)
-print(f':::={line_images}')
+for it in final_stage.data:
+    it.show()
