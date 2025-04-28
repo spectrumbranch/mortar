@@ -3,7 +3,7 @@ This module provides an Image class to be used for reading, writing, and
 manipulating images.
 """
 
-from typing import Any
+from typing import Any, override
 
 import PIL.Image
 from PIL import ImageChops
@@ -161,6 +161,7 @@ class Image:
 
         return instance
 
+    @override
     def __repr__(self) -> str:
         return (
             f'<{self.__class__.__module__} {self.__class__.__name__}'

@@ -5,7 +5,7 @@ This package provides the image processing pipeline facility.
 import copy
 import operator
 from functools import reduce
-from typing import Any
+from typing import Any, override
 
 from mktech.path import Path, PathInput
 from PIL import ImageDraw
@@ -105,6 +105,7 @@ class Pipeline:
         """ Create and return a deep copy of the pipeline. """
         return copy.deepcopy(self)
 
+    @override
     def __eq__(self: object, other: object) -> bool:
         result = True
 
@@ -115,6 +116,7 @@ class Pipeline:
 
         return result
 
+    @override
     def __repr__(self) -> str:
         return (
             f'<{self.__class__.__module__} {self.__class__.__name__}'
@@ -137,6 +139,7 @@ class Output:
             self.info = [] if info is None else info
             " Text information describing the output of the stage. "
 
+        @override
         def __repr__(self) -> str:
             return (
                 f'<{self.__class__.__module__} {self.__class__.__name__}'
@@ -290,12 +293,14 @@ class Output:
 
             self._frames.append(image)
 
+    @override
     def __repr__(self) -> str:
         return (
             f'<{self.__class__.__module__} {self.__class__.__name__}'
             f' stages={self.stages} at 0x{id(self):X}>'
         )
 
+    @override
     def __str__(self) -> str:
         lines = ['Stages:']
 
