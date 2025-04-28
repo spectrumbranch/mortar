@@ -9,10 +9,9 @@ Otherwise, the default configuration file is created in that location.
 import os
 from os.path import exists
 
+from mktech import log
 from mktech.config2 import BaseConfig, BaseModel
 from mktech.path import Path
-
-import mortar.log as log
 
 _xdg_config_home = f"{os.environ['HOME']}/.config"
 _xdg_data = f"{os.environ['HOME']}/.local/share/mortar"
@@ -53,7 +52,7 @@ class Config(BaseConfig):
 
 config = Config(_config_path)
 
-log.set_level(config.log_level)
+log.init(config.log_level)
 
 if not exists(_config_path):
     config.write(_config_path)

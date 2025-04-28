@@ -6,7 +6,7 @@ import subprocess
 from subprocess import CalledProcessError, CompletedProcess
 from typing import Any
 
-import mortar.log as log
+from mktech import log
 
 __all__ = ['CompletedProcess', 'run']
 
