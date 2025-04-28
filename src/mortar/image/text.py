@@ -4,7 +4,7 @@ import PIL.Image
 from PIL import ImageDraw
 
 from mortar.font import Font, text_size
-from mortar.image import Image
+from mortar.image.image import Image
 
 
 def create_text(
