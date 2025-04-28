@@ -47,13 +47,13 @@ def tesseract_ssh(path_: str) -> str:
     temp_win = "C:/Windows/Temp"
     temp_nix = '/mnt/c/Windows/Temp'
 
-    ssh.scp_to(str(path), f'{temp_nix}/{path.name}')
-    ssh.run([tess_cmd + f' "{temp_win}\\{path.name}" "{temp_win}\\out"'])
+    _ = ssh.scp_to(str(path), f'{temp_nix}/{path.name}')
+    _ = ssh.run([tess_cmd + f' "{temp_win}\\{path.name}" "{temp_win}\\out"'])
 
     (_, out_path) = mkstemp()
 
-    ssh.scp_from(f'{temp_nix}/out.txt', out_path)
-    ssh.run(['rm', f'{temp_nix}/{path.name}'])
+    _ = ssh.scp_from(f'{temp_nix}/out.txt', out_path)
+    _ = ssh.run(['rm', f'{temp_nix}/{path.name}'])
 
     with open(out_path, 'r') as fi:
         result = fi.read()
@@ -76,7 +76,7 @@ def tesseract_wsl(path_: str) -> str:
     out_stem = 'out'
     out_name = f'{out_stem}.txt'
 
-    process.run(_tess_cmd + [path, out_stem])
+    _ = process.run(_tess_cmd + [path, out_stem])
 
     with open(out_name, 'r') as fi:
         result = fi.read()

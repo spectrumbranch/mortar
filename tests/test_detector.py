@@ -9,7 +9,7 @@ from mortar.image import Detector
 data = f'{os.getcwd()}/tests/data/detector'
 
 
-def iog_jp_charity_detector_fn(x: int, y: int, w: int, h: int) -> bool:
+def iog_jp_charity_detector_fn(x: int, _y: int, w: int, h: int) -> bool:
     if (x == 880):
         return h > 100 and w < 700
     return h > 200 and w < 1083

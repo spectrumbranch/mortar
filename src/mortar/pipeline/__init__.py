@@ -185,7 +185,7 @@ class Output:
                 file_path = Path(path, f'{idx}.txt')
 
                 with open(file_path, 'w') as file:
-                    file.write(it.data)
+                    _ = file.write(it.data)
             else:
                 raise TypeError()
 

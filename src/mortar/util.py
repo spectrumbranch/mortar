@@ -46,7 +46,7 @@ def mktemp(*args: Any, **kwargs: Any) -> str:
 
         output_path = f'{_windows_temp}/{now}{suffix}'
 
-        open(output_path, 'w')
+        _ = open(output_path, 'w')
     else:
         (_, output_path) = mkstemp(*args, **kwargs)
 
