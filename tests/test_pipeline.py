@@ -161,8 +161,8 @@ def test_pipeline_modify() -> None:
 
     # Remove stages, run modified pipeline, and check.
 
-    pipeline.pop(2)
-    pipeline.pop(0)
+    _ = pipeline.pop(2)
+    _ = pipeline.pop(0)
 
     output = pipeline.run(image)
 
@@ -277,7 +277,7 @@ def test_pipeline_copy() -> None:
     # Modify the original pipeline. Ensure that the copy is not affected when
     # the original is modified.
 
-    pipeline.pop(0)
+    _ = pipeline.pop(0)
     pipeline.name = 'Pipeline original with crop mod'
     pipeline.insert(0, Crop(top_right))
 

@@ -62,7 +62,7 @@ class Detector:
 def main() -> None:
     detector = Detector()
 
-    def my_condition(x: int, y: int, w: int, h: int) -> bool:
+    def my_condition(_x: int, _y: int, _w: int, h: int) -> bool:
         return h > 200
 
     rects = detector.detect_rects(
@@ -73,7 +73,7 @@ def main() -> None:
 
     print(rects)
     cv2.imshow("Shapes", detector.img)
-    cv2.waitKey(0)
+    _ = cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 
