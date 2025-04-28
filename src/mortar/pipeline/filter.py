@@ -183,6 +183,8 @@ class Threshold(Filter):
         maxval: float = 255,
         invert: bool = False
     ) -> None:
+        super().__init__()
+
         self.threshval = threshval
         self.maxval = maxval
         self.invert = invert
