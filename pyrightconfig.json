@@ -1,0 +1,35 @@
+{
+  "include": [
+    "src",
+    "tests"
+  ],
+
+  "exclude": [
+  ],
+
+  "typeCheckingMode": "recommended",
+
+  "reportAny": true,
+
+  "executionEnvironments": [
+      {
+        "root": "src/mortar/examples",
+        "reportAny": false,
+        "reportArgumentType": false,
+        "reportUnusedCallResult": false,
+        "reportMissingParameterType": false,
+        "reportOptionalMemberAccess": false,
+        "reportUnannotatedClassAttribute": false,
+        "reportUnknownArgumentType": false,
+        "reportUnknownMemberType": false,
+        "reportUnknownParameterType": false,
+        "reportUnknownVariableType": false,
+      },
+      {
+        "root": "src"
+      }
+  ],
+
+  "pythonVersion": "3.12",
+  "pythonPlatform": "Linux",
+}
