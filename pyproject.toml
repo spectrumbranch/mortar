@@ -36,8 +36,17 @@ split_on_trailing_comma = true
 [tool.mypy]
 cache_fine_grained = true
 packages = [ "mortar", "tests" ]
-exclude = "^src/mortar/examples"
 strict = true
+
+[[tool.mypy.overrides]]
+module = [
+    "mortar.examples.*",
+]
+strict = false
+disallow_untyped_calls = false
+disallow_incomplete_defs = false
+disallow_untyped_defs = false
+disable_error_code = ["union-attr"]
 
 [tool.setuptools.package-data]
 "mortar.examples.data" = ["*"]
