@@ -82,7 +82,7 @@ class Pipeline:
 
         filter_input: Any = input
 
-        for idx, it in enumerate(self.stages):
+        for _, it in enumerate(self.stages):
             filter_output = it.run(filter_input)
 
             output.add(filter_output, [it.info(), _image_info(filter_input)])

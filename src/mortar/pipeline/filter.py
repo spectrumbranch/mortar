@@ -48,10 +48,10 @@ class Filter:
         self_attrs = []
         other_attrs = []
 
-        for attr, value in self.__dict__.items():
+        for attr, _ in self.__dict__.items():
             self_attrs.append(attr)
 
-        for attr, value in other.__dict__.items():
+        for attr, _ in other.__dict__.items():
             other_attrs.append(attr)
 
         self_attrs.sort()
