@@ -17,6 +17,7 @@ from mortar.image import Image, create_text
 from .filter import OCR, Crop, Filter, Gray, Invert, Threshold
 
 __all__ = [
+    'Filter',
     'Image',
     'Pipeline',
     # image re-exports
