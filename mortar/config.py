@@ -6,16 +6,14 @@ file exists in ~/.config/mortar/config.toml, configuration is loaded from it.
 Otherwise, the default configuration file is created in that location.
 """
 
-from dataclasses import dataclass, field
 import os
+from dataclasses import dataclass, field
 from os.path import exists
-from typing import cast, Any, Optional
-
-import tomlkit as toml
-from tomlkit.items import Table
+from typing import Any, Optional, cast
 
 import mortar.log as log
-
+import tomlkit as toml
+from tomlkit.items import Table
 
 _xdg_config_home = f"{os.environ['HOME']}/.config"
 _xdg_data = f"{os.environ['HOME']}/.local/share/mortar"

@@ -5,7 +5,7 @@ from typing import Sequence
 
 from mktech.validate import ensure_type
 
-from mortar.pipeline import (Crop, Gray, Image, Invert, OCR, Output, Pipeline,
+from mortar.pipeline import (OCR, Crop, Gray, Image, Invert, Output, Pipeline,
                              Threshold)
 
 data = f'{os.getcwd()}/test/data'

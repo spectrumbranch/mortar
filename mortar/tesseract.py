@@ -7,14 +7,14 @@ an SSH connection.
 """
 
 import os
-from pathlib import PurePath
 import shlex
 import sys
+from pathlib import PurePath
 from tempfile import mkstemp
 
+import mortar.process as process
 from mortar.config import config
 from mortar.path import win_from_wsl
-import mortar.process as process
 from mortar.ssh import SSH
 
 _tess_env = {

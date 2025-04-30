@@ -4,8 +4,8 @@ This module provides font management.
 
 from importlib import resources
 
-from PIL import ImageDraw, ImageFont
 import PIL.Image
+from PIL import ImageDraw, ImageFont
 from PIL.ImageFont import FreeTypeFont
 
 Font = FreeTypeFont
