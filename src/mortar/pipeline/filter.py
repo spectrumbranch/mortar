@@ -7,7 +7,7 @@ processed output.
 
 import os
 from copy import copy
-from typing import Any, Optional, override
+from typing import Any, override
 
 import cv2 as cv
 import numpy as np
@@ -93,7 +93,7 @@ class Crop(Filter):
         return f'{self.name} box={self._coords}'
 
     @override
-    def run(self, input: Image) -> Optional[Image]:
+    def run(self, input: Image) -> Image | None:
         super().run(input)
 
         if self._input is None:
@@ -118,7 +118,7 @@ class Gray(Filter):
     _input_type = Image
 
     @override
-    def run(self, input: Image) -> Optional[Image]:
+    def run(self, input: Image) -> Image | None:
         super().run(input)
 
         if self._input is None:
@@ -136,7 +136,7 @@ class Invert(Filter):
     _input_type = Image
 
     @override
-    def run(self, input: Image) -> Optional[Image]:
+    def run(self, input: Image) -> Image | None:
         super().run(input)
 
         if self._input is None:
@@ -154,7 +154,7 @@ class OCR(Filter):
     _input_type = Image
 
     @override
-    def run(self, input: Image) -> Optional[str]:
+    def run(self, input: Image) -> str | None:
         """
         Perform OCR on an image and return the result.
         """
@@ -197,7 +197,7 @@ class Threshold(Filter):
         self.invert = invert
 
     @override
-    def run(self, input: Image) -> Optional[Image]:
+    def run(self, input: Image) -> Image | None:
         super().run(input)
 
         if self._input is None or self._input.mode not in ['1', 'L']:

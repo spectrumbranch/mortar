@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 
 import PIL.Image
 from PIL import ImageDraw
@@ -10,7 +10,7 @@ from mortar.image.image import Image
 def create_text(
     text: str,
     font: Font,
-    fill_color: Optional[str] = None,
+    fill_color: str | None = None,
     margin: tuple[int, int] = (0, 0),
     *image_args: Any,
     **image_kwargs: Any

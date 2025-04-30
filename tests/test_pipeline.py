@@ -1,7 +1,7 @@
 import os
+from collections.abc import Sequence
 from shutil import rmtree
 from tempfile import mkdtemp
-from typing import Sequence
 
 from mktech.validate import ensure_type
 
