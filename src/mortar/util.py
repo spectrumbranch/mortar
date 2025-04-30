@@ -5,6 +5,7 @@ other existing modules.
 
 import platform
 import time
+from os import PathLike
 from os.path import isfile
 from tempfile import mkstemp
 from typing import Any
@@ -25,7 +26,12 @@ def system() -> str:
         return platform.system()
 
 
-def mktemp(*args: Any, **kwargs: Any) -> str:
+def mktemp(
+    suffix: str | None = None,
+    prefix: str | None = None,
+    dir: str | PathLike[str] | None = None,
+    **kwargs: Any
+) -> str:
     """
     Make a temporary file, taking the host system into account.
 
@@ -39,15 +45,13 @@ def mktemp(*args: Any, **kwargs: Any) -> str:
     if system() == 'wsl':
         now = time.time()
 
-        if 'suffix' not in kwargs:
+        if suffix is None:
             suffix = ''
-        else:
-            suffix = kwargs['suffix']
 
         output_path = f'{_windows_temp}/{now}{suffix}'
 
         _ = open(output_path, 'w')
     else:
-        (_, output_path) = mkstemp(*args, **kwargs)
+        _, output_path = mkstemp(suffix, prefix, dir, **kwargs)
 
     return output_path

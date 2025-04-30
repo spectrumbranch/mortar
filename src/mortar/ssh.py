@@ -70,7 +70,7 @@ class SSH:
 
     @staticmethod
     def _build_args(command: Command, port: int | None) -> list[str]:
-        args = []
+        args: list[str] = []
 
         if port is not None:
             if command == Command.SSH:

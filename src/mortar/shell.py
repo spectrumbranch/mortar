@@ -27,6 +27,8 @@ def run(file: str | None) -> int:
 
     c.TerminalIPythonApp.force_interact = True
 
-    IPython.start_ipython(config=c, argv=[])  # type: ignore[no-untyped-call]
+    IPython.start_ipython(  # type: ignore[no-untyped-call] # pyright: ignore[reportUnknownMemberType] # noqa: E501
+        config=c, argv=[]
+    )
 
     return 0

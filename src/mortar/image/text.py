@@ -34,6 +34,8 @@ def create_text(
 
     draw = ImageDraw.Draw(image)
 
-    draw.text(margin, text, fill=fill_color, font=font)
+    draw.text(  # pyright: ignore[reportUnknownMemberType]
+        margin, text, fill=fill_color, font=font
+    )
 
     return Image.from_pil_image(image)

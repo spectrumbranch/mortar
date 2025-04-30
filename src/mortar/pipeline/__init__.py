@@ -217,7 +217,7 @@ class Output:
 
         draw = ImageDraw.Draw(canvas.pil_image)
 
-        draw.text(
+        draw.text(  # pyright: ignore[reportUnknownMemberType]
             (self._margin, y),
             self.pipeline.name,
             fill=self._text_color,
@@ -276,7 +276,7 @@ class Output:
 
             draw = ImageDraw.Draw(image.pil_image)
 
-            draw.text(
+            draw.text(  # pyright: ignore[reportUnknownMemberType]
                 (0, 0),
                 info,
                 fill=self._text_color,
