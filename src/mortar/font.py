@@ -1,10 +1,11 @@
 """
 This module provides font management.
 """
-
-from importlib import resources
+from os.path import isfile
 
 import PIL.Image
+from mktech.error import Err, Ok
+from mktech.resources import resource_path
 from PIL import ImageDraw, ImageFont
 from PIL.ImageFont import FreeTypeFont
 
@@ -17,14 +18,16 @@ def load(path: str, size: int) -> Font:
     error if the file does not exist.
     """
 
-    font_resources = resources.files('mortar.resources.fonts')
+    match resource_path('mortar.resources.fonts', path):
+        case Err(e):
+            raise e
+        case Ok(font_path):
+            if not isfile(font_path):
+                raise FileNotFoundError(f"Could not load font {path}.")
 
-    font = ImageFont.truetype(str(font_resources.joinpath(path)), size=size)
+            result = ImageFont.truetype(str(font_path), size=size)
 
-    if font is None:
-        raise FileNotFoundError(f"Could not load font {path}.")
-
-    return font
+    return result
 
 
 def text_size(text: str, font: Font) -> tuple[float, float]:
