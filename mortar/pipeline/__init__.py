@@ -3,17 +3,18 @@ This package provides the image processing pipeline facility.
 """
 
 import copy
-from functools import reduce
 import operator
+from functools import reduce
 from typing import Any
 
 from mktech.path import Path, PathInput
+from mortar.font import text_size
 from PIL import ImageDraw
 
 from mortar import font
-from mortar.font import text_size
 from mortar.image import Image, create_text
-from .filter import Crop, Filter, Gray, Invert, OCR, Threshold
+
+from .filter import OCR, Crop, Filter, Gray, Invert, Threshold
 
 __all__ = [
     'Image',

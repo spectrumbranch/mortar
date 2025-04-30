@@ -1,7 +1,6 @@
 import os
 
 import pytest
-
 from mortar.tesseract import ocr
 
 data = f'{os.getcwd()}/test/data/mort'

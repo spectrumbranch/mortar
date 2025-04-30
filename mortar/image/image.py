@@ -5,8 +5,8 @@ manipulating images.
 
 from typing import Any
 
-from PIL import ImageChops
 import PIL.Image
+from PIL import ImageChops
 
 
 class Image:

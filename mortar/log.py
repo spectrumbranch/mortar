@@ -2,9 +2,8 @@
 This module provides a logging facility.
 """
 
-from logging import (debug, info, warning, error, DEBUG, INFO,
-                     WARNING, ERROR)
 import logging
+from logging import DEBUG, ERROR, INFO, WARNING, debug, error, info, warning
 
 __all__ = ['debug', 'info', 'warning', 'error', 'DEBUG', 'INFO', 'WARNING',
            'ERROR']

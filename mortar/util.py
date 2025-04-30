@@ -3,12 +3,11 @@ This module provides miscellaneous utilities that don't obviously fit into
 other existing modules.
 """
 
-from os.path import isfile
 import platform
-from tempfile import mkstemp
 import time
+from os.path import isfile
+from tempfile import mkstemp
 from typing import Any
-
 
 _windows_temp = '/mnt/c/Windows/Temp'
 

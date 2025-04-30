@@ -1,6 +1,7 @@
 import os
-import cv2
 from typing import Callable
+
+import cv2
 
 
 class Detector:

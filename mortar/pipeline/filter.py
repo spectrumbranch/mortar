@@ -5,17 +5,17 @@ A filter accepts an input, performs an operation on it, and returns the
 processed output.
 """
 
-from copy import copy
 import os
+from copy import copy
 from typing import Any, Optional
 
 import cv2 as cv
-from mktech.validate import ensure_type
 import numpy as np
-
-from mortar.image import Image
+from mktech.validate import ensure_type
 from mortar.tesseract import ocr
 from mortar.util import mktemp
+
+from mortar.image import Image
 
 
 class Filter:
