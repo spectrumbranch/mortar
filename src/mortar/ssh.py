@@ -77,8 +77,6 @@ class SSH:
                 args.append('-p')
             elif command == Command.SCP:
                 args.append('-P')
-            else:
-                raise Exception()
 
             args.append(str(port))
 
