@@ -51,7 +51,7 @@ class Pipeline:
     result of the pipeline.
     """
     def __init__(self) -> None:
-        self._name = 'Pipeline'
+        self._name: str = 'Pipeline'
 
         self.stages: list[Filter] = []
         " The list of stages through which input is processed. "
@@ -134,9 +134,9 @@ class Output:
         The result of a Pipeline stage.
         """
         def __init__(self, data: Any, info: list[str] | None = None) -> None:
-            self.data = data
+            self.data: Any = data
             " The output of the corresponding Pipeline stage Filter. "
-            self.info = [] if info is None else info
+            self.info: list[str] = [] if info is None else info
             " Text information describing the output of the stage. "
 
         @override
@@ -146,19 +146,21 @@ class Output:
                 f' text={self.info} data={self.data} at 0x{id(self):X}>'
             )
 
-    _bg_color = 'rgb(25, 25, 25)'
-    _text_color = 'rgb(200, 200, 200)'
-    _margin = 10
-    _border_width = 5
+    _bg_color: str = 'rgb(25, 25, 25)'
+    _text_color: str = 'rgb(200, 200, 200)'
+    _margin: int = 10
+    _border_width: int = 5
 
     def __init__(self, pipeline: Pipeline) -> None:
-        self.pipeline = pipeline
+        self.pipeline: Pipeline = pipeline
         " The pipeline used to create this Output. "
+
         self.stages: list[Output.Stage] = []
         (
             " The list of output stages corresponding to the pipeline Filter "
             " stages. "
         )
+
         self._frames: list[Image] = []
 
     def add(self, stage: Image | str, text: list[str] | None = None) -> None:
