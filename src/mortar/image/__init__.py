@@ -11,4 +11,4 @@ from .viewer import Viewer
 
 __all__ = ['Image', 'create_text', 'Detector']
 
-ImageShow.register(Viewer(), 0)
+ImageShow.register(Viewer(), 0)  # pyright: ignore[reportUnknownMemberType]

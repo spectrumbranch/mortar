@@ -4,7 +4,7 @@ This module provides facilities for executing operating system processes.
 
 import subprocess
 from subprocess import CalledProcessError, CompletedProcess
-from typing import Any
+from typing import Any, cast
 
 from mktech import log
 
@@ -27,7 +27,7 @@ def run(*args: Any, **kwargs: Any) -> CompletedProcess[bytes]:
     log.info(f'run {args}')
 
     try:
-        result = subprocess.run(
+        result: CompletedProcess[bytes] = subprocess.run(  # pyright: ignore[reportUnknownVariableType] # noqa: E501
             *args, capture_output=True, check=True, **kwargs
         )
     except CalledProcessError as e:
@@ -36,7 +36,7 @@ def run(*args: Any, **kwargs: Any) -> CompletedProcess[bytes]:
 
         raise e
 
-    log.info(f'stdout={result.stdout}')
-    log.info(f'stderr={result.stderr}')
+    log.info(f'stdout={cast(str, result.stdout)}')
+    log.info(f'stderr={cast(str, result.stderr)}')
 
-    return result
+    return result  # pyright: ignore[reportUnknownVariableType]

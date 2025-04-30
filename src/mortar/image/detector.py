@@ -36,7 +36,7 @@ class Detector:
         contours, _ = cv2.findContours(
             thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
-        rects = []
+        rects: list[tuple[int, int, int, int]] = []
 
         for cnt in contours:
             # Compute approximate contour vertex points

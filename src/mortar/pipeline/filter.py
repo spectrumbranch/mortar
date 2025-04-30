@@ -45,8 +45,8 @@ class Filter:
 
     @override
     def __eq__(self: object, other: object) -> bool:
-        self_attrs = []
-        other_attrs = []
+        self_attrs: list[Any] = []
+        other_attrs: list[Any] = []
 
         for attr, _ in self.__dict__.items():
             self_attrs.append(attr)

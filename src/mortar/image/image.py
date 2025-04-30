@@ -1,3 +1,4 @@
+# pyright: reportUnknownMemberType=false, reportUnknownVariableType=false
 """
 This module provides an Image class to be used for reading, writing, and
 manipulating images.
