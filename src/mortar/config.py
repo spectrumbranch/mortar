@@ -32,8 +32,14 @@ class SSH(BaseModel):
     " Port for remote SSH connections. "
 
 
+class Tesseract(BaseModel):
+    bin_path: Path = Path('tesseract')
+
+
 class Config(BaseConfig):
     """ Configuration for mortar. """
+
+    execution_env: str = "local"
 
     data: str = _xdg_data
     " Directory used for application data. "
@@ -42,6 +48,8 @@ class Config(BaseConfig):
     " Application logging level. "
 
     ssh: SSH = SSH()
+
+    tesseract: Tesseract = Tesseract()
 
     def __init__(
         self,
