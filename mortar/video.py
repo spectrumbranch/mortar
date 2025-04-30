@@ -68,7 +68,7 @@ def extract_frames() -> None:
 
     mkv_files = list(filter(lambda x: x.suffix == '.mkv', files))
 
-    for file in mkv_files:
+    for index, file in enumerate(mkv_files):
         parent = file.parent
         out_dir = Path(parent, 'png')
         out_template = Path(out_dir, f'{file.stem}-%02d.png')
@@ -78,7 +78,7 @@ def extract_frames() -> None:
         command = ['ffmpeg', '-i', file, '-r', '1',
                    out_template, '-loglevel', 'error']
 
-        print(f'{file.name}...')
+        print(f'{file.name}... ({index + 1}/{len(mkv_files)})')
 
         run(command)
 
