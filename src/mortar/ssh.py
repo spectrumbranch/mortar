@@ -6,7 +6,6 @@ scp is supported, as is executing arbitrary commands over SSH.
 """
 
 from enum import Enum, auto
-from typing import Optional
 
 from mortar import process
 from mortar.process import CompletedProcess
@@ -24,7 +23,7 @@ class Command(Enum):
 class SSH:
     """ Execute SSH operations between the local host and a remote host. """
     def __init__(
-        self, host: Optional[str] = None, port: Optional[int] = None
+        self, host: str | None = None, port: int | None = None
     ) -> None:
         self.host = host
         " Remote host name "
@@ -70,7 +69,7 @@ class SSH:
         return process.run(ssh_command)
 
     @staticmethod
-    def _build_args(command: Command, port: Optional[int]) -> list[str]:
+    def _build_args(command: Command, port: int | None) -> list[str]:
         args = []
 
         if port is not None:
