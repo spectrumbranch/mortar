@@ -2,9 +2,13 @@ import os
 from typing import Callable
 
 import cv2
+from cv2.typing import MatLike
 
 
 class Detector:
+    def __init__(self) -> None:
+        self.img: MatLike | None = None
+
     def detect_rects(
         self,
         img_path: str,
@@ -72,6 +76,9 @@ def main() -> None:
     )
 
     print(rects)
+
+    assert detector.img is not None
+
     cv2.imshow("Shapes", detector.img)
     _ = cv2.waitKey(0)
     cv2.destroyAllWindows()
