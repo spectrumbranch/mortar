@@ -71,7 +71,7 @@ def extract_frames() -> None:
     for index, file in enumerate(mkv_files):
         parent = file.parent
         out_dir = Path(parent, 'png')
-        out_template = Path(out_dir, f'{file.stem}-%02d.png')
+        out_template = Path(out_dir, f'{file.stem}-%04d.png')
 
         makedirs(out_dir, exist_ok=True)
 
