@@ -131,10 +131,10 @@ class Output:
         """
         The result of a Pipeline stage.
         """
-        def __init__(self, data: Any, info: list[str] = []) -> None:
+        def __init__(self, data: Any, info: list[str] | None = None) -> None:
             self.data = data
             " The output of the corresponding Pipeline stage Filter. "
-            self.info = info
+            self.info = [] if info is None else info
             " Text information describing the output of the stage. "
 
         def __repr__(self) -> str:
@@ -158,10 +158,12 @@ class Output:
         )
         self._frames: list[Image] = []
 
-    def add(self, stage: Image | str, text: list[str] = []) -> None:
+    def add(self, stage: Image | str, text: list[str] | None = None) -> None:
         """
         Add a stage to the Output stages.
         """
+
+        text = [] if text is None else text
 
         self.stages.append(Output.Stage(stage, text))
 
