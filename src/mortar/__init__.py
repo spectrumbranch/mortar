@@ -7,4 +7,6 @@ import os
 __pdoc__ = {'examples': False}
 
 if os.name != 'posix':
-    raise Exception('This package is only supported under WSL.')
+    raise Exception(  # pyright: ignore[reportUnreachable]
+        'This package is only supported under WSL.'
+    )
