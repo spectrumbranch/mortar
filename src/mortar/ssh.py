@@ -25,9 +25,9 @@ class SSH:
     def __init__(
         self, host: str | None = None, port: int | None = None
     ) -> None:
-        self.host = host
+        self.host: str | None = host
         " Remote host name "
-        self.port = port
+        self.port: int | None = port
         " Remote host port "
 
     def scp_to(self, local: str, remote: str) -> CompletedProcess[bytes]:

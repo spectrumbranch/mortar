@@ -23,12 +23,12 @@ class Filter:
     Base class which any image filter inherits.
     """
 
-    name = 'Filter'
+    name: str = 'Filter'
     " The name of the filter. "
     _input_type: Any = Any
 
     def __init__(self) -> None:
-        self._input = None
+        self._input: Any = None
 
     def info(self) -> str:
         """ Return the name of the filter. """
@@ -80,13 +80,13 @@ class Filter:
 class Crop(Filter):
     """ Crop an image to a specified box. """
 
-    name = 'Crop'
-    _input_type = Image
+    name: str = 'Crop'
+    _input_type: Any = Image
 
     def __init__(self, coords: tuple[int, int, int, int]) -> None:
         super().__init__()
 
-        self._coords = coords
+        self._coords: tuple[int, int, int, int] = coords
 
     @override
     def info(self) -> str:
@@ -114,8 +114,8 @@ class Crop(Filter):
 class Gray(Filter):
     """ Convert an image to 8-bit grayscale mode. """
 
-    name = 'Gray'
-    _input_type = Image
+    name: str = 'Gray'
+    _input_type: Any = Image
 
     @override
     def run(self, input: Image) -> Image | None:
@@ -132,8 +132,8 @@ class Gray(Filter):
 class Invert(Filter):
     """ Invert an image channel. """
 
-    name = 'Invert'
-    _input_type = Image
+    name: str = 'Invert'
+    _input_type: Any = Image
 
     @override
     def run(self, input: Image) -> Image | None:
@@ -150,8 +150,8 @@ class Invert(Filter):
 class OCR(Filter):
     """ Perform OCR on an image. """
 
-    name = 'OCR'
-    _input_type = Image
+    name: str = 'OCR'
+    _input_type: Any = Image
 
     @override
     def run(self, input: Image) -> str | None:
@@ -181,8 +181,8 @@ class Threshold(Filter):
     Must be a grayscale image (image.mode in ['1', 'L'])
     """
 
-    name = 'Threshold'
-    _input_type = Image
+    name: str = 'Threshold'
+    _input_type: Any = Image
 
     def __init__(
         self,
@@ -192,9 +192,9 @@ class Threshold(Filter):
     ) -> None:
         super().__init__()
 
-        self.threshval = threshval
-        self.maxval = maxval
-        self.invert = invert
+        self.threshval: float = threshval
+        self.maxval: float = maxval
+        self.invert: bool = invert
 
     @override
     def run(self, input: Image) -> Image | None:

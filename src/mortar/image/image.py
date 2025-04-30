@@ -17,7 +17,7 @@ class Image:
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
-        self.pil_image = PIL.Image.Image()
+        self.pil_image: PIL.Image.Image = PIL.Image.Image()
         " The instance of PIL.Image.Image wrapped by the Image object. "
 
     def convert(self, *args: Any, **kwargs: Any) -> 'Image':
