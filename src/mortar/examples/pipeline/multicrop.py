@@ -58,8 +58,7 @@ class MultiCrop(Filter):
 
         while y_bot < y_max:
             line_crop_rect = (0, y_top, crop_width, y_bot)
-            working_image = input.copy()
-            line_image = working_image.crop(line_crop_rect)
+            line_image = input.copy().crop(line_crop_rect)
 
             filename = f'{temp}/image_{y_top:04}_{y_bot:04}.png'
             print(f':::>{line_crop_rect} {filename}')
