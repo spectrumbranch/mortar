@@ -4,8 +4,8 @@ This module provides font management.
 
 from importlib import resources
 
-from PIL import ImageDraw, ImageFont
 import PIL.Image
+from PIL import ImageDraw, ImageFont
 from PIL.ImageFont import FreeTypeFont
 
 Font = FreeTypeFont
@@ -27,10 +27,7 @@ def load(path: str, size: int) -> Font:
     return font
 
 
-def text_size(
-    text: str,
-    font: Font
-) -> tuple[float, float]:
+def text_size(text: str, font: Font) -> tuple[float, float]:
     """
     Calculate the dimensions required to display a string using a given font.
     Returns a tuple representing (width, height) of the string, in pixels.

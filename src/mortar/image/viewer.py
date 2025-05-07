@@ -23,7 +23,6 @@ class Viewer:
     Default image viewer for systems that don't have the existing PIL defaults
     available.
     """
-
     def show(self, image: PILImage, **options: Any) -> bool:
         """
         Implements PIL.ImageShow.show for the viewer.

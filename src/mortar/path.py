@@ -12,8 +12,10 @@ def win_from_wsl(path: str) -> PurePath:
     """
 
     if not path.startswith('/mnt'):
-        raise Exception('path is expected to be an absolute path on a WSL'
-                        ' installation')
+        raise Exception(
+            'path is expected to be an absolute path on a WSL'
+            ' installation'
+        )
 
     parts = path.split('/')
 

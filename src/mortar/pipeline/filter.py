@@ -5,17 +5,17 @@ A filter accepts an input, performs an operation on it, and returns the
 processed output.
 """
 
-from copy import copy
 import os
+from copy import copy
 from typing import Any, Optional
 
 import cv2 as cv
-from mktech.validate import ensure_type
 import numpy as np
-
-from mortar.image import Image
+from mktech.validate import ensure_type
 from mortar.tesseract import ocr
 from mortar.util import mktemp
+
+from mortar.image import Image
 
 
 class Filter:
@@ -101,8 +101,10 @@ class Crop(Filter):
         return result
 
     def __repr__(self) -> str:
-        return (f'<{self.__class__.__module__} {self.__class__.__name__}'
-                f' coords={self._coords} at 0x{id(self):X}>')
+        return (
+            f'<{self.__class__.__module__} {self.__class__.__name__}'
+            f' coords={self._coords} at 0x{id(self):X}>'
+        )
 
 
 class Gray(Filter):
@@ -175,10 +177,12 @@ class Threshold(Filter):
     name = 'Threshold'
     _input_type = Image
 
-    def __init__(self,
-                 threshval: float = 127,
-                 maxval: float = 255,
-                 invert: bool = False) -> None:
+    def __init__(
+        self,
+        threshval: float = 127,
+        maxval: float = 255,
+        invert: bool = False
+    ) -> None:
         self.threshval = threshval
         self.maxval = maxval
         self.invert = invert
@@ -191,8 +195,9 @@ class Threshold(Filter):
         else:
             img = np.array([self._input.getdata()], dtype='uint8')
 
-            thresh_type = (cv.THRESH_BINARY_INV if self.invert
-                           else cv.THRESH_BINARY)
+            thresh_type = (
+                cv.THRESH_BINARY_INV if self.invert else cv.THRESH_BINARY
+            )
             _, thresh = cv.threshold(img, self.threshval, self.maxval,
                                      thresh_type)
 

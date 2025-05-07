@@ -21,8 +21,9 @@ def parse_tuple_arg(input):
 parser = ArgumentParser(prog='OCR pipeline example')
 
 parser.add_argument('-i', '--input-path', help='Path to the input image')
-parser.add_argument('-c', '--crop', metavar='x1,y1,x2,y2',
-                    help='Crop coordinates')
+parser.add_argument(
+    '-c', '--crop', metavar='x1,y1,x2,y2', help='Crop coordinates'
+)
 
 args = parser.parse_args()
 

@@ -1,12 +1,12 @@
 import os
 
-from mktech.validate import ensure_type
 import numpy as np
+from mktech.validate import ensure_type
 
 from mortar.image import Image
 from mortar.pipeline import OCR, Threshold
 
-data = f'{os.getcwd()}/test/data'
+data = f'{os.getcwd()}/tests/data'
 
 
 class TestImage:

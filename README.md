@@ -89,7 +89,7 @@ Because this is a long running procedure, the OCR tests are not included in the
 project's test suite by default. To run them, tell pytest about them explicitly:
 
 ```
-pytest test/test_jp.py
+pytest tests/test_jp.py
 ```
 
 #### Development
