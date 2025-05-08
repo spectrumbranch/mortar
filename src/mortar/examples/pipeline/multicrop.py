@@ -1,5 +1,4 @@
 from importlib import resources
-from tempfile import mkdtemp
 from typing import override
 
 from mortar.image import Detector
@@ -43,26 +42,11 @@ class MultiCrop(Filter):
         y_bot = y_top + self._line_height
         y_max = input.size[1]
 
-        # We shouldn't leave temporary files on the user's filesystem in
-        # pipeline examples. If it's not important for the caller to be able to
-        # get the crop info for each image after the filter is finished, we can
-        # just remove the code below that saves the temporary files.
-
-        # If callers might need that info for some reason, we can change the
-        # return type of this method to a data structure that includes that
-        # info along with the images.
-
-        temp = mkdtemp(prefix='test_multicrop')
-        print(f'save multicrop prep output to {temp}')
         line_images = []
 
         while y_bot < y_max:
             line_crop_rect = (0, y_top, crop_width, y_bot)
             line_image = input.copy().crop(line_crop_rect)
-
-            filename = f'{temp}/image_{y_top:04}_{y_bot:04}.png'
-            print(f':::>{line_crop_rect} {filename}')
-            line_image.save(filename)
 
             line_images.append(line_image)
             y_top = y_bot
