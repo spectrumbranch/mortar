@@ -3,7 +3,6 @@ This package provides the image processing pipeline facility.
 """
 
 import copy
-import operator
 from functools import reduce
 from typing import Any, override
 
@@ -80,10 +79,17 @@ class Pipeline:
 
         output.add(input, ['Start', _image_info(input)])
 
-        filter_input: Any = input
+        filter_input: Image | str = input
 
         for _, it in enumerate(self.stages):
-            filter_output = it.run(filter_input)
+            filter_output = it.run(filter_input)  # pyright: ignore[reportAny]
+
+            assert (
+                isinstance(filter_output, Image)
+                or isinstance(filter_output, str)
+            )
+
+            assert isinstance(filter_input, Image)
 
             output.add(filter_output, [it.info(), _image_info(filter_input)])
 
@@ -133,8 +139,12 @@ class Output:
         """
         The result of a Pipeline stage.
         """
-        def __init__(self, data: Any, info: list[str] | None = None) -> None:
-            self.data: Any = data
+        def __init__(
+            self,
+            data: Any,  # pyright: ignore[reportAny,reportExplicitAny]
+            info: list[str] | None = None
+        ) -> None:
+            self.data: Any = data  # pyright: ignore[reportExplicitAny]
             " The output of the corresponding Pipeline stage Filter. "
             self.info: list[str] = [] if info is None else info
             " Text information describing the output of the stage. "
@@ -143,7 +153,7 @@ class Output:
         def __repr__(self) -> str:
             return (
                 f'<{self.__class__.__module__} {self.__class__.__name__}'
-                f' text={self.info} data={self.data} at 0x{id(self):X}>'
+                f' text={self.info} data={self.data} at 0x{id(self):X}>'  # pyright: ignore[reportAny] # noqa: E501
             )
 
     _bg_color: str = 'rgb(25, 25, 25)'
@@ -179,11 +189,11 @@ class Output:
         """
 
         for idx, it in enumerate(self.stages):
-            if isinstance(it.data, Image):
+            if isinstance(it.data, Image):  # pyright: ignore[reportAny]
                 file_path = Path(path, f'{idx}.png')
 
                 it.data.save(file_path)
-            elif isinstance(it.data, str):
+            elif isinstance(it.data, str):  # pyright: ignore[reportAny]
                 file_path = Path(path, f'{idx}.txt')
 
                 with open(file_path, 'w') as file:
@@ -207,7 +217,7 @@ class Output:
         width = max([it.size[0] for it in self._frames]) + self._margin * 2
         heights = [it.size[1] for it in self._frames]
         height = (
-            reduce(operator.add, heights, 0) +
+            reduce(lambda x, y: x + y, heights, 0) +
             (self._margin * 2) * len(self._frames) - 1
         )
 
@@ -242,9 +252,9 @@ class Output:
         self._frames = []
 
         for index, it in enumerate(self.stages):
-            if isinstance(it.data, Image):
+            if isinstance(it.data, Image):  # pyright: ignore[reportAny]
                 frame_image = it.data
-            elif isinstance(it.data, str):
+            elif isinstance(it.data, str):  # pyright: ignore[reportAny]
                 """
                 The OCR result is drawn onto the resulting image, using a font
                 that supports the required Japanese glyphs.
@@ -309,6 +319,6 @@ class Output:
         for index, it in enumerate(self.stages):
             lines.append(f'{index}:')
             lines.append(f'  info={it.info}')
-            lines.append(f'  data={it.data}')
+            lines.append(f'  data={it.data}')  # pyright: ignore[reportAny]
 
         return '\n'.join(lines)

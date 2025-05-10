@@ -8,7 +8,6 @@ the path to the default image viewer.
 import os
 import subprocess
 from tempfile import NamedTemporaryFile
-from typing import Any
 
 from PIL.Image import Image as PILImage
 
@@ -23,7 +22,7 @@ class Viewer:
     Default image viewer for systems that don't have the existing PIL defaults
     available.
     """
-    def show(self, image: PILImage, **_options: Any) -> bool:
+    def show(self, image: PILImage, **_options: object) -> bool:
         """
         Implements PIL.ImageShow.show for the viewer.
 

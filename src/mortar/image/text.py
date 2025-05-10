@@ -12,8 +12,8 @@ def create_text(
     font: Font,
     fill_color: str | None = None,
     margin: tuple[int, int] = (0, 0),
-    *image_args: Any,
-    **image_kwargs: Any
+    *image_args: Any,  # pyright: ignore[reportAny,reportExplicitAny]
+    **image_kwargs: Any  # pyright: ignore[reportAny,reportExplicitAny]
 ) -> Image:
     """
     Draw a text string onto a new Image and return it. A Font object is
@@ -30,7 +30,12 @@ def create_text(
         round(text_size_[1]) + margin[1] * 2,
     )
 
-    image = PIL.Image.new('RGB', image_size, *image_args, **image_kwargs)
+    image = PIL.Image.new(
+        'RGB',
+        image_size,
+        *image_args,  # pyright: ignore[reportAny]
+        **image_kwargs,
+    )
 
     draw = ImageDraw.Draw(image)
 

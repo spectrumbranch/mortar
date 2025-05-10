@@ -1,3 +1,4 @@
+# pyright: reportAny=false,reportExplicitAny=false
 """
 This module provides pipeline filters.
 
