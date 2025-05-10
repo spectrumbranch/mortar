@@ -61,9 +61,9 @@ def test_pipeline() -> None:
     output = pipeline.run(image)
 
     stages = output.stages
-    i1 = ensure_type(stages[1].data, Image)
-    i2 = ensure_type(stages[2].data, Image)
-    i3 = ensure_type(stages[3].data, Image)
+    i1 = ensure_type(stages[1].data, Image)  # pyright: ignore[reportAny]
+    i2 = ensure_type(stages[2].data, Image)  # pyright: ignore[reportAny]
+    i3 = ensure_type(stages[3].data, Image)  # pyright: ignore[reportAny]
 
     if _debug:
         temp = mkdtemp(prefix='test_pipeline')
@@ -91,7 +91,7 @@ def test_pipeline_ocr() -> None:
     output = pipeline.run(image)
 
     stages = output.stages
-    s3 = ensure_type(stages[3].data, str)
+    s3 = ensure_type(stages[3].data, str)  # pyright: ignore[reportAny]
 
     assert s3 == '''ご ぞ ど ば ぼ ば ぼ ま
 げ ゼ ぜ ゼ ぜ で べ ペ

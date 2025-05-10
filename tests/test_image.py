@@ -35,7 +35,7 @@ class TestFilter:
 
         output = ensure_type(threshold.run(image), Image)
 
-        out_data = list(output.getdata())
+        out_data = list(output.getdata())  # pyright: ignore[reportAny]
 
         top_pixel_count = int(pixel_count / 2) + 50
         top = out_data[0:top_pixel_count]

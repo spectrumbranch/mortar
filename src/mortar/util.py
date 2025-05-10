@@ -30,7 +30,7 @@ def mktemp(
     suffix: str | None = None,
     prefix: str | None = None,
     dir: str | PathLike[str] | None = None,
-    **kwargs: Any
+    **kwargs: Any  # pyright: ignore[reportAny,reportExplicitAny]
 ) -> str:
     """
     Make a temporary file, taking the host system into account.
@@ -52,6 +52,6 @@ def mktemp(
 
         _ = open(output_path, 'w')
     else:
-        _, output_path = mkstemp(suffix, prefix, dir, **kwargs)
+        _, output_path = mkstemp(suffix, prefix, dir, **kwargs)  # pyright: ignore[reportAny] # noqa: E501
 
     return output_path

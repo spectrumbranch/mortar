@@ -11,7 +11,10 @@ from mktech import log
 __all__ = ['CompletedProcess', 'run']
 
 
-def run(*args: Any, **kwargs: Any) -> CompletedProcess[bytes]:
+def run(
+    *args: Any,  # pyright: ignore[reportAny,reportExplicitAny]
+    **kwargs: Any,  # pyright: ignore[reportAny,reportExplicitAny]
+) -> CompletedProcess[bytes]:
     """
     Run the command described by args in a child process. args is a sequence
     representing the command name and its space-separated arguments.
@@ -28,11 +31,11 @@ def run(*args: Any, **kwargs: Any) -> CompletedProcess[bytes]:
 
     try:
         result: CompletedProcess[bytes] = subprocess.run(  # pyright: ignore[reportUnknownVariableType] # noqa: E501
-            *args, capture_output=True, check=True, **kwargs
+            *args, capture_output=True, check=True, **kwargs  # pyright: ignore[reportAny] # noqa: E501
         )
     except CalledProcessError as e:
-        log.error(f'stdout={e.stdout}')
-        log.error(f'stderr={e.stderr}')
+        log.error(f'stdout={e.stdout}')  # pyright: ignore[reportAny]
+        log.error(f'stderr={e.stderr}')  # pyright: ignore[reportAny]
 
         raise e
 
