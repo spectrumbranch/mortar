@@ -9,6 +9,19 @@ from mortar.pipeline import OCR, Threshold
 data = f'{os.getcwd()}/tests/data'
 
 
+class TestImage:
+    def test_copy(self) -> None:
+        image = Image.new('RGB', (512, 512), color=(0, 128, 0))
+
+        copy = image.copy()
+
+        assert image != copy
+
+        assert image.mode == copy.mode
+        assert image.size == copy.size
+        assert image.tobytes() == copy.tobytes()
+
+
 class TestFilter:
     def test_threshold(self) -> None:
         size = (100, 255)
