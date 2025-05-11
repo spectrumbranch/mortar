@@ -10,6 +10,7 @@ def lint(session):
 
 @nox.session(tags=['all'])
 def typing(session):
+    session.run('basedpyright', external=True)
     session.run('mypy', external=True)
 
 
