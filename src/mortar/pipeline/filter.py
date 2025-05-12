@@ -12,10 +12,10 @@ from typing import Any, Optional
 import cv2 as cv
 import numpy as np
 from mktech.validate import ensure_type
-from mortar.tesseract import ocr
-from mortar.util import mktemp
 
 from mortar.image import Image
+from mortar.tesseract import ocr
+from mortar.util import mktemp
 
 
 class Filter:

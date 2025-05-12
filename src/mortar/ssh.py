@@ -8,9 +8,8 @@ scp is supported, as is executing arbitrary commands over SSH.
 from enum import Enum, auto
 from typing import Optional
 
-from mortar.process import CompletedProcess
-
 from mortar import process
+from mortar.process import CompletedProcess
 
 
 class Command(Enum):

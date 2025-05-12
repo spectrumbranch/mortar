@@ -1,9 +1,9 @@
 from typing import Any, Optional
 
 import PIL.Image
-from mortar.font import Font, text_size
 from PIL import ImageDraw
 
+from mortar.font import Font, text_size
 from mortar.image import Image
 
 
