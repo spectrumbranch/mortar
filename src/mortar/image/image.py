@@ -14,7 +14,6 @@ class Image:
     This class represents an image object. It's a convenience wrapper around
     the pillow library's Image class.
     """
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
@@ -163,6 +162,8 @@ class Image:
         return instance
 
     def __repr__(self) -> str:
-        return (f'<{self.__class__.__module__} {self.__class__.__name__}'
-                f' mode={self.pil_image.mode} size={self.pil_image.size}'
-                f' at 0x{id(self):X}>')
+        return (
+            f'<{self.__class__.__module__} {self.__class__.__name__}'
+            f' mode={self.pil_image.mode} size={self.pil_image.size}'
+            f' at 0x{id(self):X}>'
+        )
