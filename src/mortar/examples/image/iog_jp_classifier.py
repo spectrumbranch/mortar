@@ -1,6 +1,5 @@
 import os
 from importlib import resources
-import shutil
 from mortar.image import Detector
 from collections import Counter
 from pprint import pprint
@@ -17,8 +16,7 @@ detector = Detector()
 data_list = []
 case_samples = {}
 
-directory = '/home/spectrum/data/jp/png'
-
+directory = f'{os.getcwd()}/src/mortar/examples/data/iog_jp_classifier/'
 
 for filename in os.listdir(directory):
     file_path = os.path.join(directory, filename)
@@ -30,11 +28,6 @@ for filename in os.listdir(directory):
         data_list.append(representation)
         if representation not in case_samples:
             case_samples[representation] = filename
-            destination = str(
-                resources.files(
-                    'mortar.examples.data.iog_jp_classifier').joinpath(filename)
-            )
-            shutil.copyfile(file_path, destination)
 
 
 print(f"Data: {len(data_list)}")
