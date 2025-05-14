@@ -6,6 +6,8 @@ file exists in ~/.config/mortar/config.toml, configuration is loaded from it.
 Otherwise, the default configuration file is created in that location.
 """
 
+from __future__ import annotations
+
 import os
 from os.path import exists
 from typing import Any
@@ -24,16 +26,22 @@ _config_path = f'{_config_dir}/config.toml'
 class SSH(BaseModel):
     """ SSH client configuration. """
 
-    use_ssh: bool = False
-    " If true, use SSH where relevant. "
     host: str | None = None
     " Hostname for remote SSH connections. "
     port: int = 22
     " Port for remote SSH connections. "
 
 
+class TesseractSSH(BaseModel):
+    bin_path: Path = Path('tesseract')
+    tessdata_dir: Path | None = None
+
+
 class Tesseract(BaseModel):
     bin_path: Path = Path('tesseract')
+    tessdata_dir: Path | None = None
+
+    ssh: TesseractSSH = TesseractSSH()
 
 
 class Config(BaseConfig):

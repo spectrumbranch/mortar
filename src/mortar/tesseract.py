@@ -8,38 +8,73 @@ an SSH connection.
 
 import os
 import shlex
+from enum import StrEnum, auto
 from pathlib import PurePath
 from tempfile import mkstemp
 
 import mortar.process as process
-from mortar.config import config
 from mortar.path import win_from_wsl
 from mortar.ssh import SSH
 
-_tess_env = {
-    'command': os.environ['TESSERACT'], 'data': os.environ['TESSERACT_DATA']
-}
-
-_tess_cmd = [
-    _tess_env['command'],
-    '-l', 'jpn',
-    '--tessdata-dir', f"{(_tess_env['data'])}",
-    '--psm', '3',
-    '--oem', '1'
-]  # yapf: disable
+from .config import get_config
 
 
-def tesseract_ssh(path_: str) -> str:
+class ExecutionEnv(StrEnum):
+    LOCAL = auto()
+    SSH = auto()
+    WSL = auto()
+
+
+def _build_tess_cmd() -> list[str]:
+    config = get_config()
+
+    tessdata_dir: str | None = None
+    command: str
+
+    match config.execution_env:
+        case (ExecutionEnv.LOCAL | ExecutionEnv.WSL):
+            command = str(config.tesseract.bin_path)
+
+            if config.tesseract.tessdata_dir is not None:
+                tessdata_dir = str(config.tesseract.tessdata_dir)
+        case ExecutionEnv.SSH:
+            command = str(config.tesseract.ssh.bin_path)
+
+            if config.tesseract.tessdata_dir is not None:
+                tessdata_dir = str(config.tesseract.ssh.tessdata_dir)
+        case _:
+            raise NotImplementedError
+
+    match config.execution_env:
+        case ExecutionEnv.SSH:
+            command = shlex.quote(command)
+
+            if tessdata_dir is not None:
+                tessdata_dir = shlex.quote(tessdata_dir)
+        case _:
+            pass
+
+    result = [
+        command,
+        '-l', 'jpn',
+        '--psm', '3',
+        '--oem', '1',
+    ]  # yapf: disable
+
+    if tessdata_dir:
+        result += ['--tessdata-dir', tessdata_dir]
+
+    return result
+
+
+def tesseract_ssh(command: list[str], path_: str) -> str:
     """
     Generate OCR text from an image using Tesseract, and return the string.
 
     Tesseract is executed on the remote host defined in configuration.
     """
 
-    tess_cmd = (
-        f"{_tess_env['command']}"
-        f" -l jpn --tessdata-dir {shlex.quote(_tess_env['data'])}"
-    )
+    config = get_config()
 
     ssh = SSH(host=config.ssh.host, port=config.ssh.port)
     path = PurePath(path_)
@@ -48,7 +83,9 @@ def tesseract_ssh(path_: str) -> str:
     temp_nix = '/mnt/c/Windows/Temp'
 
     _ = ssh.scp_to(str(path), f'{temp_nix}/{path.name}')
-    _ = ssh.run([tess_cmd + f' "{temp_win}\\{path.name}" "{temp_win}\\out"'])
+    _ = ssh.run(
+        [' '.join(command) + f' "{temp_win}\\{path.name}" "{temp_win}\\out"']
+    )
 
     (_, out_path) = mkstemp()
 
@@ -63,7 +100,7 @@ def tesseract_ssh(path_: str) -> str:
     return result
 
 
-def tesseract_wsl(path_: str) -> str:
+def tesseract(command: list[str], path_: str) -> str:
     """
     Generate OCR text from an image using Tesseract, and return the string.
 
@@ -72,11 +109,18 @@ def tesseract_wsl(path_: str) -> str:
     run Windows executables from WSL.
     """
 
-    path = win_from_wsl(path_)
+    config = get_config()
+
+    match config.execution_env:
+        case ExecutionEnv.WSL:
+            path = win_from_wsl(path_)
+        case _:
+            path = path_
+
     out_stem = 'out'
     out_name = f'{out_stem}.txt'
 
-    _ = process.run(_tess_cmd + [path, out_stem])
+    _ = process.run(command + [path, out_stem])
 
     with open(out_name, 'r') as fi:
         result = fi.read()
@@ -90,14 +134,23 @@ def ocr(path: str) -> str:
     """
     Generate OCR text from an image using Tesseract, and return the string.
 
+    TODO update
+
     If use_ssh = True in configuration, the operation is performed over an SSH
     connection. Otherwise, it is done in the local WSL environment.
     """
 
-    if config.ssh.use_ssh:
-        result = tesseract_ssh(path)
-    else:
-        result = tesseract_wsl(path)
+    config = get_config()
+
+    command = _build_tess_cmd()
+
+    match config.execution_env:
+        case (ExecutionEnv.LOCAL | ExecutionEnv.WSL):
+            result = tesseract(command, path)
+        case ExecutionEnv.SSH:
+            result = tesseract_ssh(command, path)
+        case _:
+            raise NotImplementedError
 
     return result
 
