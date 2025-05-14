@@ -12,9 +12,10 @@ from pathlib import PurePath
 from tempfile import mkstemp
 
 import mortar.process as process
-from mortar.config import config
 from mortar.path import win_from_wsl
 from mortar.ssh import SSH
+
+from .config import get_config
 
 _tess_env = {
     'command': os.environ['TESSERACT'], 'data': os.environ['TESSERACT_DATA']
@@ -35,6 +36,8 @@ def tesseract_ssh(path_: str) -> str:
 
     Tesseract is executed on the remote host defined in configuration.
     """
+
+    config = get_config()
 
     tess_cmd = (
         f"{_tess_env['command']}"
@@ -93,6 +96,8 @@ def ocr(path: str) -> str:
     If use_ssh = True in configuration, the operation is performed over an SSH
     connection. Otherwise, it is done in the local WSL environment.
     """
+
+    config = get_config()
 
     if config.ssh.use_ssh:
         result = tesseract_ssh(path)

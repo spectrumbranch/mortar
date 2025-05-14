@@ -5,7 +5,7 @@ This module extracts screenshots from a collection of video files.
 from os import makedirs, walk
 from pathlib import Path
 
-from mortar.config import config
+from mortar.config import get_config
 from mortar.process import run
 
 
@@ -23,6 +23,8 @@ def _files(input_path: Path | None) -> list[Path]:
 
     Assumes filepaths are WSL for passing into ffmpeg.
     """
+
+    config = get_config()
 
     data = Path(config.data) if input_path is None else input_path
 

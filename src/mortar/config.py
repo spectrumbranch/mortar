@@ -8,6 +8,7 @@ Otherwise, the default configuration file is created in that location.
 
 import os
 from os.path import exists
+from typing import Any
 
 from mktech import log
 from mktech.config2 import BaseConfig, BaseModel
@@ -42,15 +43,30 @@ class Config(BaseConfig):
 
     ssh: SSH = SSH()
 
-    def __init__(self, toml_path: Path | str) -> None:
-        super().__init__(toml_path)
+    def __init__(
+        self,
+        toml_path: Path | str = _config_path,
+        *args: Any,  # pyright: ignore[reportAny,reportExplicitAny]
+        **kwargs: Any,  # pyright: ignore[reportAny,reportExplicitAny]
+    ) -> None:
+        super().__init__(toml_path, *args, **kwargs)
+
+
+def set_config(ctx: Config) -> None:
+    global config
+
+    config = ctx
+
+
+def get_config() -> Config:
+    return config
 
 
 # On module import, load configuration from an existing configuration file, if
 # one exists. Otherwise, initialize configuration defaults and create the
 # configuration file.
 
-config = Config(_config_path)
+config = Config(toml_path=_config_path)
 
 log.init(config.log_level)
 

@@ -1,7 +1,12 @@
 import click
+from mktech import log
+from mktech.cli import from_config
 from mktech.path import Path
 
+import mortar.config
+
 from . import shell, tesseract, video
+from .config import Config
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -10,8 +15,11 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
     context_settings=CONTEXT_SETTINGS,
     no_args_is_help=True,
 )
-def cli() -> None:
-    pass
+@from_config(Config)
+def cli(config: Config) -> None:
+    mortar.config.set_config(config)
+
+    log.init(config.log_level)
 
 
 @cli.command('shell')
