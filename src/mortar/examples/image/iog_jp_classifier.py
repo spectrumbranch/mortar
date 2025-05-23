@@ -1,4 +1,3 @@
-import os
 from importlib import resources
 from mortar.image import Detector
 from collections import Counter
@@ -16,18 +15,24 @@ detector = Detector()
 data_list = []
 case_samples = {}
 
-directory = f'{os.getcwd()}/src/mortar/examples/data/iog_jp_classifier/'
+img_directory = resources.files('mortar.examples.data.iog_jp_classifier')
 
-for filename in os.listdir(directory):
-    file_path = os.path.join(directory, filename)
-    if os.path.isfile(file_path):
+for item in img_directory.iterdir():
+    if item.is_file():
+        file_name = item.name
+        file_path = str(
+            img_directory.joinpath(file_name)
+        )
+
+        print(f"File: {file_path}")
+
         rects = detector.detect_rects(file_path, iog_jp_charity_detector_fn)
         representation = (0, 0, 0, 0)
         if len(rects) > 0:
             representation = rects[0]
         data_list.append(representation)
         if representation not in case_samples:
-            case_samples[representation] = filename
+            case_samples[representation] = file_name
 
 
 print(f"Data: {len(data_list)}")
