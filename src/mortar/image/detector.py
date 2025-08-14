@@ -1,8 +1,9 @@
-import os
 from typing import Callable
 
 import cv2
 from cv2.typing import MatLike
+
+from mortar.config import config
 
 
 class Detector:
@@ -70,9 +71,7 @@ def main() -> None:
         return h > 200
 
     rects = detector.detect_rects(
-        f'{os.getcwd()}/tests/data/detector/iog_top_big.png',
-        my_condition,
-        True
+        f'{config.data}/ocr/detector/iog_top_big.png', my_condition, True
     )
 
     print(rects)

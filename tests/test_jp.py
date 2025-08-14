@@ -10,7 +10,7 @@ from mortar.image import Image
 from mortar.tesseract import ocr
 from mortar.util import mktemp
 
-data = f'{os.getcwd()}/tests/data'
+from mortar.config import config
 
 not_yet_implemented = 'test is not yet implemented'
 
@@ -46,7 +46,7 @@ _rudra = OCRTest(
 def dir_mkr(test_case: OCRTest, type: str) -> Path:
     name = test_case.base_name[0:test_case.base_name.find('-')]
 
-    return Path(data, 'jp', name, type)
+    return Path(config.data, 'ocr', 'jp', name, type)
 
 
 @pytest.mark.parametrize('index', range(0, _7thelnard.count))
