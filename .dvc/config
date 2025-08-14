@@ -1,0 +1,5 @@
+[core]
+    remote = dream
+['remote "dream"']
+    url = s3://mortar
+    endpointurl = https://s3.us-east-005.dream.io
