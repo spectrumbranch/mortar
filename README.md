@@ -77,7 +77,44 @@ environment variables upon entering the project directory. See the direnv
 documentation and [Python](https://github.com/direnv/direnv/wiki/Python)
 section of the direnv wiki for details.
 
+### Data Version Control
+
+Some automated tests and and examples require large data files. Use Data Version
+Control ([DVC](https://dvc.org/)) to get a local copy of the data set.
+
+#### Get credentials
+
+Ask a maintainer to generate your credentials for the DVC remote.
+
+#### Configure DVC
+
+To configure DVC:
+
+```
+dvc config --local remote.dream.access_key_id <your_access_key_id>
+dvc config --local remote.dream.secret_access_key <your_secret_access_key>
+```
+
+After creating the configuration file (see *Configuration* below), set its
+`data` key to the repository data path:
+
+```
+data = "<repository_root>/data"
+```
+
+#### Update data files
+
+```
+dvc fetch  # download objects from remote to cache
+dvc checkout  # checkout objects from cache into working copy
+```
+
 ## Usage
+
+### Configuration
+
+mortar loads its configuration in `$HOME/.config/mortar/config.toml`, creating
+the file if it is not present.
 
 ### Run the tests
 
@@ -109,11 +146,6 @@ WSL filesystem (i.e. begin with `/mnt`).
 ```
 mortess /mnt/c/path/to/some/mort_capture.png
 ```
-
-### Configuration
-
-mortar loads its configuration in `$HOME/.config/mortar/config.toml`, creating
-the file if it is not present.
 
 #### log_level
 
