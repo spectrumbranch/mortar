@@ -41,19 +41,10 @@ def tesseract_command(image: Path) -> None:
 
 
 @cli.command('video')
-@click.option(
-    '-i',
-    '--input',
-    required=False,
-    type=click.Path(file_okay=False, path_type=Path),
-    help=(
-        'input directory to look for video files in. Videos must be in' +
-        ' \'jp\' subdirectory of input directory'
-    )
-)
-def video_command(input: Path | None) -> None:
+@click.argument('input', type=click.Path(file_okay=False, path_type=Path))
+def video_command(input: Path) -> None:
     """
-    Extract frames from input videos.
+    Extract frames from all input videos in INPUT.
     """
 
     if video.extract_frames(input) != 0:

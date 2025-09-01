@@ -5,7 +5,6 @@ This module extracts screenshots from a collection of video files.
 from os import makedirs, walk
 from pathlib import Path
 
-from mortar.config import config
 from mortar.process import run
 
 
@@ -16,19 +15,14 @@ def _flatten(entry: tuple[str, list[str], list[str]]) -> list[Path]:
     return [Path(dir, file) for file in files]
 
 
-def _files(input_path: Path | None) -> list[Path]:
+def _files(input_path: Path) -> list[Path]:
     """
-    Collects a list of the filepaths for all files in `input`, else
-    `config.data`.
+    Collects a list of the filepaths for all files in `input_path`.
 
     Assumes filepaths are WSL for passing into ffmpeg.
     """
 
-    data = Path(config.data) if input_path is None else input_path
-
-    top = Path(data, 'jp')
-
-    dirs = list(walk(top))
+    dirs = list(walk(input_path))
 
     with_files = list(filter(lambda x: len(x[2]) != 0, dirs))
 
@@ -39,14 +33,10 @@ def _files(input_path: Path | None) -> list[Path]:
     return flat_files
 
 
-def extract_frames(input_path: Path | None = None) -> int:
+def extract_frames(input_path: Path) -> int:
     """
-    For each of the mkv files in the dataset, extract png images from the file
+    For each of the mkv files in `input_path`, extract png images from the file
     at a rate of 1 image per second.
-
-    Reads optional terminal argument `-i/--input INPUT`.
-
-    Assumes that videos must be in an `INPUT/jp` subfolder.
     """
 
     files = _files(input_path)
