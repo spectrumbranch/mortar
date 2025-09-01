@@ -1,12 +1,11 @@
-import os
-
 import numpy as np
+from mktech.resources import resource_path
 from mktech.validate import ensure_type
 
 from mortar.image import Image
 from mortar.pipeline import OCR, Threshold
 
-data = f'{os.getcwd()}/tests/data'
+data_path = resource_path('tests.data', 'ocr').unwrap()
 
 
 class TestImage:
@@ -56,7 +55,7 @@ class TestFilter:
         assert outputRGB is None
 
     def test_ocr(self) -> None:
-        image = Image.open(f'{data}/hiragana_ocr.png')
+        image = Image.open(f'{data_path}/hiragana_ocr.png')
 
         output = OCR().run(image)
 

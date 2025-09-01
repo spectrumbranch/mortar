@@ -1,8 +1,8 @@
-import os
 from collections.abc import Sequence
 from shutil import rmtree
 from tempfile import mkdtemp
 
+from mktech.resources import resource_path
 from mktech.validate import ensure_type
 
 from mortar.pipeline import (
@@ -16,7 +16,7 @@ from mortar.pipeline import (
     Threshold,
 )
 
-data = f'{os.getcwd()}/tests/data'
+_data_path = resource_path('tests.data', 'ocr').unwrap()
 
 _debug = False
 
@@ -81,7 +81,7 @@ def test_pipeline() -> None:
 
 
 def test_pipeline_ocr() -> None:
-    image = Image.open(f'{data}/hiragana_ocr.png')
+    image = Image.open(f'{_data_path}/hiragana_ocr.png')
 
     pipeline = Pipeline()
     pipeline.add(Gray())
