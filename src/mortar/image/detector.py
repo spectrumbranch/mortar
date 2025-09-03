@@ -8,7 +8,8 @@ from mortar.config import config
 
 class Detector:
     def __init__(self) -> None:
-        self.img: MatLike | None = None
+        self.img: MatLike
+        self.nothing_detected: list[tuple[int, int, int, int]] = []
 
     def detect_rects(
         self,
@@ -28,7 +29,11 @@ class Detector:
         Arg draw is optional and defaults to False,
         It is used mostly for debugging. Will modify self.img with drawn rects.
         """
-        self.img = cv2.imread(img_path)
+        tmp_img = cv2.imread(img_path)
+        if (tmp_img is None):
+            return self.nothing_detected
+
+        self.img = tmp_img
 
         # Grayscale and threshold image for easier detecting
         gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
@@ -49,8 +54,9 @@ class Detector:
                 x, y, w, h = cv2.boundingRect(cnt)
                 include_rect = True
                 if (fn is not None):
-                    # Check against fn predicate to filter out unwanted rects
-                    # This is the chance for include_rect to be false
+                    # Check against fn predicate to filter out
+                    # unwanted rects. This is the chance for
+                    # include_rect to be false
                     include_rect = fn(x, y, w, h)
                 if include_rect:
                     print(f"({x},{y}), w: {w}, h: {h}")
