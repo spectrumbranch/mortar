@@ -3,9 +3,10 @@ Test that we get expected coordinate
 results of rectangles from known images
 """
 
+import pytest
 from mktech.resources import resource_path
 
-from mortar.image import Detector
+from mortar.image import Detector, ImageNotFoundError
 
 data_path = resource_path('tests.data', 'ocr').unwrap()
 
@@ -14,6 +15,15 @@ def iog_jp_charity_detector_fn(x: int, _y: int, w: int, h: int) -> bool:
     if (x == 880):
         return h > 100 and w < 700
     return h > 200 and w < 1083
+
+
+def test_bad_path_expected_failure() -> None:
+    detector = Detector()
+    with pytest.raises(ImageNotFoundError):
+        _ = detector.detect_rects(
+            f'{data_path}/this_doesnt_exist_i_promise.jpg.png',
+            iog_jp_charity_detector_fn
+        )
 
 
 def test_detector_iog_top_big() -> None:

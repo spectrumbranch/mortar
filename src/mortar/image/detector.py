@@ -6,6 +6,16 @@ from cv2.typing import MatLike
 from mortar.config import config
 
 
+class ImageNotFoundError(Exception):
+    path: str
+    message: str
+
+    def __init__(self, path: str):
+        self.path = path
+        self.message = f"Error reading image at: {path}"
+        super().__init__(self.message)
+
+
 class Detector:
     def __init__(self) -> None:
         self.img: MatLike | None = None
@@ -29,6 +39,8 @@ class Detector:
         It is used mostly for debugging. Will modify self.img with drawn rects.
         """
         self.img = cv2.imread(img_path)
+        if self.img is None:
+            raise ImageNotFoundError(img_path)
 
         # Grayscale and threshold image for easier detecting
         gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
