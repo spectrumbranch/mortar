@@ -44,5 +44,6 @@ print(f"Data: {len(data_list)}")
 counter = Counter(data_list)
 # a map of the count of all cases possible [rect: int]
 pprint(f"Counter: {counter}")
-# a map of [rect: filename] which only tracks the first detected filename for a case
+# a map of [rect: filename] which only
+# tracks the first detected filename for a case
 pprint(f"Case Samples: {case_samples}")
