@@ -1,6 +1,7 @@
 from collections.abc import Sequence
 from shutil import rmtree
 from tempfile import mkdtemp
+from textwrap import fill
 
 from mktech.resources import resource_path
 from mktech.validate import ensure_type
@@ -91,20 +92,22 @@ def test_pipeline_ocr() -> None:
     output = pipeline.run(image)
 
     stages = output.stages
-    s3 = ensure_type(stages[3].data, str)  # pyright: ignore[reportAny]
-
-    assert s3 == '''ご ぞ ど ば ぼ ば ぼ ま
-げ ゼ ぜ ゼ ぜ で べ ペ
-ぐず づい ぶ い ぶ
-ぎじ ぢ びび で び
-が ざさ ざ だ ば だ ぱ ば
-'''
+    _s3 = ensure_type(stages[3].data, str)  # pyright: ignore[reportAny]
 
     temp = mkdtemp(prefix='test_pipeline_')
 
     output.save(temp)
 
     rmtree(temp)
+
+    message = fill(
+        '''
+        TODO: Were removing the requirement that OCR code tests in code
+        have a specific output. Determine the new pass/fail condition.
+        '''
+    )
+
+    raise NotImplementedError(message)
 
 
 def test_pipeline_modify() -> None:

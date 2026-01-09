@@ -1,3 +1,5 @@
+from textwrap import fill
+
 import numpy as np
 from mktech.resources import resource_path
 from mktech.validate import ensure_type
@@ -57,11 +59,13 @@ class TestFilter:
     def test_ocr(self) -> None:
         image = Image.open(f'{data_path}/hiragana_ocr.png')
 
-        output = OCR().run(image)
+        _output = OCR().run(image)
 
-        assert output == '''ご ぞ ど ば ぼ ば ぼ ま
-げ ゼ ぜ ゼ ぜ で べ ペ
-ぐず づい ぶ い ぶ
-ぎじ ぢ びび で び
-が ざさ ざ だ ば だ ぱ ば
-'''
+        message = fill(
+            '''
+            TODO: Were removing the requirement that OCR code tests in code
+            have a specific output. Determine the new pass/fail condition.
+            '''
+        )
+
+        raise NotImplementedError(message)
